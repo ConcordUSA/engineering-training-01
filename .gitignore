@@ -1,0 +1,7 @@
+node_modules
+dist
+Lerna-Profile**
+**-debug.log
+.firebase/
+config
+.DS_Store
