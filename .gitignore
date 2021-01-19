@@ -3,5 +3,6 @@ dist
 Lerna-Profile**
 **-debug.log
 .firebase/
-config
-.DS_Store
+.DS_STORE
+cypress/videos
+cypress/screenshots

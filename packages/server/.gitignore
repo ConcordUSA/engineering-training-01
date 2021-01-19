@@ -11,3 +11,5 @@ typings/
 node_modules/
 
 coverage
+
+config

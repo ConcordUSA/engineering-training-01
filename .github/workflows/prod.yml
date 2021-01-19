@@ -25,7 +25,7 @@ jobs:
           env:
             FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
             PROJECT_ID: et-2021a-prod
-  subcutaneous_tests:
+  subcutaneous_e2e_tests:
       environment: production
       needs: build_test_deploy
       runs-on: ubuntu-latest
@@ -37,6 +37,11 @@ jobs:
         - name: Subcutaneous Tests
           run: npm run test:subcutaneous
           env:
+            NODE_ENV: production
+        - name: End to End Tests
+          run: npm run test:e2e
+          env:
+            CYPRESS_BASE_URL: https://et-2021a-prod.web.app/
             NODE_ENV: production
   analyze:
     name: Analyze

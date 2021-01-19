@@ -23,10 +23,10 @@ jobs:
           uses: w9jds/firebase-action@master
           with:
             args: deploy
-          env:
+          env:            
             FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
             PROJECT_ID: et-2021a-dev
-  subcutaneous_tests:
+  subcutaneous_e2e_tests:
       environment: development
       needs: build_test_deploy
       runs-on: ubuntu-latest
@@ -38,6 +38,11 @@ jobs:
         - name: Subcutaneous Tests
           run: npm run test:subcutaneous
           env:
+            NODE_ENV: development
+        - name: End to End Tests
+          run: npm run test:e2e
+          env:
+            CYPRESS_BASE_URL: https://et-2021a-dev.web.app/
             NODE_ENV: development
   analyze:
     name: Analyze

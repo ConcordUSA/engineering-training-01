@@ -11,18 +11,18 @@
     "config": "^3.3.3",
     "express": "^4.17.1",
     "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.13.0",
+    "firebase-functions": "^3.13.1",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
-    "clean": "rm -rf lib",
+    "clean": "rm -rf lib && node copyConfig.js",
     "lint": "eslint \"src/**/*\"",
-    "build": "tsc && node copy.js",
-    "dev": "tsc -w",
+    "build": "npm run clean && tsc",
+    "dev": "npm run clean && tsc -w",
     "test": "firebase emulators:exec 'jest --runInBand'",
     "test:coverage": "firebase emulators:exec 'jest --runInBand --coverage --watchAll'",
-    "test:subcutaneous": "jest --runInBand --testPathPattern=tests/subcutaneous",
+    "test:subcutaneous": "npm run clean && jest --runInBand --testPathPattern=tests/subcutaneous",
     "test:watch": "firebase emulators:exec 'jest --runInBand --watchAll'",
     "test:watch:dev": "run-p dev test:watch",
     "view:coverage": "live-server coverage/lcov-report"
