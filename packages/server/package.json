@@ -19,7 +19,7 @@
     "clean": "rimraf lib && node copyConfig.js",
     "lint": "eslint \"src/**/*\"",
     "build": "npm run clean && tsc",
-    "dev": "npm run clean && tsc -w",
+    "dev": "tsc -w",
     "test": "firebase emulators:exec 'jest --runInBand'",
     "test:coverage": "firebase emulators:exec 'jest --runInBand --coverage --watchAll'",
     "test:subcutaneous": "npm run clean && jest --runInBand --testPathPattern=tests/subcutaneous",

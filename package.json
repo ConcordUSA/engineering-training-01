@@ -13,7 +13,7 @@
     "test:watch": "run-p test:watch:*",
     "test:subcutaneous": "lerna run test:subcutaneous",
     "dev": "run-p dev:*",
-    "dev:emulators": "firebase emulators:start",
+    "dev:emulators": "firebase emulators:start --inspect-functions",
     "dev:lerna": "lerna run dev --parallel",
     "dev:cypress": "cypress open",
     "build": "lerna run build",
