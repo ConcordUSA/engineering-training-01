@@ -12,6 +12,9 @@ Tech Stack:
 
 ## Prerequisites
 
+**Git**
+- Install ['Git'](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for your OS
+
 **Node**
 
 - Install [`NodeJS`](https://nodejs.org/en/download/). Currently using `v14.15.4 LTS`.
