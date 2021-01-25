@@ -18,10 +18,14 @@ Tech Stack:
 **Node**
 
 - Install [`NodeJS`](https://nodejs.org/en/download/). Currently using `v14.15.4 LTS`.
-- Run `node -v` in a terminal to verify which version is installed.
+- Run `node --version` in a terminal to verify which version is installed.
 
 **Firebase Tools**
-- run `npm i -g firebase-tools`
+- Run the following command in a command promt
+
+```
+npm i -g firebase-tools
+```
 
 **VSCode**
 
