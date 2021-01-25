@@ -6,3 +6,4 @@ Lerna-Profile**
 .DS_STORE
 cypress/videos
 cypress/screenshots
+.vscode/settings.json
