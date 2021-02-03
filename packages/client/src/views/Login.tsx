@@ -1,6 +1,5 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { BiPyramid } from "react-icons/bi";
 import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -17,13 +16,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function HelloWorldView() {
+export default function LoginView() {
   const classes = useStyles();
 
 
   return (
     <div className={classes.root}>
-      <Link id = "loginButton" to ="/login">Login</Link>
+      <Link id = "createAccountButton" to ="/createAccount">CreateAccount!</Link>
     </div>
   );
 }

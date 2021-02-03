@@ -1,6 +1,9 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import HelloWorldView from "./views/HelloWorld";
+import LoginView from "./views/Login";
+import CreateAccountView from "./views/CreateAccount";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +22,19 @@ export default function App() {
 
   return (
     <div className={classes.root}>
-      <HelloWorldView />
+      <Router> 
+        <Switch>
+          <Route path = "/createAccount"><CreateAccountView /></Route>
+        </Switch>
+        <Switch>
+          <Route path = "/login"><LoginView /></Route>
+        </Switch>
+        <Switch>
+          <Route path = "/" exact><HelloWorldView /></Route>
+        </Switch>
+      </Router>
+
+      
     </div>
   );
 }
