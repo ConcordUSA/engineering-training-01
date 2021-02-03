@@ -8,7 +8,11 @@
   },
   "hosting": {
     "public": "packages/client/build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   },
   "emulators": {
     "functions": {
@@ -22,6 +26,9 @@
     },
     "ui": {
       "enabled": true
+    },
+    "auth": {
+      "port": 9099
     }
   }
 }
