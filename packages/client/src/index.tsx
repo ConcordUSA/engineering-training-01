@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
 import RecoilizeDebugger from "recoilize";
-import getFirebaseApp from "./configFirebase";
+import { getFirebaseApp } from "./config/firebase";
 
 getFirebaseApp();
 

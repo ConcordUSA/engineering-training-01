@@ -1,8 +1,7 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-// import { Link } from "react-router-dom";
-import { register } from "../services/userService";
+import { getAuth } from "../config/firebase";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,12 +19,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function CreateAccountView() {
   const classes = useStyles();
+  const auth = getAuth();
+  const email = "test@test.com";
+  const password = "testPassword";
 
   const handleRegister = async () => {
-    const email = "test@test.com";
-    const password = "testPassword";
-
-    await register(email, password);
+    const userCredential = await auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    const user = auth.currentUser?.toJSON();
+    console.log("userCredential", userCredential);
+    console.log("user", user);
   };
 
   return (
