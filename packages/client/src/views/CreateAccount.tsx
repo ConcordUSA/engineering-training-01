@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-import { getAuth, getFirestore } from "../config/firebase";
+import { getAuth } from "../config/firebase";
 import axios from "axios";
 import getConfig from "../config";
 import { useHistory } from "react-router-dom";
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CreateAccountView() {
   const classes = useStyles();
   const auth = getAuth();
-  const db = getFirestore();
   const configs = getConfig();
   const history = useHistory();
 
@@ -74,7 +73,7 @@ export default function CreateAccountView() {
       personalPhone: state.personalPhone,
     };
     const url = `${configs.apiUrl}/users`;
-    const resp = await axios.post(url, data, options);
+    await axios.post(url, data, options);
     history.push("/");
   };
 

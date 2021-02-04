@@ -1,7 +1,7 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { BiPyramid } from "react-icons/bi";
-import {Link} from "react-router-dom";
+// import { BiPyramid } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,10 +20,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function HelloWorldView() {
   const classes = useStyles();
 
-
   return (
     <div className={classes.root}>
-      <Link id = "loginButton" to ="/login">Login</Link>
+      <Link id="loginButton" to="/login">
+        Login
+      </Link>
     </div>
   );
 }
