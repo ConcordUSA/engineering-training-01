@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-import { getAuth } from "../config/firebase";
+import { getAuth, getFirestore } from "../config/firebase";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,34 +20,61 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CreateAccountView() {
   const classes = useStyles();
   const auth = getAuth();
-  const email = "test@test.com";
-  const password = "testPassword";
+  const db = getFirestore();
+  
+  const [state, setState] = useState({
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    firstName: '',
+    lastName: '',
+    company: '',
+    phone: '',
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value 
+    const id = e.target.id 
+    setState({
+      ...state,
+      [id]:value
+    })
+  }
+
+  //To do: Check for valid email
+
 
   const handleRegister = async () => {
     const userCredential = await auth.createUserWithEmailAndPassword(
-      email,
-      password
+      state.email,
+      state.password
     );
     const user = auth.currentUser?.toJSON();
-    console.log("userCredential", userCredential);
-    console.log("user", user);
+    const uid = userCredential.user?.uid
+    db.collection('users').doc(uid).set({
+      email: state.email,
+      firstName: state.firstName,
+      lastName: state.lastName,
+      company: state.company,
+      phone: state.phone
+    })
   };
 
   return (
     <div className={classes.root}>
-      <TextField id="firstNameField" label="First name" />
+      <TextField id="firstName" label="First name" value={state.firstName} onChange={handleChange}/>
       <br />
-      <TextField id="lastNameField" label="Last name" />
+      <TextField id="lastName" label="Last name" value={state.lastName} onChange={handleChange}/>
       <br />
-      <TextField id="emailField" label="Email" />
+      <TextField id="email" label="Email" value={state.email} onChange={handleChange} type="email"/>
       <br />
-      <TextField id="companyField" label="Company" />
+      <TextField id="company" label="Company" value={state.company} onChange={handleChange}/>
       <br />
-      <TextField id="phoneField" label="Phone number" />
+      <TextField id="phone" label="Phone number" value={state.phone} onChange={handleChange} type="tel"/>
       <br />
-      <TextField id="passwordField" label="Password" />
+      <TextField id="password" label="Password" value={state.password} onChange={handleChange} type="password"/>
       <br />
-      <TextField id="passwordConfirmField" label="Confirm password" />
+      <TextField id="passwordConfirm" label="Confirm password" value={state.passwordConfirm} onChange={handleChange} type="password"/>
       <br />
       <button id="registerButton" onClick={handleRegister}>
         Submit Registration
