@@ -26,7 +26,7 @@ const environments = {
     useEmulators: true,
   },
   development: {
-    apiUrl: "https://us-central1-et-2021a-dev.cloudfunctions.net/api",
+    apiUrl: "https://us-central1-et-2021a-dev.cloudfunctions.net/api/v1",
     firebaseConfig: {
       apiKey: "AIzaSyCzAzy1AU1MAY7QGE-j7Ej2dWqcYrh0CHU",
       authDomain: "et-2021a-dev.firebaseapp.com",
@@ -38,7 +38,7 @@ const environments = {
     },
   },
   staging: {
-    apiUrl: "https://us-central1-et-2021a-stage.cloudfunctions.net/api",
+    apiUrl: "https://us-central1-et-2021a-stage.cloudfunctions.net/api/v1",
     firebaseConfig: {
       apiKey: "AIzaSyCyu0nOPQIaH-1086Wa1_3ASfUUwarwdX8",
       authDomain: "et-2021a-stage.firebaseapp.com",
@@ -50,7 +50,7 @@ const environments = {
     },
   },
   production: {
-    apiUrl: "https://us-central1-et-2021a-prod.cloudfunctions.net/api",
+    apiUrl: "https://us-central1-et-2021a-prod.cloudfunctions.net/api/v1",
     firebaseConfig: {
       apiKey: "AIzaSyA5tpaOilpydF3X7bIffgjGX-Xr_AiUE1g",
       authDomain: "et-2021a-prod.firebaseapp.com",
