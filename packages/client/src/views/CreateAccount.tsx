@@ -5,12 +5,12 @@ import { getAuth } from "../config/firebase";
 import axios from "axios";
 import getConfig from "../config";
 import { useHistory } from "react-router-dom";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import AppTheme from '../styles/theme';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import AppTheme from "../styles/theme";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,14 +18,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      height: "90%"
+      height: "90%",
     },
     paperWrap: {
       display: "flex",
       flexWrap: "wrap",
       width: "90%",
-      
-      
     },
     title: {
       fontSize: "3em",
@@ -40,34 +38,30 @@ const useStyles = makeStyles((theme: Theme) =>
     accountInputName: {
       width: "34%",
       margin: "5px",
-
-
     },
     btnAccount: {
-      margin: "10px", 
+      margin: "10px",
       marginLeft: "40%",
       color: AppTheme.primaryText,
       backgroundColor: AppTheme.primary,
-      '&:hover': {
+      "&:hover": {
         backgroundColor: AppTheme.secondary,
-      }
+      },
     },
-    btnBack: {
-      
-    },
+    btnBack: {},
     btnDiv: {
       display: "flex",
       marginTop: "8px",
-      marginLeft: "15%"
+      marginLeft: "15%",
     },
     form: {
       marginTop: "10%",
       width: "60%",
       textAlign: "center",
-
     },
     banner: {
-      background: "linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%)",
+      background:
+        "linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%)",
       height: "100%",
       width: "40%",
       textAlign: "center",
@@ -75,14 +69,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     signUpHeader: {
       textAlign: "left",
-      marginLeft: "15%"
+      marginLeft: "15%",
     },
     iconDiv: {
-      marginTop: "6rem"
+      marginTop: "6rem",
     },
     fstdDiv: {
-      marginTop: "7rem"
-    }
+      marginTop: "7rem",
+    },
   })
 );
 
@@ -203,7 +197,7 @@ export default function CreateAccountView() {
       firstName: state.firstName,
       lastName: state.lastName,
       company: state.company,
-      companyPhone: state.companyPhone
+      companyPhone: state.companyPhone,
     };
 
     const url = `${configs.apiUrl}/users`;
@@ -220,64 +214,63 @@ export default function CreateAccountView() {
 
   return (
     <div className={classes.root}>
-      <Paper elevation={2}
-        className={classes.paperWrap}>
-      <div className={classes.form}>
-      <h1 className={classes.signUpHeader}>Sign Up</h1>
-      <TextField
-        id="firstName"
-        className={classes.accountInputName}
-        label="First name"
-        value={state.firstName}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        id="lastName"
-        className={classes.accountInputName}
-        label="Last name"
-        value={state.lastName}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        id="email"
-        className={classes.accountInput}
-        label="Email"
-        value={state.email}
-        onChange={handleChange}
-        type="email"
-        required
-        error={state.invalidEmail}
-        helperText={state.emailHelperText}
-        onBlur={validateEmail}
-      />
-      <TextField
-        id="company"
-        className={classes.accountInput}
-        label="Company"
-        value={state.company}
-        onChange={handleChange}
-        required
-      />
-      <TextField
-        id="companyPhone"
-        className={classes.accountInput}
-        label="Company Phone number"
-        value={state.companyPhone}
-        onChange={handleChange}
-        type="tel"
-        required
-        onBlur={validateCompanyPhone}
-        error={state.invalidCompanyPhone}
-        helperText={state.companyPhoneHelperText}
-          /> 
-       <Input
-          id="password"
-          className={classes.accountInput}
-          value={state.password}
-          onChange={handleChange}
-          type={state.showPassword ? 'text' : 'password'}
+      <Paper elevation={2} className={classes.paperWrap}>
+        <div className={classes.form}>
+          <h1 className={classes.signUpHeader}>Sign Up</h1>
+          <TextField
+            id="firstName"
+            className={classes.accountInputName}
+            label="First name"
+            value={state.firstName}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            id="lastName"
+            className={classes.accountInputName}
+            label="Last name"
+            value={state.lastName}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            id="email"
+            className={classes.accountInput}
+            label="Email"
+            value={state.email}
+            onChange={handleChange}
+            type="email"
+            required
+            error={state.invalidEmail}
+            helperText={state.emailHelperText}
+            onBlur={validateEmail}
+          />
+          <TextField
+            id="company"
+            className={classes.accountInput}
+            label="Company"
+            value={state.company}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            id="companyPhone"
+            className={classes.accountInput}
+            label="Company Phone number"
+            value={state.companyPhone}
+            onChange={handleChange}
+            type="tel"
+            required
+            onBlur={validateCompanyPhone}
+            error={state.invalidCompanyPhone}
+            helperText={state.companyPhoneHelperText}
+          />
+          <Input
+            id="password"
+            className={classes.accountInput}
+            value={state.password}
+            onChange={handleChange}
+            type={state.showPassword ? "text" : "password"}
             required
             endAdornment={
               <InputAdornment position="end">
@@ -286,43 +279,49 @@ export default function CreateAccountView() {
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
                 >
-                  {state.showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon  />}
+                  {state.showPassword ? (
+                    <VisibilityOutlinedIcon />
+                  ) : (
+                    <VisibilityOffOutlinedIcon />
+                  )}
                 </IconButton>
               </InputAdornment>
             }
           />
-        <Input
-          id="passwordConfirm"
-          className={classes.accountInput}
-          value={state.passwordConfirm}
-          onChange={handleChange}
-          type={state.showPassword ? 'text' : 'password'}
+          <Input
+            id="passwordConfirm"
+            className={classes.accountInput}
+            value={state.passwordConfirm}
+            onChange={handleChange}
+            type={state.showPassword ? "text" : "password"}
             required
-          
-        />
-        <div className={classes.btnDiv}>
-          <Button className={classes.btnBack}>
-            <ArrowBackIcon />
-          </Button>
-          <Button 
-            id="registerButton" 
-            onClick={handleRegister}
-            className={classes.btnAccount}
-            variant="contained"  
-          >
-            Create Account
-          </Button>
+          />
+          <div className={classes.btnDiv}>
+            <Button className={classes.btnBack}>
+              <ArrowBackIcon />
+            </Button>
+            <Button
+              id="registerButton"
+              onClick={handleRegister}
+              className={classes.btnAccount}
+              variant="contained"
+            >
+              Create Account
+            </Button>
           </div>
-      </div>
-      <div className={classes.banner}>
-        <div className={classes.iconDiv}>
-            <img src="/fstd-icns.png" alt="Flower Sun Leaf Snowflake, Four Seasons Logo"/>
         </div>
-        <div className={classes.fstdDiv}>
-            <img src="./fstd-text.png" alt="Four Seasons Total Development"/>
+        <div className={classes.banner}>
+          <div className={classes.iconDiv}>
+            <img
+              src="/fstd-icns.png"
+              alt="Flower Sun Leaf Snowflake, Four Seasons Logo"
+            />
+          </div>
+          <div className={classes.fstdDiv}>
+            <img src="./fstd-text.png" alt="Four Seasons Total Development" />
+          </div>
         </div>
-        </div>
-      </Paper>     
+      </Paper>
     </div>
   );
 }
