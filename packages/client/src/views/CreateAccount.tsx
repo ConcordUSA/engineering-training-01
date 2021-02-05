@@ -119,8 +119,6 @@ export default function CreateAccountView() {
     });
   };
 
-  //TODO (MAX) Validate input on (email, phone(s))  - required?
-  //TODO (Tom) Verify password and password confirm match
   //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
   //TODO confirmation after submit button clicked - or some UI
 

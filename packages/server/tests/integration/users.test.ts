@@ -39,6 +39,17 @@ describe(endpoint, () => {
       expect(resp.status).toBe(200);
     });
   });
+
+  describe("POST /", () => {
+    it.skip("should create a new user", async () => {
+      // TODO: figure out how to create auth header (research on firebase)
+      const resp = await server.post(endpoint).send(user);
+
+      // why are we getting 401?
+
+      expect(resp.status).toBe(200);
+    });
+  });
 });
 
 const cleanCollection = async (db, colleciton) => {
