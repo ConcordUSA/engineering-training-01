@@ -324,7 +324,6 @@ export default function CreateAccountView() {
             <img src="./fstd-text.png" alt="Four Seasons Total Development"/>
         </div>
         </div>
-          </div>
       </Paper>     
     </div>
   );
