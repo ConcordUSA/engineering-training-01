@@ -1,9 +1,9 @@
 import * as colors from "@material-ui/core/colors";
 
 const AppTheme = {
-  primary: colors.blueGrey[500],
-  primaryTextInverted: "#ffffff",
-  primaryText: colors.grey[900],
+  primary: colors.red[500],
+  primaryText: "#ffffff",
+  secondary: colors.red[300]
 };
 
 export default AppTheme;
