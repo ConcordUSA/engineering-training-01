@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
     accountInput: {
       width: "70%",
       margin: "5px",
-
-
     },
     accountInputName: {
       width: "34%",
@@ -63,6 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "15%"
     },
     form: {
+      marginTop: "10%",
       width: "60%",
       textAlign: "center",
 
@@ -163,21 +162,6 @@ export default function CreateAccountView() {
         ...state,
         invalidCompanyPhone: false,
         companyPhoneHelperText: "",
-      });
-    }
-  }
-  function validatePersonalPhone() {
-    if (!isValidPhone(state.personalPhone)) {
-      setState({
-        ...state,
-        invalidPersonalPhone: true,
-        personalPhoneHelperText: "please enter a valid phone number",
-      });
-    } else {
-      setState({
-        ...state,
-        invalidPersonalPhone: false,
-        personalPhoneHelperText: "",
       });
     }
   }
@@ -338,6 +322,7 @@ export default function CreateAccountView() {
         </div>
         <div className={classes.fstdDiv}>
             <img src="./fstd-text.png" alt="Four Seasons Total Development"/>
+        </div>
         </div>
           </div>
       </Paper>     

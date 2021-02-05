@@ -4,7 +4,7 @@ import HelloWorldView from "./views/HelloWorld";
 import LoginView from "./views/Login";
 import CreateAccountView from "./views/CreateAccount";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-
+import Signin from "./views/Signin"
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -25,6 +25,9 @@ export default function App() {
       <Router> 
         <Switch>
           <Route path = "/createAccount"><CreateAccountView /></Route>
+        </Switch>
+        <Switch>
+          <Route path = "/signin" exact><Signin/></Route>
         </Switch>
         <Switch>
           <Route path = "/login"><LoginView /></Route>
