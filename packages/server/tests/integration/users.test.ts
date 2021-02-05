@@ -18,6 +18,8 @@ describe(endpoint, () => {
     email: "email@email.com",
     password: "password",
     id: "userId1234",
+    company: "Company",
+    companyPhone: "12345678",
   };
 
   afterEach(async () => {
@@ -41,18 +43,23 @@ describe(endpoint, () => {
   });
 
   describe("POST /", () => {
-    it.skip("should create a new user", async () => {
-      // TODO: figure out how to create auth header (research on firebase)
-      const resp = await server.post(endpoint).send(user);
+    it("should create a new user", async () => {
+      const uid = "testUid";
+      const decodedIdToken = { uid };
+      const resp = await server
+        .post(endpoint)
+        .send({ ...user, decodedIdToken });
 
-      // why are we getting 401?
+      // get record from the db
+      const doc = await db.collection(collection).doc(uid).get();
 
       expect(resp.status).toBe(200);
+      expect(doc.exists).toBe(true);
     });
   });
 });
 
-const cleanCollection = async (db, colleciton) => {
+const cleanCollection = async (db, collection) => {
   const docs = await db.collection(collection).get();
   return docs.forEach(async (doc) => await doc.ref.delete());
 };

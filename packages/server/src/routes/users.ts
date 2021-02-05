@@ -18,13 +18,7 @@ router.post("/", auth, async (req, res) => {
   // verify body of request has needed data
   const decodedIdToken = req.app.get("decodedIdToken");
   const { uid } = decodedIdToken;
-  const {
-    email,
-    firstName,
-    lastName,
-    company,
-    companyPhone
-  } = req.body;
+  const { email, firstName, lastName, company, companyPhone } = req.body;
   const data = {
     email,
     firstName,
