@@ -35,6 +35,12 @@ export default function CreateAccountView() {
     company: "",
     companyPhone: "",
     personalPhone: "",
+    invalidEmail: false,
+    emailHelperText: "",
+    invalidCompanyPhone: false,
+    companyPhoneHelperText: "",
+    invalidPersonalPhone: false,
+    personalPhoneHelperText: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,13 +52,91 @@ export default function CreateAccountView() {
     });
   };
 
-  //TO DO (MAX) Validate input on (email, phone(s))  - required?
-  //TO DO confirmation after submit button clicked
-  //TO DO (Tom) Verify password and password confirm match
-  //TO DO Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
+  //TODO (MAX) Validate input on (email, phone(s))  - required?
+  //TODO (Tom) Verify password and password confirm match
+  //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
+  //TODO confirmation after submit button clicked - or some UI
+
+  //this function checks if email is valid
+  function isValidEmail(emailString: string) {
+    if (emailString.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      console.log("valid", emailString);
+      return true;
+    } else {
+      console.log("invalid", emailString);
+      return false;
+    }
+  }
+  function isValidPhone(phoneString: string) {
+    if (
+      phoneString.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/) ||
+      phoneString.match(/^[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}$/)
+    ) {
+      console.log("valid", phoneString);
+      return true;
+    } else {
+      console.log("invalid", phoneString);
+      return false;
+    }
+  }
+
+  // TODO: Refactor to combine with personal phone
+  function validateCompanyPhone() {
+    if (!isValidPhone(state.companyPhone)) {
+      console.log("INVALID E");
+      setState({
+        ...state,
+        invalidCompanyPhone: true,
+        companyPhoneHelperText: "please enter a valid phone number",
+      });
+    } else {
+      console.log("VALID E");
+      setState({
+        ...state,
+        invalidCompanyPhone: false,
+        companyPhoneHelperText: "",
+      });
+    }
+  }
+  function validatePersonalPhone() {
+    if (!isValidPhone(state.personalPhone)) {
+      setState({
+        ...state,
+        invalidPersonalPhone: true,
+        personalPhoneHelperText: "please enter a valid phone number",
+      });
+    } else {
+      setState({
+        ...state,
+        invalidPersonalPhone: false,
+        personalPhoneHelperText: "",
+      });
+    }
+  }
+  //To do: Check for valid email
+  function validateEmail(): void {
+    if (!isValidEmail(state.email)) {
+      setState({
+        ...state,
+        invalidEmail: true,
+        emailHelperText: "please enter a valid email",
+      });
+    } else {
+      setState({
+        ...state,
+        invalidEmail: false,
+        emailHelperText: "",
+      });
+    }
+  }
 
   const handleRegister = async () => {
     // handle email checker
+    if (state.password != state.passwordConfirm) {
+      // TODO: Properly handle this error - present something in the UI
+      alert("passwords don't match");
+      return;
+    }
 
     const userCredential = await auth.createUserWithEmailAndPassword(
       state.email,
@@ -72,6 +156,7 @@ export default function CreateAccountView() {
       companyPhone: state.companyPhone,
       personalPhone: state.personalPhone,
     };
+
     const url = `${configs.apiUrl}/users`;
     await axios.post(url, data, options);
     history.push("/");
@@ -102,6 +187,9 @@ export default function CreateAccountView() {
         onChange={handleChange}
         type="email"
         required
+        error={state.invalidEmail}
+        helperText={state.emailHelperText}
+        onBlur={validateEmail}
       />
       <br />
       <TextField
@@ -119,6 +207,9 @@ export default function CreateAccountView() {
         onChange={handleChange}
         type="tel"
         required
+        onBlur={validateCompanyPhone}
+        error={state.invalidCompanyPhone}
+        helperText={state.companyPhoneHelperText}
       />
       <br />
       <TextField
@@ -127,6 +218,9 @@ export default function CreateAccountView() {
         value={state.personalPhone}
         onChange={handleChange}
         type="tel"
+        error={state.invalidPersonalPhone}
+        helperText={state.personalPhoneHelperText}
+        onBlur={validatePersonalPhone}
       />
       <br />
       <TextField
