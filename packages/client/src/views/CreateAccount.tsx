@@ -101,7 +101,14 @@ export default function CreateAccountView() {
     lastName: "",
     company: "",
     companyPhone: "",
-    showPassword: false
+    showPassword: false,
+    personalPhone: "",
+    invalidEmail: false,
+    emailHelperText: "",
+    invalidCompanyPhone: false,
+    companyPhoneHelperText: "",
+    invalidPersonalPhone: false,
+    personalPhoneHelperText: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,13 +120,91 @@ export default function CreateAccountView() {
     });
   };
 
-  //TO DO (MAX) Validate input on (email, phone(s))  - required?
-  //TO DO confirmation after submit button clicked
-  //TO DO (Tom) Verify password and password confirm match
-  //TO DO Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
+  //TODO (MAX) Validate input on (email, phone(s))  - required?
+  //TODO (Tom) Verify password and password confirm match
+  //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
+  //TODO confirmation after submit button clicked - or some UI
+
+  //this function checks if email is valid
+  function isValidEmail(emailString: string) {
+    if (emailString.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      console.log("valid", emailString);
+      return true;
+    } else {
+      console.log("invalid", emailString);
+      return false;
+    }
+  }
+  function isValidPhone(phoneString: string) {
+    if (
+      phoneString.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/) ||
+      phoneString.match(/^[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}$/)
+    ) {
+      console.log("valid", phoneString);
+      return true;
+    } else {
+      console.log("invalid", phoneString);
+      return false;
+    }
+  }
+
+  // TODO: Refactor to combine with personal phone
+  function validateCompanyPhone() {
+    if (!isValidPhone(state.companyPhone)) {
+      console.log("INVALID E");
+      setState({
+        ...state,
+        invalidCompanyPhone: true,
+        companyPhoneHelperText: "please enter a valid phone number",
+      });
+    } else {
+      console.log("VALID E");
+      setState({
+        ...state,
+        invalidCompanyPhone: false,
+        companyPhoneHelperText: "",
+      });
+    }
+  }
+  function validatePersonalPhone() {
+    if (!isValidPhone(state.personalPhone)) {
+      setState({
+        ...state,
+        invalidPersonalPhone: true,
+        personalPhoneHelperText: "please enter a valid phone number",
+      });
+    } else {
+      setState({
+        ...state,
+        invalidPersonalPhone: false,
+        personalPhoneHelperText: "",
+      });
+    }
+  }
+  //To do: Check for valid email
+  function validateEmail(): void {
+    if (!isValidEmail(state.email)) {
+      setState({
+        ...state,
+        invalidEmail: true,
+        emailHelperText: "please enter a valid email",
+      });
+    } else {
+      setState({
+        ...state,
+        invalidEmail: false,
+        emailHelperText: "",
+      });
+    }
+  }
 
   const handleRegister = async () => {
     // handle email checker
+    if (state.password !== state.passwordConfirm) {
+      // TODO: Properly handle this error - present something in the UI
+      alert("passwords don't match");
+      return;
+    }
 
     const userCredential = await auth.createUserWithEmailAndPassword(
       state.email,
@@ -138,6 +223,7 @@ export default function CreateAccountView() {
       company: state.company,
       companyPhone: state.companyPhone
     };
+
     const url = `${configs.apiUrl}/users`;
     await axios.post(url, data, options);
     history.push("/");
@@ -154,57 +240,57 @@ export default function CreateAccountView() {
     <div className={classes.root}>
       <Paper elevation={2}
         className={classes.paperWrap}>
-      <div className={classes.form}
-        >
+      <div className={classes.form}>
       <h1 className={classes.signUpHeader}>Sign Up</h1>
-        <TextField
-          id="firstName"
-          className={classes.accountInputName}
-          label="First name"
-          value={state.firstName}
-          onChange={handleChange}
-          required
-        />
-        
-        <TextField
-          id="lastName"
-          className={classes.accountInputName}
-          label="Last name"
-          value={state.lastName}
-          onChange={handleChange}
-          required
-        />
-    
-        <TextField
-          id="email"
-          className={classes.accountInput}
-          label="Email"
-          value={state.email}
-          onChange={handleChange}
-          type="email"
-          required
-        />
-      
-        <TextField
-          id="company"
-          className={classes.accountInput}
-          label="Company"
-          value={state.company}
-          onChange={handleChange}
-          required
-        />
-      
-        <TextField
-          id="companyPhone"
-          className={classes.accountInput}
-          label="Company Phone number"
-          value={state.companyPhone}
-          onChange={handleChange}
-          type="tel"
-          required
-        />
-      
-        <Input
+      <TextField
+        id="firstName"
+        className={classes.accountInputName}
+        label="First name"
+        value={state.firstName}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        id="lastName"
+        className={classes.accountInputName}
+        label="Last name"
+        value={state.lastName}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        id="email"
+        className={classes.accountInput}
+        label="Email"
+        value={state.email}
+        onChange={handleChange}
+        type="email"
+        required
+        error={state.invalidEmail}
+        helperText={state.emailHelperText}
+        onBlur={validateEmail}
+      />
+      <TextField
+        id="company"
+        className={classes.accountInput}
+        label="Company"
+        value={state.company}
+        onChange={handleChange}
+        required
+      />
+      <TextField
+        id="companyPhone"
+        className={classes.accountInput}
+        label="Company Phone number"
+        value={state.companyPhone}
+        onChange={handleChange}
+        type="tel"
+        required
+        onBlur={validateCompanyPhone}
+        error={state.invalidCompanyPhone}
+        helperText={state.companyPhoneHelperText}
+          /> 
+       <Input
           id="password"
           className={classes.accountInput}
           value={state.password}
@@ -223,30 +309,24 @@ export default function CreateAccountView() {
               </InputAdornment>
             }
           />
-         
         <Input
           id="passwordConfirm"
           className={classes.accountInput}
-          value={state.password}
+          value={state.passwordConfirm}
           onChange={handleChange}
           type={state.showPassword ? 'text' : 'password'}
             required
           
         />
         <div className={classes.btnDiv}>
-          <Button
-            className={classes.btnBack}
-            >
-
+          <Button className={classes.btnBack}>
             <ArrowBackIcon />
-
           </Button>
           <Button 
             id="registerButton" 
             onClick={handleRegister}
             className={classes.btnAccount}
-            variant="contained" 
-            
+            variant="contained"  
           >
             Create Account
           </Button>

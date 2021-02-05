@@ -11,6 +11,8 @@ router.get("/", async (req, res) => {
 
 // create a new user
 router.post("/", async (req, res) => {
+  // TODO: Refactor as middleware
+
   // validate header has a bearer token
   const header = req.header("Authorization");
   const token = header?.replace("Bearer ", "");
@@ -23,6 +25,9 @@ router.post("/", async (req, res) => {
   } catch (error) {
     return res.status(401).send("Access denied. Invalid token");
   }
+
+  // TODO: Refactor
+  // TODO: Validate input & create model
 
   // verify body of request has needed data
   const { uid } = decodedIdToken;
