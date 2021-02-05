@@ -36,8 +36,7 @@ router.post("/", async (req, res) => {
     firstName,
     lastName,
     company,
-    companyPhone,
-    personalPhone,
+    companyPhone
   } = req.body;
   const data = {
     email,
@@ -45,7 +44,6 @@ router.post("/", async (req, res) => {
     lastName,
     company,
     companyPhone,
-    personalPhone,
     uid,
   };
   // return res.send(data);
