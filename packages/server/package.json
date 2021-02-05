@@ -18,7 +18,7 @@
   "scripts": {
     "clean": "rimraf lib && node copyConfig.js",
     "lint": "eslint \"src/**/*\"",
-    "build": "npm run clean && tsc",
+    "build": "CI=true npm run clean && tsc",
     "dev": "tsc -w",
     "test": "firebase emulators:exec \"jest --runInBand\"",
     "test:coverage": "firebase emulators:exec \"jest --runInBand --coverage --watchAll\"",
