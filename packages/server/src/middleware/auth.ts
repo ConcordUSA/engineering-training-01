@@ -10,14 +10,6 @@ export default async function (
   res: Response,
   next: NextFunction
 ) {
-  // TODO: REfactor when firebase testing library supports mocking the auth https://github.com/firebase/firebase-js-sdk/issues/2940
-  // disable authorization if in test
-  if (process.env.NODE_ENV === "test") {
-    const decodedIdToken = req.body.decodedIdToken;
-    req.app.set("decodedIdToken", decodedIdToken);
-    return next();
-  }
-
   // validate header has a bearer token
   const header = req.header("Authorization");
   const token = header?.replace("Bearer ", "");
