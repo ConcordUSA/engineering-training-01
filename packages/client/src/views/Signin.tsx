@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
         links: {
             margin: '5px'
         },
-        mainDiv: {
+        topDiv: {
             marginTop: '40px',
 
         },
@@ -65,7 +65,7 @@ export default function SignIn() {
     return (
     <div className={classes.root}>
             <Paper className={classes.paper}>
-                <Container maxWidth="sm" component="main" className={classes.mainDiv}>
+                <Container maxWidth="sm" component="main" className={classes.topDiv}>
                    
                     <img src="fstd-logo-colorized.png" alt="Four Seasons Total Development Logo, flower, sun, leaf, snowflake" className={classes.logo}/>
                
