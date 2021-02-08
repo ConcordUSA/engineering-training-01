@@ -6,6 +6,8 @@ import CreateAccountView from "./views/CreateAccount";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Signin from "./views/Signin";
 import { defaultDependencies, AppDependenciesContext } from "./appDependencies";
+import InterestsPage from "./views/InterestsPage";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,6 +43,11 @@ export default function App() {
               <LoginView />
             </Route>
           </Switch>
+            <Switch>
+          <Route path = "/interests" exact>
+            <InterestsPage />
+              </Route>
+        </Switch>
           <Switch>
             <Route path="/" exact>
               <HelloWorldView />
