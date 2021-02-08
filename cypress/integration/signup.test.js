@@ -16,6 +16,7 @@ context("Signup", () => {
     cy.get("#email").type(`${testId}${faker.internet.email()}`);
     cy.get("#company").type(faker.company.companyName());
     cy.get("#companyPhone").type("123-123-1234");
+    cy.get("#personalPhone").type("123-123-1235");
     cy.get("#password").type(password);
     cy.get("#passwordConfirm").type(password);
     cy.get("#registerButton").click();
@@ -38,6 +39,7 @@ context("Signup", () => {
     cy.get("#email").type(`${testId}${faker.internet.email()}`);
     cy.get("#company").type(faker.company.companyName());
     cy.get("#companyPhone").type("123-123-1234");
+    cy.get("#personalPhone").type("123-123-1235");
     cy.get("#password").type(password);
     cy.get("#passwordConfirm").type("password");
     cy.get("#registerButton").click();
