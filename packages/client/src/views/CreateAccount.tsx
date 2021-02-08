@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField, Button, Paper, Input } from "@material-ui/core";
-import { getAuth } from "../config/firebase";
-import axios from "axios";
-import getConfig from "../config";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AppTheme from "../styles/theme";
@@ -11,6 +8,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
+import UsersService from "../services/usersService";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,9 +81,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function CreateAccountView() {
   const classes = useStyles();
-  const auth = getAuth();
-  const configs = getConfig();
   const history = useHistory();
+  const { auth, db }: AppDependencies = useContext(AppDependenciesContext);
+  const usersService = new UsersService(db, auth);
 
   const [state, setState] = useState({
     email: "",
@@ -119,10 +118,8 @@ export default function CreateAccountView() {
   //this function checks if email is valid
   function isValidEmail(emailString: string) {
     if (emailString.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      console.log("valid", emailString);
       return true;
     } else {
-      console.log("invalid", emailString);
       return false;
     }
   }
@@ -142,14 +139,12 @@ export default function CreateAccountView() {
   // TODO: Refactor to combine with personal phone
   function validateCompanyPhone() {
     if (!isValidPhone(state.companyPhone)) {
-      console.log("INVALID E");
       setState({
         ...state,
         invalidCompanyPhone: true,
         companyPhoneHelperText: "please enter a valid phone number",
       });
     } else {
-      console.log("VALID E");
       setState({
         ...state,
         invalidCompanyPhone: false,
@@ -177,31 +172,29 @@ export default function CreateAccountView() {
   const handleRegister = async () => {
     // handle email checker
     if (state.password !== state.passwordConfirm) {
-      // TODO: Properly handle this error - present something in the UI
+      // TODO: Handle this message
       alert("passwords don't match");
       return;
     }
-
-    const userCredential = await auth.createUserWithEmailAndPassword(
-      state.email,
-      state.password
-    );
-    const uid = userCredential.user?.uid;
-    const idToken = await userCredential.user?.getIdToken();
-    const options = {
-      headers: { Authorization: `Bearer ${idToken}` },
-    };
     const data = {
-      uid,
       email: state.email,
+      password: state.password,
       firstName: state.firstName,
       lastName: state.lastName,
       company: state.company,
       companyPhone: state.companyPhone,
     };
 
-    const url = `${configs.apiUrl}/users`;
-    await axios.post(url, data, options);
+    const { error, message } = await usersService.createUser(data);
+    if (error) {
+      // TODO: handle this message
+      console.log("error", error);
+      return;
+    }
+
+    // TODO: handle this message
+    console.log("message", message);
+
     history.push("/");
   };
   const handleClickShowPassword = () => {
