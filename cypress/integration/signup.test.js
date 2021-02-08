@@ -50,6 +50,12 @@ context("Signup", () => {
   it.skip("should not register successfully given bad data", () => {});
   // unsuccessful registration (missing required fields)
   it.skip("should not register successfully given missing data", () => {});
+
+  it("should display the emailVerification view when logged in without email being verified", () => {
+    // TODO: Figure out how to make this happen :)
+    cy.visit("/emailVerification");
+    cy.location("pathname").should("equal", "/emailVerification");
+  });
 });
 
 context("Signin", () => {

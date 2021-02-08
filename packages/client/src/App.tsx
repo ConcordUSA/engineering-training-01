@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Signin from "./views/Signin";
 import { defaultDependencies, AppDependenciesContext } from "./appDependencies";
 import InterestsPage from "./views/InterestsPage";
-
+import EmailVerification from "./views/EmailVerification";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,11 +43,16 @@ export default function App() {
               <LoginView />
             </Route>
           </Switch>
-            <Switch>
-          <Route path = "/interests" exact>
-            <InterestsPage />
-              </Route>
-        </Switch>
+          <Switch>
+            <Route path="/interests" exact>
+              <InterestsPage />
+            </Route>
+          </Switch>
+          <Switch>
+            <Route path="/emailVerification" exact>
+              <EmailVerification />
+            </Route>
+          </Switch>
           <Switch>
             <Route path="/" exact>
               <HelloWorldView />

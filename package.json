@@ -6,8 +6,9 @@
   "scripts": {
     "postinstall": "lerna bootstrap && npm rebuild",
     "clean": "npx lerna run clean && npx lerna clean --yes && rimraf node_modules ",
-    "test": "lerna run test",
+    "test": "run-p test:client",
     "test:e2e": "cypress run",
+    "test:client": "cd packages/client && npm run test",
     "test:watch:client": "cd packages/client && npm run test:watch",
     "test:watch:server": "cd packages/server && npm run test:watch",
     "test:watch": "run-p test:watch:*",
