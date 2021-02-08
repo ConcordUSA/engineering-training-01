@@ -1,18 +1,23 @@
-// import axios from "axios";
+import axios from "axios";
 import config from "config";
+import faker from "faker";
 
 const suite = "users";
 const apiVersion = config.get("apiVersion");
 const apiUrl = config.get("apiUrl");
 const url = `${apiUrl}/${apiVersion}`;
+const testApiKey = "testApiKey";
 
-describe.skip(suite, () => {
-  // const user = {
-  //   firstName: "Firstname",
-  //   lastName: "Lastname",
-  //   email: "fake_email@email.com",
-  //   password: "SomePassword",
-  // };
+describe(suite, () => {
+  const user = {
+    firstName: "Firstname",
+    lastName: "Lastname",
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    id: "userId1234",
+    company: "Company",
+    companyPhone: "12345678",
+  };
 
   console.log(`Testing Url: ${url}`);
 
@@ -21,7 +26,24 @@ describe.skip(suite, () => {
     // await axios.delete(`${url}/users/${userInDb.id}`, options);
   });
 
-  it.skip("should create a user", async () => {
+  it("should create a user", async () => {
+    // simulate client-side auth user creation
+    const createAccountUrl = `http://localhost:9099/identitytoolkit.googleapis.com/v1/accounts:signUp?key=${testApiKey}`;
+    const { data } = await axios.post(createAccountUrl, {
+      email: user.email,
+      password: user.password,
+    });
+    const { localId, idToken } = data;
+    console.log("idToken", idToken);
+    console.log("localId", localId);
+
+    const options = {
+      headers: { Authorization: `Bearer ${idToken}` },
+    };
+    const resp = await axios.post(`${url}/users`, user, options);
+
+    expect(1).toBe(1);
+    expect(resp.status).toBe(200);
     // const resp = await axios.post(`${url}/users`, user);
   });
 

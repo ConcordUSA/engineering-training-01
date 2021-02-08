@@ -32,7 +32,12 @@ export const getFirestore = () => {
   const app = getFirebaseApp();
 
   // use emulators (local environments)
-  if (useEmulators) app.firestore().useEmulator("localhost", 8080);
+  if (useEmulators)
+    app.firestore().settings({
+      experimentalForceLongPolling: true, // needed to work with cypress
+      host: "localhost:8080",
+      ssl: false,
+    });
 
   return app.firestore();
 };
