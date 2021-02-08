@@ -12,18 +12,19 @@ const useStyles = makeStyles((theme: Theme) =>
             flexWrap: 'wrap',
             justifyContent: 'center',
             height: '100%',
-            width: '100%'
+            width: '100%',
+            backgroundColor: "#D6D6D6",
         },
         paper: {
-            marginTop: '5%',
-            marginBottm: '5%',
-            height: '90%',
-            width: '90%',
+            marginTop: '3%',
+            marginBottom: '3%',
+            width: '80%',
             textAlign: 'center'
         },
         logo: {
             marginTop: '2%',
-            marginBottm: '5%',
+          marginBottm: '5%',
+            width: '80%'
         },
         FourSeason: {
             marginTop: '0.35em',
@@ -47,7 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
               }
         },
         btnDiv: {
-            width: "100%"
+          width: "100%",
+          marginBottom: "15px"
         },
         links: {
             margin: '5px'
@@ -67,12 +69,12 @@ export default function SignIn() {
   const classes = useStyles();
     return (
     <div className={classes.root}>
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} elevation={3}>
                 <Container maxWidth="sm" component="main" className={classes.topDiv}>
                    
-                    <img src="fstd-logo-colorized.png" alt="Four Seasons Total Development Logo, flower, sun, leaf, snowflake" className={classes.logo}/>
+                    <img src="fstd-logo-colorized.svg" alt="Four Seasons Total Development Logo, flower, sun, leaf, snowflake" className={classes.logo}/>
                
-                <Typography component="h1" variant="h3" align="center" color="textPrimary"  gutterBottom className={classes.FourSeason}>
+                <Typography component="h1" variant="h2" align="center" color="textPrimary"  gutterBottom className={classes.FourSeason}>
                 FOUR SEASONS
                 </Typography>
                 <Typography variant="h5" align="center"  component="p">

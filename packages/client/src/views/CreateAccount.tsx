@@ -17,9 +17,13 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      height: "90%",
+      height: "100%",
+      width: "100%",
+      backgroundColor: "#D6D6D6"
     },
     paperWrap: {
+      marginTop: "3%",
+      marginBottom: "3%",
       display: "flex",
       flexWrap: "wrap",
       width: "90%",
@@ -207,7 +211,7 @@ export default function CreateAccountView() {
 
   return (
     <div className={classes.root}>
-      <Paper elevation={2} className={classes.paperWrap}>
+      <Paper elevation={3} className={classes.paperWrap}>
         <div className={classes.form}>
           <h1 className={classes.signUpHeader}>Sign Up</h1>
           <TextField
