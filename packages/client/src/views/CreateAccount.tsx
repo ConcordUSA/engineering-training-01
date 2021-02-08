@@ -160,6 +160,7 @@ export default function CreateAccountView() {
       lastName: state.lastName,
       company: state.company,
       companyPhone: state.companyPhone.input,
+      personalPhone: state.companyPhone.input,
     };
 
     console.log("data", data);
@@ -234,6 +235,16 @@ export default function CreateAccountView() {
             required
             error={state.companyPhone.invalid}
             helperText={state.companyPhone.helperText}
+          />
+          <TextField
+            id="personalPhone"
+            className={classes.accountInput}
+            label="Personal Phone number"
+            value={state.personalPhone.input}
+            onChange={handleChange}
+            type="tel"
+            error={state.personalPhone.invalid}
+            helperText={state.personalPhone.helperText}
           />
           <Input
             id="password"

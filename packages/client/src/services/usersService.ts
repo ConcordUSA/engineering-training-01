@@ -32,6 +32,7 @@ export default class UsersService {
       lastName: user.lastName,
       company: user.company,
       companyPhone: user.companyPhone,
+      personalPhone: user.personalPhone,
     };
 
     try {
@@ -41,4 +42,12 @@ export default class UsersService {
       return { error: error.message };
     }
   };
+
+  // STATE 1
+  // register
+  // logged in, but not verified
+
+  // STATE 2
+  // trigger the send of an email
+  // put the app in a state that ????
 }
