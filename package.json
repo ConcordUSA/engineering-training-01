@@ -12,10 +12,11 @@
     "test:watch:server": "cd packages/server && npm run test:watch",
     "test:watch": "run-p test:watch:*",
     "test:subcutaneous": "lerna run test:subcutaneous",
-    "dev": "run-p dev:*",
+    "dev": "run-p dev:emulators dev:cypress dev:client",
     "dev:emulators": "firebase emulators:start --inspect-functions",
     "dev:lerna": "lerna run dev --parallel",
     "dev:cypress": "cypress open",
+    "dev:client": "cd packages/client && npm run dev",
     "build": "lerna run build",
     "release": "lerna version --conventional-commits --conventional-prerelease --create-release github",
     "release:prod": "lerna version --conventional-commits --conventional-graduate --create-release github"

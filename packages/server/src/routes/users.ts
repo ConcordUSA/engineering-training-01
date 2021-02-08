@@ -1,5 +1,6 @@
 import * as express from "express";
-import { auth, firestore } from "firebase-admin";
+import { firestore } from "firebase-admin";
+import auth from "../middleware/auth";
 
 const router = express.Router();
 const collection = "users";
@@ -10,34 +11,14 @@ router.get("/", async (req, res) => {
 });
 
 // create a new user
-router.post("/", async (req, res) => {
-  // TODO: Refactor as middleware
-
-  // validate header has a bearer token
-  const header = req.header("Authorization");
-  const token = header?.replace("Bearer ", "");
-  if (!token) return res.status(401).send("Access denied. No token provided.");
-
-  // verify and decode idToken
-  let decodedIdToken: auth.DecodedIdToken;
-  try {
-    decodedIdToken = await auth().verifyIdToken(token);
-  } catch (error) {
-    return res.status(401).send("Access denied. Invalid token");
-  }
-
+router.post("/", auth, async (req, res) => {
   // TODO: Refactor
   // TODO: Validate input & create model
 
   // verify body of request has needed data
+  const decodedIdToken = req.app.get("decodedIdToken");
   const { uid } = decodedIdToken;
-  const {
-    email,
-    firstName,
-    lastName,
-    company,
-    companyPhone
-  } = req.body;
+  const { email, firstName, lastName, company, companyPhone } = req.body;
   const data = {
     email,
     firstName,
