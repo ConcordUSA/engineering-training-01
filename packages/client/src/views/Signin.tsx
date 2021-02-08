@@ -1,8 +1,8 @@
 import React from 'react';
-import { Paper, Button, TextField, Link, Box, Container, Typography } from '@material-ui/core';
+import { Paper, Button, TextField, Container, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from '../styles/theme';
-
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     
@@ -28,11 +28,14 @@ const useStyles = makeStyles((theme: Theme) =>
         FourSeason: {
             marginTop: '0.35em',
         },
-        form: {
-            width: '100%', // Fix IE 11 issue.
-            marginTop: '10%',
-            textAlign: 'center'
-            
+      loginText: {
+          marginLeft:" 25%"
+        },
+      formContainer: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: '10%',
+        textAlign: 'center'
+        
         },
         submit: {
             margin: theme.spacing(3, 0, 2),
@@ -75,52 +78,54 @@ export default function SignIn() {
                 <Typography variant="h5" align="center"  component="p">
                 TOTAL DEVELOPMENT
                 </Typography>
-      </Container>
-        <form className={classes.form} noValidate>
-          <TextField
-            className={classes.accountInput}
-            variant="outlined"
-            margin="normal"
-            required    
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-        />
-        <TextField
-            className={classes.accountInput}
-            variant="outlined"
-            margin="normal"
-            required
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-        <div>
-        <Button
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-          >
-            Submit
-          </Button>
-            
-                    </div>
-                    <div className={classes.btnDiv}>
-                    <Link href="#" variant="body2" className={classes.links}>
-                Forgot Password?
+          </Container>
+          <div className={classes.formContainer}>
+            <Typography variant="h6" align="left"  component="p" className={classes.loginText}>
+              LOGIN: 
+              </Typography>
+            <form noValidate>
+              <TextField
+                className={classes.accountInput}
+                variant="outlined"
+                margin="normal"
+                required    
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+            />
+            <TextField
+                className={classes.accountInput}
+                variant="outlined"
+                margin="normal"
+                required
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+          <div>
+            <Button
+                type="submit"
+                variant="contained"
+                className={classes.submit}
+              >
+                Submit
+              </Button>
+            </div>
+              <div className={classes.btnDiv}>
+                <Link to="/createAccount" className={classes.links}>
+                  Forgot Password?
+                </Link>
+                OR
+                <Link to="/createAccount" className={classes.links}>
+                  Create Account
               </Link>
-        
-              <Link href="#" variant="body2" className={classes.links}>
-                {"Create Account"}
-            </Link>
-                    </div>
-        </form>
-      <Box mt={8}>
-      </Box>
+            </div>
+            </form>
+          </div>
     </Paper>
     </div>
   );
