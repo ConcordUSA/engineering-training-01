@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { User } from "../models";
+import { User } from "../models/user";
 
 export default class UsersService {
   constructor(

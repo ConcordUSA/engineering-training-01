@@ -10,6 +10,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { isValidEmail, isValidPhone } from "../models/user";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,104 +91,82 @@ export default function CreateAccountView() {
   const usersService = new UsersService(db, auth);
 
   const [state, setState] = useState({
-    email: "",
+    email: { input: "", invalid: false, helperText: "" },
     password: "",
     passwordConfirm: "",
     firstName: "",
     lastName: "",
     company: "",
-    companyPhone: "",
+    companyPhone: { input: "", invalid: false, helperText: "" },
+    personalPhone: { input: "", invalid: false, helperText: "" },
     showPassword: false,
-    personalPhone: "",
-    invalidEmail: false,
-    emailHelperText: "",
-    invalidCompanyPhone: false,
-    companyPhoneHelperText: "",
-    invalidPersonalPhone: false,
-    personalPhoneHelperText: "",
   });
+
+  function updateObject(id: any, value: string) {
+    switch (id) {
+      case "email":
+        return isValidEmail(value);
+      case "companyPhone":
+        return isValidPhone(value);
+      case "personalPhone":
+        return isValidPhone(value);
+      default:
+        return value;
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const id = e.target.id;
+    const updateObj = updateObject(id, value);
     setState({
       ...state,
-      [id]: value,
+      [id]: updateObj,
     });
   };
 
   //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
   //TODO confirmation after submit button clicked - or some UI
 
-  //this function checks if email is valid
-  function isValidEmail(emailString: string) {
-    if (emailString.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  function isValidPhone(phoneString: string) {
-    if (
-      phoneString.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/) ||
-      phoneString.match(/^[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{4}$/)
-    ) {
-      console.log("valid", phoneString);
-      return true;
-    } else {
-      console.log("invalid", phoneString);
-      return false;
-    }
-  }
-
-  // TODO: Refactor to combine with personal phone
-  function validateCompanyPhone() {
-    if (!isValidPhone(state.companyPhone)) {
-      setState({
-        ...state,
-        invalidCompanyPhone: true,
-        companyPhoneHelperText: "please enter a valid phone number",
-      });
-    } else {
-      setState({
-        ...state,
-        invalidCompanyPhone: false,
-        companyPhoneHelperText: "",
-      });
-    }
-  }
-  //To do: Check for valid email
-  function validateEmail(): void {
-    if (!isValidEmail(state.email)) {
-      setState({
-        ...state,
-        invalidEmail: true,
-        emailHelperText: "please enter a valid email",
-      });
-    } else {
-      setState({
-        ...state,
-        invalidEmail: false,
-        emailHelperText: "",
-      });
-    }
-  }
-
   const handleRegister = async () => {
     // handle email checker
     if (state.password !== state.passwordConfirm) {
-      // TODO: Handle this message
+      // TODO: Properly handle this error - present something in the UI
       alert("passwords don't match");
       return;
     }
+    //check each required field for input
+    //return if missing
+    switch ("") {
+      case state.firstName:
+        alert("First Name is required.");
+        return;
+      case state.lastName:
+        alert("Last Name is required.");
+        return;
+      case state.email.input:
+        alert("Email is required.");
+        return;
+      case state.password:
+        alert("Password is required.");
+        return;
+      case state.company:
+        alert("Company is required.");
+        return;
+      case state.companyPhone.input:
+        alert("Company phone is required.");
+        return;
+    }
     const data = {
-      email: state.email,
+      email: state.email.input,
       password: state.password,
       firstName: state.firstName,
       lastName: state.lastName,
       company: state.company,
-      companyPhone: state.companyPhone,
+      companyPhone: state.companyPhone.input,
     };
+
+    console.log("data", data);
 
     const { error, message } = await usersService.createUser(data);
     if (error) {
@@ -234,13 +213,12 @@ export default function CreateAccountView() {
             id="email"
             className={classes.accountInput}
             label="Email"
-            value={state.email}
+            value={state.email.input}
             onChange={handleChange}
             type="email"
             required
-            error={state.invalidEmail}
-            helperText={state.emailHelperText}
-            onBlur={validateEmail}
+            error={state.email.invalid}
+            helperText={state.email.helperText}
           />
           <TextField
             id="company"
@@ -254,13 +232,12 @@ export default function CreateAccountView() {
             id="companyPhone"
             className={classes.accountInput}
             label="Company Phone number"
-            value={state.companyPhone}
+            value={state.companyPhone.input}
             onChange={handleChange}
             type="tel"
             required
-            onBlur={validateCompanyPhone}
-            error={state.invalidCompanyPhone}
-            helperText={state.companyPhoneHelperText}
+            error={state.companyPhone.invalid}
+            helperText={state.companyPhone.helperText}
           />
           <Input
             id="password"
