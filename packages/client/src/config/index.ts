@@ -64,10 +64,19 @@ const environments = {
 };
 
 const getConfigsPerEnvironment = (): Configs => {
-  const isLocal = global.window.location.hostname === "localhost";
-  const environment = isLocal ? "test" : process.env.NODE_ENV;
-
-  return environments[environment];
+  const hostname = global.window.location.hostname;
+  switch (hostname) {
+    case "et-2021a-dev.web.app":
+      return environments.development;
+    case "et-2021a-stage.web.app":
+      return environments.staging;
+    case "et-2021a-prod.web.app":
+      return environments.production;
+    case "localhost":
+      return environments.test;
+    default:
+      return environments.test;
+  }
 };
 
 export default getConfigsPerEnvironment;
