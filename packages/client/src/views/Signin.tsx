@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   Paper,
   Button,
@@ -9,6 +9,7 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../styles/theme";
 import { Link } from "react-router-dom";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,8 +66,21 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
 export default function SigninView() {
   const classes = useStyles();
+  const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  const [usernameState, setUsernameState] = useState("");
+  const [passwordState, setPasswordState] = useState("");
+
+  const handleSignin = async () => {
+    try {
+      await auth.signInWithEmailAndPassword(usernameState, passwordState);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -111,6 +125,10 @@ export default function SigninView() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={usernameState}
+              onChange={(e) => {
+                setUsernameState(e.target.value);
+              }}
             />
             <TextField
               className={classes.accountInput}
@@ -122,12 +140,16 @@ export default function SigninView() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={passwordState}
+              onChange={(e) => {
+                setPasswordState(e.target.value);
+              }}
             />
             <div>
               <Button
-                type="submit"
                 variant="contained"
                 className={classes.submit}
+                onClick={handleSignin}
               >
                 Submit
               </Button>
