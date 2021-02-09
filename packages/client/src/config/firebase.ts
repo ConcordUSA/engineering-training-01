@@ -14,6 +14,8 @@ export const getFirebaseApp = () => {
   const { firebaseConfig } = getConfigs();
   const alreadyInitialized = firebase.apps.length > 0;
 
+  console.log("firebaseConfig", firebaseConfig);
+
   return alreadyInitialized
     ? firebase.apps[0]
     : firebase.initializeApp(firebaseConfig);
