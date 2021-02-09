@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import HelloWorldView from "./views/HelloWorld";
-import LoginView from "./views/Login";
 import CreateAccountView from "./views/CreateAccount";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Signin from "./views/Signin";
-import { defaultDependencies, AppDependenciesContext } from "./appDependencies";
+import SigninView from "./views/Signin";
+import {
+  defaultDependencies,
+  AppDependenciesContext,
+  AppDependencies,
+} from "./appDependencies";
 import InterestsPage from "./views/InterestsPage";
+import EventListView from "./views/EventList";
 import EmailVerification from "./views/EmailVerification";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,42 +26,52 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function App() {
   const classes = useStyles();
+  const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setSignedIn(!user ? false : true);
+    });
+  }, [auth]);
 
   return (
     <div className={classes.root}>
       <AppDependenciesContext.Provider value={defaultDependencies}>
-        <Router>
-          <Switch>
-            <Route path="/createAccount">
-              <CreateAccountView />
-            </Route>
-          </Switch>
-          <Switch>
-            <Route path="/signin" exact>
-              <Signin />
-            </Route>
-          </Switch>
-          <Switch>
-            <Route path="/login">
-              <LoginView />
-            </Route>
-          </Switch>
-          <Switch>
-            <Route path="/interests" exact>
-              <InterestsPage />
-            </Route>
-          </Switch>
-          <Switch>
-            <Route path="/emailVerification" exact>
-              <EmailVerification />
-            </Route>
-          </Switch>
-          <Switch>
-            <Route path="/" exact>
-              <HelloWorldView />
-            </Route>
-          </Switch>
-        </Router>
+        {!signedIn && (
+          <Router>
+            <Switch>
+              <Route path="/createAccount">
+                <CreateAccountView />
+              </Route>
+            </Switch>
+            <Switch>
+              <Route path="/" exact>
+                <SigninView />
+              </Route>
+            </Switch>
+          </Router>
+        )}
+
+        {signedIn && (
+          <Router>
+            <Switch>
+              <Route path="/interests" exact>
+                <InterestsPage />
+              </Route>
+            </Switch>
+            <Switch>
+              <Route path="/emailVerification" exact>
+                <EmailVerification />
+              </Route>
+            </Switch>
+            <Switch>
+              <Route path="/" exact>
+                <EventListView />
+              </Route>
+            </Switch>
+          </Router>
+        )}
       </AppDependenciesContext.Provider>
     </div>
   );
