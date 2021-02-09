@@ -16,6 +16,8 @@ jobs:
           run: npm ci
         - name: Build
           run: npm run build
+          env:
+            NODE_ENV: staging
         - name: Test
           run: npm run test
         - name: Deploy to Firebase
