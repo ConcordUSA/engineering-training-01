@@ -185,6 +185,10 @@ export default function CreateAccountView() {
     event.preventDefault();
   };
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   return (
     <div className={classes.root}>
       <Paper elevation={2} className={classes.paperWrap}>
@@ -278,7 +282,7 @@ export default function CreateAccountView() {
             required
           />
           <div className={classes.btnDiv}>
-            <Button className={classes.btnBack}>
+            <Button className={classes.btnBack} onClick={handleBack}>
               <ArrowBackIcon />
             </Button>
             <Button
