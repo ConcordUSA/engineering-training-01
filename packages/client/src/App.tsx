@@ -13,7 +13,6 @@ import EmailVerification from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
 import { signedIn, emailVerified } from "./store";
 import routes from "./constants/routes";
-import CreateAccountView from "./views/Signin/CreateAccount";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
