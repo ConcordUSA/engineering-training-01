@@ -61,11 +61,6 @@ export default function App() {
                 path={routes.INTERESTS_URL}
                 component={InterestsPage}
               />
-              <Route
-                exact
-                path={routes.EMAIL_VERIFICATION_URL}
-                component={EmailVerification}
-              />
             </Switch>
           )}
         </Router>
