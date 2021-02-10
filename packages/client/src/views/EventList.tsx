@@ -27,9 +27,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EventListView() {
   const classes = useStyles();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
+
   const handleSignOut = async () => {
     await auth.signOut();
   };
+
   return (
     <div className={classes.root}>
       <h2>eventlanding</h2>
