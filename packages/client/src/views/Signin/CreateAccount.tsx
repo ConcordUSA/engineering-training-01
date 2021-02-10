@@ -181,7 +181,7 @@ export default function CreateAccountView() {
     // TODO: handle this message
     console.log("message", message);
 
-    history.push(routes.EVENTS_URL);
+    history.push(routes.HOME_URL);
   };
   const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });
