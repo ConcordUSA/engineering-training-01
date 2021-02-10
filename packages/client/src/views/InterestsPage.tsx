@@ -37,12 +37,20 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "90%",
       width: "93%",
       textAlign: "center",
-      marginTop: "16px",
+      borderStyle: "solid",
+      borderWidth: "2px",
+      borderColor: "transparent",
+      marginTop: "17px",
     },
     interestsWrapper: {
       height: "45%",
       width: "20%",
       margin: "0px 15px 15px 0px",
+    },
+    selectedInterestsWrapper: {
+      height: "45%",
+      width: "20%",
+      margin: "0px 15px 0px 0px",
     },
     interestsImg: {
       marginTop: "20px",
@@ -56,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderStyle: "solid",
       borderWidth: "2px",
       borderColor: AppTheme.primary,
-      marginTop: "16px",
+      marginTop: "17px",
     },
     checkMark: {
       position: "relative",
@@ -75,28 +83,10 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: AppTheme.secondary,
       },
     },
-    // btnDiv: {
-    //     width: "100%"
-    // },
   })
 );
 
 export default function SignIn() {
-  // interface interest {
-  //     name: string;
-  //     type: boolean
-  // }
-  // let finance: interest = { name: 'finance', type: false };
-  // let IT: interest = { name: 'IT', type: false };
-  // // let leadership: interest = { name: 'leadership', type: false };
-  // // let marketing: interest  = { name: 'marketing', type: false };
-  // // let interests: Array<interest> = [finance, IT, leadership, marketing];
-
-  // const handleSelection = (interest: interest) => {
-  //     interest.type = !interest.type
-  //     console.log(interest)
-  // }
-
   const [state, setState] = useState<{ [k: string]: any }>({
     finance: false,
     IT: false,
@@ -138,7 +128,7 @@ export default function SignIn() {
           Select all that apply:
         </Typography>
         {state.finance ? (
-          <div className={classes.interestsWrapper}>
+          <div className={classes.selectedInterestsWrapper}>
             <img
               src="./Vector.svg"
               className={classes.checkMark}
