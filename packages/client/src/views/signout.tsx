@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import React, { Component, useContext } from "react";
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import AppTheme from "../styles/theme";
-import SignOut from "./signout";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -25,18 +22,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function EventListView() {
+export default function LogoutButton() {
   const classes = useStyles();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
 
   const handleSignOut = async () => {
     await auth.signOut();
   };
-
   return (
-    <div className={classes.root}>
-      <h2>eventlanding</h2>
-      <SignOut />
-    </div>
+    <Button
+      variant="contained"
+      className={classes.submit}
+      onClick={handleSignOut}
+    >
+      Signout
+    </Button>
   );
 }
