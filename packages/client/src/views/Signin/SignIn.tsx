@@ -7,11 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppTheme from "../styles/theme";
-import { Link, useHistory, Redirect } from "react-router-dom";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import routes from "../constants/routes";
-import { signedIn } from "../store";
+import AppTheme from "../../styles/theme";
+import { Link, useHistory } from "react-router-dom";
+import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
+import routes from "../../constants/routes";
+import { signInView } from "../../store";
 import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -73,23 +73,25 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SigninView() {
   const classes = useStyles();
   const history = useHistory();
-  const [signedInState] = useRecoilState(signedIn);
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  const [, setSignInViewState] = useRecoilState(signInView);
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
 
   const handleSignin = async () => {
     try {
       await auth.signInWithEmailAndPassword(usernameState, passwordState);
-      history.push(routes.EVENTS_URL);
+      history.push(routes.HOME_URL);
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  return signedInState === true ? (
-    <Redirect to={routes.HOME_URL} />
-  ) : (
+  const handleCreateAccount = () => {
+    setSignInViewState(false);
+  };
+
+  return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Container maxWidth="sm" component="main" className={classes.topDiv}>
@@ -167,9 +169,9 @@ export default function SigninView() {
                 Forgot Password?
               </Link>
               OR
-              <Link to="/createAccount" className={classes.links}>
+              <Button className={classes.links} onClick={handleCreateAccount}>
                 Create Account
-              </Link>
+              </Button>
             </div>
           </form>
         </div>

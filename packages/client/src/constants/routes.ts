@@ -1,5 +1,5 @@
 const routes = {
-  HOME_URL: "/events",
+  HOME_URL: "/",
   SIGNIN_URL: "/signin",
   CREATE_ACCOUNT_URL: "/createAccount",
   EVENTS_URL: "/events",
