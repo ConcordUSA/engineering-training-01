@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import CreateAccountView from "./views/CreateAccount";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import SigninView from "./views/Signin";
 import {
@@ -12,8 +11,7 @@ import InterestsPage from "./views/InterestsPage";
 import EventListView from "./views/EventList";
 import EmailVerification from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
-import { signedIn } from "./store";
-import ProtectedRoute from "./components/protectedRoute";
+import { signedIn, emailVerified } from "./store";
 import routes from "./constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,46 +29,45 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function App() {
   const classes = useStyles();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
-  const [, setSignedInState] = useRecoilState(signedIn);
+  const [signedInState, setSignedInState] = useRecoilState(signedIn);
+  const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(
+    emailVerified
+  );
 
   useEffect(() => {
+    // this app will receive a request (to verify the email)
+    // some method to retrigger this check
+
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        setSignedInState(true);
-      } else {
-        setSignedInState(false);
-      }
+      const isSignedIn = user ? true : false;
+      setSignedInState(isSignedIn);
+
+      const isEmailVerified = user?.emailVerified ? true : false;
+      setEmailVerifiedState(isEmailVerified);
     });
-  }, [auth, setSignedInState]);
+  }, [auth, setSignedInState, setEmailVerifiedState]);
 
   return (
     <div className={classes.root}>
       <AppDependenciesContext.Provider value={defaultDependencies}>
         <Router>
-          <Switch>
-            <Route exact path={routes.SIGNIN_URL} component={SigninView} />
-            <Route
-              exact
-              path={routes.CREATE_ACCOUNT_URL}
-              component={CreateAccountView}
-            />
-            <ProtectedRoute
-              exact
-              path={routes.EVENTS_URL}
-              component={EventListView}
-            />
-            <ProtectedRoute
-              exact
-              path={routes.INTERESTS_URL}
-              component={InterestsPage}
-            />
-            <ProtectedRoute
-              exact
-              path={routes.EMAIL_VERIFICATION_URL}
-              component={EmailVerification}
-            />
-            <ProtectedRoute exact path={"/"} component={SigninView} />
-          </Switch>
+          {!signedInState && <SigninView />}
+          {signedInState && !emailVerifiedState && <EmailVerification />}
+          {signedInState && emailVerifiedState && (
+            <Switch>
+              <Route exact path={routes.HOME_URL} component={EventListView} />
+              <Route
+                exact
+                path={routes.INTERESTS_URL}
+                component={InterestsPage}
+              />
+              <Route
+                exact
+                path={routes.EMAIL_VERIFICATION_URL}
+                component={EmailVerification}
+              />
+            </Switch>
+          )}
         </Router>
       </AppDependenciesContext.Provider>
     </div>
