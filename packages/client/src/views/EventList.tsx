@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button, Paper, Container } from "@material-ui/core";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import AppTheme from "../styles/theme";
 
@@ -11,7 +10,11 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      height: "90%",
+      height: "100%",
+      width: "100%",
+    },
+    eventsContainerOne: {
+      width: "100%",
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
@@ -28,14 +31,21 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EventListView() {
   const classes = useStyles();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
-
+  const events = [
+    {
+      title: "Perservance",
+      photo: "is.gd/G7bFv5",
+    },
+  ];
   const handleSignOut = async () => {
     await auth.signOut();
   };
 
   return (
     <div className={classes.root}>
-      <h2>eventlanding</h2>
+      <Container>
+        <div className={classes.eventsContainerOne}></div>
+      </Container>
       <Button
         variant="contained"
         className={classes.submit}
