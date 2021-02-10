@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     right: "8%",
   },
+
 }));
 
 export default function ButtonAppBar() {
@@ -32,7 +34,6 @@ export default function ButtonAppBar() {
   return (
     <div className={classes.root}>
       <AppBar
-        style={{ backgroundColor: "#FF505F", color: "#FF505F" }}
         className={classes.menuBar}
       >
         <Toolbar>
@@ -44,8 +45,10 @@ export default function ButtonAppBar() {
             Sign-out
           </Button>
           <Avatar src="/broken-image.jpg" className={classes.avatar} />
+
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
