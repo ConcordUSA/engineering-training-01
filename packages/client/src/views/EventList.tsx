@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import AppTheme from "../styles/theme";
