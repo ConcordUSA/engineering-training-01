@@ -41,12 +41,12 @@ const useStyles = makeStyles((theme: Theme) =>
       borderStyle: "solid",
       borderWidth: "2px",
       borderColor: "transparent",
-      marginTop: "17px",
     },
     interestsWrapper: {
       height: "45%",
       width: "20%",
       margin: "0px 15px 15px 0px",
+      position: "relative",
     },
     selectedInterestsWrapper: {
       height: "45%",
@@ -65,11 +65,13 @@ const useStyles = makeStyles((theme: Theme) =>
       borderStyle: "solid",
       borderWidth: "2px",
       borderColor: AppTheme.primary,
-      marginTop: "17px",
     },
     checkMark: {
-      position: "relative",
-      float: "right",
+      position: "absolute",
+      right: 0,
+      top: -10,
+      background: "#fff",
+      borderRadius: "12px",
     },
     btnDiv: {
       width: "100%",
@@ -130,7 +132,7 @@ export default function SignIn() {
           Select all that apply:
         </Typography>
         {state.finance ? (
-          <div className={classes.selectedInterestsWrapper}>
+          <div className={classes.interestsWrapper}>
             <img
               src="./Vector.svg"
               className={classes.checkMark}
