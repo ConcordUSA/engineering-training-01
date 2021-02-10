@@ -69,7 +69,7 @@ const environments = {
 };
 
 const getConfigsPerEnvironment = (): Configs => {
-  const hostname = global.window.location.hostname;
+  const hostname = global?.window?.location?.hostname;
   switch (hostname) {
     case "et-2021a-dev.web.app":
       return environments.development;

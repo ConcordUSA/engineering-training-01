@@ -24,15 +24,14 @@
     "react-spinners": "^0.10.4",
     "recoil": "^0.1.2",
     "recoilize": "^1.0.0",
-    "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
     "clean": "rimraf build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
-    "test:watch": "react-scripts test",
+    "test": "jest --runInBand",
+    "test:watch": "jest --runInBand --watchAll --forceExit",
     "eject": "react-scripts eject",
     "dev": "npm run start"
   },
@@ -60,6 +59,11 @@
     "@types/recoilize": "^0.8.0",
     "@types/rimraf": "^3.0.0",
     "@types/testing-library__jest-dom": "^5.9.5",
-    "rimraf": "^3.0.2"
+    "firebase-admin": "^9.4.2",
+    "jest": "^26.6.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
   }
 }
