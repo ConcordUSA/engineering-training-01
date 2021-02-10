@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { TextField, Button, Paper, Input } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 
 export default function CreateAccountView() {
   const [state, setState] = useState({
