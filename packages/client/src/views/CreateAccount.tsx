@@ -11,6 +11,7 @@ import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined"
 import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import { isValidEmail, isValidPhone } from "../models/user";
+import routes from "../constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       height: "100%",
       width: "100%",
-      backgroundColor: "#D6D6D6"
+      backgroundColor: "#D6D6D6",
     },
     paperWrap: {
       marginTop: "3%",
@@ -167,8 +168,6 @@ export default function CreateAccountView() {
       personalPhone: state.companyPhone.input,
     };
 
-    console.log("data", data);
-
     const { error, message } = await usersService.createUser(data);
     if (error) {
       // TODO: handle this message
@@ -179,7 +178,7 @@ export default function CreateAccountView() {
     // TODO: handle this message
     console.log("message", message);
 
-    history.push("/");
+    history.push(routes.EVENTS_URL);
   };
   const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });

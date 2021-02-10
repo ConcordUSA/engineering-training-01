@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import CreateAccountView from "./views/CreateAccount";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -11,6 +11,10 @@ import {
 import InterestsPage from "./views/InterestsPage";
 import EventListView from "./views/EventList";
 import EmailVerification from "./views/EmailVerification";
+import { useRecoilState } from "recoil";
+import { signedIn } from "./store";
+import ProtectedRoute from "./components/protectedRoute";
+import routes from "./constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,51 +31,47 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function App() {
   const classes = useStyles();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
-  const [signedIn, setSignedIn] = useState(false);
+  const [, setSignedInState] = useRecoilState(signedIn);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      setSignedIn(!user ? false : true);
+      if (user) {
+        setSignedInState(true);
+      } else {
+        setSignedInState(false);
+      }
     });
-  }, [auth]);
+  }, [auth, setSignedInState]);
 
   return (
     <div className={classes.root}>
       <AppDependenciesContext.Provider value={defaultDependencies}>
-        {!signedIn && (
-          <Router>
-            <Switch>
-              <Route path="/createAccount">
-                <CreateAccountView />
-              </Route>
-            </Switch>
-            <Switch>
-              <Route path="/" exact>
-                <SigninView />
-              </Route>
-            </Switch>
-          </Router>
-        )}
-
-        {signedIn && (
-          <Router>
-            <Switch>
-              <Route path="/interests" exact>
-                <InterestsPage />
-              </Route>
-            </Switch>
-            <Switch>
-              <Route path="/emailVerification" exact>
-                <EmailVerification />
-              </Route>
-            </Switch>
-            <Switch>
-              <Route path="/" exact>
-                <EventListView />
-              </Route>
-            </Switch>
-          </Router>
-        )}
+        <Router>
+          <Switch>
+            <Route exact path={routes.SIGNIN_URL} component={SigninView} />
+            <Route
+              exact
+              path={routes.CREATE_ACCOUNT_URL}
+              component={CreateAccountView}
+            />
+            <ProtectedRoute
+              exact
+              path={routes.EVENTS_URL}
+              component={EventListView}
+            />
+            <ProtectedRoute
+              exact
+              path={routes.INTERESTS_URL}
+              component={InterestsPage}
+            />
+            <ProtectedRoute
+              exact
+              path={routes.EMAIL_VERIFICATION_URL}
+              component={EmailVerification}
+            />
+            <ProtectedRoute exact path={"/"} component={SigninView} />
+          </Switch>
+        </Router>
       </AppDependenciesContext.Provider>
     </div>
   );

@@ -8,8 +8,11 @@ import {
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../styles/theme";
-import { Link } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import routes from "../constants/routes";
+import { signedIn } from "../store";
+import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,6 +72,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SigninView() {
   const classes = useStyles();
+  const history = useHistory();
+  const [signedInState] = useRecoilState(signedIn);
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
@@ -76,17 +81,20 @@ export default function SigninView() {
   const handleSignin = async () => {
     try {
       await auth.signInWithEmailAndPassword(usernameState, passwordState);
+      history.push(routes.EVENTS_URL);
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  return (
+  return signedInState === true ? (
+    <Redirect to={routes.HOME_URL} />
+  ) : (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Container maxWidth="sm" component="main" className={classes.topDiv}>
           <img
-            src="fstd-logo-colorized.png"
+            src="fstd-logo-colorized.svg"
             alt="Four Seasons Total Development Logo, flower, sun, leaf, snowflake"
             className={classes.logo}
           />
