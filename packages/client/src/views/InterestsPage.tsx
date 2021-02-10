@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Paper, Button, Container, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../styles/theme";
+import Menubar from "./Menubar"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -116,6 +117,7 @@ export default function SignIn() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Menubar/>
       <Container maxWidth="sm" component="main" className={classes.topDiv}>
         <Typography
           component="h1"
