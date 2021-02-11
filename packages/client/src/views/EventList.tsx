@@ -1,8 +1,9 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Paper, Button, Container } from "@material-ui/core";
+import { Paper, Button, Container, Divider } from "@material-ui/core";
 import AppTheme from "../styles/theme";
 import Menubar from "./Menubar";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -23,34 +24,68 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     eventsImgDiv: {
       width: "50%",
-      height: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
     eventPhoto: {
-      height: "90%",
-      width: "100%",
+      height: "60%",
+      width: "95%",
       margin: "0px 0px 8px 8px",
       borderRadius: 4,
     },
     eventPaper: {
       display: "flex",
       flexWrap: "wrap",
+      height: "200px",
+
+    },
+    eventDetailsDiv: {
+      display: "flex",
+      width: "50%",
+      flexWrap: "wrap",
+      justifyContent: "center",
+
+    },
+    eventTitle: {
+      margin: 0,
+      fontSize: "1.5rem"
+    },
+    eventParagraph: {
+      margin: 0,
+      height: "55px",
+    textAlign: "center"
+    },
+    eventDivider: {
+      width: "150px",
+      backgroundColor: "#000000"
+    },
+    eventDateDiv: {
+       display: "flex",
+       width: "100%"
     },
     eventBtnDiv: {
-      float: "right",
+      width: "100%",
+      position: "relative"
     },
     registerBtn: {
-      margin: theme.spacing(3, 0, 2),
+      margin: 0,
       color: AppTheme.primaryText,
       width: "35%",
+      position: "absolute",
+      bottom: "10px",
+      right: "5px",
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
       },
     },
     detailsBtn: {
-      margin: theme.spacing(3, 0, 2),
+      margin: 0,
       color: AppTheme.primary,
       width: "35%",
+      position: "absolute",
+      bottom: "10px",
       backgroundColor: "#ffffff",
       borderColor: AppTheme.primary,
       "&:hover": {
@@ -200,17 +235,23 @@ export default function EventListView() {
                   alt="Publicity for upcoming event"
                 />
               </div>
-              <div>
-                <h1>{event.title}</h1>
-                <p>{truncate(event.about, 150)}</p>
-                <div className={classes.eventBtnDiv}>
+              <div className={classes.eventDetailsDiv}>
+                <h1 className={classes.eventTitle}>{event.title}</h1>
+                <p className={classes.eventParagraph}>
+                  {truncate(event.about, 75)}
+                </p>
+                 <Divider  variant="middle"
+                  className={classes.eventDivider}/>
+                <div className={classes.eventDateDiv}>
                   <p>{event.date}</p>
-                  <Button variant="outlined" className={classes.detailsBtn}>
-                    details
-                  </Button>
-                  <Button variant="contained" className={classes.registerBtn}>
-                    register
-                  </Button>
+                  <div className={classes.eventBtnDiv}>
+                    <Button variant="outlined" className={classes.detailsBtn}>
+                      details
+                    </Button>
+                    <Button variant="contained" className={classes.registerBtn}>
+                      register
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Paper>
