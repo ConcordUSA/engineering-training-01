@@ -7,6 +7,23 @@ export interface User {
   companyPhone: string;
   personalPhone?: string;
   password?: string;
+  interestedCategories?: string[];
+}
+
+export function UserFactory(user?: User): User {
+  const defaults: User = {
+    uid: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    company: "",
+    companyPhone: "",
+    personalPhone: "",
+    password: "",
+    interestedCategories: []
+  };
+
+  return { ...defaults, ...user };
 }
 
 // validate

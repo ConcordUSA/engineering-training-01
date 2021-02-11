@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { User } from "../models/user";
+import { User, UserFactory } from "../models/user";
 
 export default class UsersService {
   constructor(
@@ -10,38 +10,32 @@ export default class UsersService {
   ) {}
 
   public createUser = async (user: User) => {
-    if (!user.password) return { error: "No password propvided" };
-
+    if (!user.password) return { error: "No password provided" };
     // create user in auth service
     let uid: string | undefined;
-    try {
-      const userCredential = await this.auth?.createUserWithEmailAndPassword(
-        user.email,
-        user.password
-      );
-      uid = userCredential?.user?.uid;
-    } catch (error) {
-      return { error: error.message };
-    }
 
+    const userCredential = await this.auth?.createUserWithEmailAndPassword(
+      user.email,
+      user.password
+    );
+    uid = userCredential?.user?.uid;
     // create user in db service
-    const data: User = {
-      uid,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      company: user.company,
-      companyPhone: user.companyPhone,
-      personalPhone: user.personalPhone,
-    };
-
     try {
-      await this.db.collection("users").doc(uid).set(data);
-      return { message: "User successfully created." };
+      await this.db.collection("users").doc(uid).set({...user, uid });
+      return {uid, message:"User successfully created"};
     } catch (error) {
       return { error: error.message };
     }
   };
+
+
+  public async getUser(id: string) {
+    const doc = await this.db.collection("events").doc(id).get();
+    const data = doc.data() as User;
+    const user = UserFactory(data);
+  
+    return user;
+  }
 
   // STATE 1
   // register
