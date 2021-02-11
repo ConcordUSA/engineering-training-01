@@ -31,7 +31,7 @@ export default function EmailVerificationView() {
       .catch(() => {
         console.log("user not logged in.");
       });
-  }, [auth]);
+  }, [auth, config.appUrl]);
 
   return (
     <div className={classes.root}>
