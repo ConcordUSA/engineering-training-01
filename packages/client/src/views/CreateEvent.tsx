@@ -1,18 +1,17 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { TextField } from "@material-ui/core";
+import { EventFactory } from "../models/event";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import EventsService from "../services/eventsService";
+import routes from "../constants/routes";
 
 export default function CreateAccountView() {
-  const [state, setState] = useState({
-    topic: "",
-    location: "",
-    date: "",
-    time: "",
-    category: "",
-    status: "",
-    price: "",
-    image: "",
-  });
+  const newEvent = EventFactory();
+  const [state, setState] = useState(newEvent);
+  const history = useHistory();
+  const { db }: AppDependencies = useContext(AppDependenciesContext);
+  const eventsService = new EventsService(db);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -24,62 +23,47 @@ export default function CreateAccountView() {
   };
 
   const handleCreate = async () => {
-    //NOT SURE ABOUT THIS
-    // db.collection("events").doc(uid).set({
-    //   topic: state.topic,
-    //   location: state.location,
-    //   date: state.date,
-    //   category: state.category,
-    //   status: state.status,
-    //   price: state.price,
-    //   image: state.image,
-    //});
+    try {
+      await eventsService.createEvent(state);
+      // TODO: What do we do after the event is created???
+      console.log("successfully created an event"); // TODO: Handle system messages
+      history.push(routes.HOME_URL);
+    } catch (error) {
+      console.log("error", error); //TODO: Handle system messages
+    }
   };
 
   return (
     <div>
       <TextField
-        id="eventTopic"
+        id="topic"
         label="Topic"
         value={state.topic}
         onChange={handleChange}
       />
       <br />
       <TextField
-        id="eventLocation"
+        id="location"
         label="Location"
         value={state.location}
         onChange={handleChange}
       />
       <br />
-      <TextField
-        id="date"
-        value={state.date}
+      {/* TODO: Use a date field, or something that returns a date */}
+      {/* <TextField
+        id="startTime"
+        value={state.startTime}
         onChange={handleChange}
         type="date"
-      />
+      /> */}
       <br />
-      <TextField
-        id="time"
-        label="time"
-        value={state.time}
-        onChange={handleChange}
-      />
       <br />
-      <TextField
-        id="category"
+      {/* <TextField
+        id="categories"
         label="Category"
-        value={state.category}
+        value={state.categories}
         onChange={handleChange}
-      />
-      <br />
-      <TextField
-        id="status"
-        label="Status"
-        value={state.status}
-        onChange={handleChange}
-      />
-      <br />
+      /> */}
       <TextField
         id="price"
         label="Price"
@@ -93,7 +77,6 @@ export default function CreateAccountView() {
         label="Image"
         value={state.image}
         onChange={handleChange}
-        type="image"
       />
       <br />
       <button id="createEventButton" onClick={handleCreate}>

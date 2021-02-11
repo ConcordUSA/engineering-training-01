@@ -1,28 +1,31 @@
 //type category = "it" | "marketing" | ""
 
 export interface Event {
-  id?: string | undefined;
+  id?: string; // should be the same id as what firebase creates for the event
   topic: string;
   location: string;
-  date: Date;
-  time?: Date; // TODO: Deprecated like a beast
-  category: string[];
-  status?: string;
   price: number;
-  image?: string;
+  startTime: Date;
+  endTime?: Date;
+  categories: string[];
+  status?: string;
+  image?: string |undefined;
 }
 
-export function EventFactory(event: Event): Event {
+/** 
+ * Creates an event and defines defaults for all optional/not-provided keys
+ */
+export function EventFactory(event?: Event): Event {
   const defaults: Event = {
-    id: undefined,
     topic: "",
     location: "",
-    date: new Date(),
-    time: new Date(),
-    category: [],
+    startTime: new Date(),
+    endTime: new Date(),
+    categories: [],
     status: "",
     price: 0,
     image: "",
   };
+
   return { ...defaults, ...event };
 }
