@@ -3,7 +3,9 @@ const routes = {
   SIGNIN_URL: "/signin",
   CREATE_ACCOUNT_URL: "/createAccount",
   INTERESTS_URL: "/interests",
-  CREATE_EVENT_URL: "/createEvent"
+  EMAIL_VERIFICATION_URL: "/EmailVerification",
+  PASSWORD_RESET_URL: "/PasswordReset",
+    CREATE_EVENT_URL: "/createEvent"
 };
 
 export default routes;

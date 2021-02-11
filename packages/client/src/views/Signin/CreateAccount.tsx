@@ -192,7 +192,7 @@ export default function CreateAccountView() {
   };
 
   const handleBack = () => {
-    setSignInViewState(true);
+    history.push(routes.HOME_URL);
   };
 
   return (
