@@ -88,7 +88,11 @@ export default function SigninView() {
   };
 
   const handleCreateAccount = () => {
-    setSignInViewState(false);
+    history.push(routes.CREATE_ACCOUNT_URL);
+  };
+
+  const handleForgotPassword = () => {
+    history.push(routes.PASSWORD_RESET_URL);
   };
 
   return (
@@ -164,10 +168,10 @@ export default function SigninView() {
                 Submit
               </Button>
             </div>
-            <div className={classes.btnDiv}>
-              <Link to="/createAccount" className={classes.links}>
+            <div className={classes.links}>
+              <Button className={classes.links} onClick={handleForgotPassword}>
                 Forgot Password?
-              </Link>
+              </Button>
               OR
               <Button className={classes.links} onClick={handleCreateAccount}>
                 Create Account

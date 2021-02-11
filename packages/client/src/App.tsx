@@ -10,10 +10,13 @@ import {
 import InterestsView from "./views/Interests";
 import createEvent from "./views/CreateEvent";
 import EventListView from "./views/EventList";
-import EmailVerification from "./views/EmailVerification";
+import PasswordResetView from "./views/PasswordReset";
+import EmailVerificationView from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
 import { signedIn, emailVerified } from "./store";
 import routes from "./constants/routes";
+import SignInView from "./views/Signin/SignIn";
+import CreateAccountView from "./views/Signin/CreateAccount";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,8 +55,28 @@ export default function App() {
     <div className={classes.root}>
       <AppDependenciesContext.Provider value={defaultDependencies}>
         <Router>
-          {!signedInState && <SigninView />}
-          {signedInState && !emailVerifiedState && <EmailVerification />}
+          {!signedInState && (
+            <Switch>
+              {!emailVerifiedState}
+              <Route
+                exact
+                path={routes.HOME_URL}
+                component={SignInView}
+              ></Route>
+              <Route
+                exact
+                path={routes.CREATE_ACCOUNT_URL}
+                component={CreateAccountView}
+              ></Route>
+              <Route
+                exact
+                path={routes.PASSWORD_RESET_URL}
+                component={PasswordResetView}
+              ></Route>
+            </Switch>
+          )}
+
+          {signedInState && !emailVerifiedState && <EmailVerificationView />}
           {signedInState && emailVerifiedState && (
             <Switch>
               <Route exact path={routes.HOME_URL} component={EventListView} />
