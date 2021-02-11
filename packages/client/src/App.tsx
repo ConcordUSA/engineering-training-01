@@ -8,6 +8,7 @@ import {
   AppDependencies,
 } from "./appDependencies";
 import InterestsView from "./views/Interests";
+import createEvent from "./views/CreateEvent";
 import EventListView from "./views/EventList";
 import EmailVerification from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
@@ -60,6 +61,11 @@ export default function App() {
                 exact
                 path={routes.INTERESTS_URL}
                 component={InterestsView}
+              />
+              <Route
+                exact
+                path={routes.CREATE_EVENT_URL}
+                component={createEvent}
               />
             </Switch>
           )}
