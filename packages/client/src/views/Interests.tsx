@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Paper, Button, Container, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../styles/theme";
-import Menubar from "./Menubar"
+import Menubar from "./Menubar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function SignIn() {
+export default function InterestsView() {
   const [state, setState] = useState<{ [k: string]: any }>({
     finance: false,
     IT: false,
@@ -109,7 +109,7 @@ export default function SignIn() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Menubar/>
+      <Menubar />
       <Container maxWidth="sm" component="main" className={classes.topDiv}>
         <Typography
           component="h1"
