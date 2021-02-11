@@ -1,6 +1,6 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Paper, Container } from "@material-ui/core";
+import { Paper, Button, Container } from "@material-ui/core";
 import AppTheme from "../styles/theme";
 import Menubar from "./Menubar";
 const useStyles = makeStyles((theme: Theme) =>
@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
+      marginTop: "12%",
       height: "100%",
       width: "100%",
     },
@@ -20,19 +21,41 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "29%",
       height: "30%",
     },
+    eventsImgDiv: {
+      width: "50%",
+      height: "100%",
+    },
     eventPhoto: {
       height: "90%",
-      width: "50%",
+      width: "100%",
       margin: "0px 0px 8px 8px",
       borderRadius: 4,
     },
-    submit: {
+    eventPaper: {
+      display: "flex",
+      flexWrap: "wrap",
+    },
+    eventBtnDiv: {
+      float: "right",
+    },
+    registerBtn: {
       margin: theme.spacing(3, 0, 2),
       color: AppTheme.primaryText,
-      width: "30%",
+      width: "35%",
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
+      },
+    },
+    detailsBtn: {
+      margin: theme.spacing(3, 0, 2),
+      color: AppTheme.primary,
+      width: "35%",
+      backgroundColor: "#ffffff",
+      borderColor: AppTheme.primary,
+      "&:hover": {
+        backgroundColor: AppTheme.primary,
+        color: "#ffffff",
       },
     },
   })
@@ -160,21 +183,40 @@ export default function EventListView() {
       Lorem Ipsum your entire adult life.`,
     },
   ];
+  const truncate = (str, n) => {
+    return str.length > n ? str.substr(0, n - 1) + "..." : str;
+  };
   return (
-    <div className={classes.root}>
+    <>
       <Menubar />
-      {events.map((event) => (
-        <Container maxWidth="xs" className={classes.container} key={event.id}>
-          <Paper>
-            <h1>{event.title}</h1>
-            <img
-              src={event.photo}
-              className={classes.eventPhoto}
-              alt="Publicity for upcoming event"
-            />
-          </Paper>
-        </Container>
-      ))}
-    </div>
+      <div className={classes.root}>
+        {events.map((event) => (
+          <Container maxWidth="xs" className={classes.container} key={event.id}>
+            <Paper className={classes.eventPaper}>
+              <div className={classes.eventsImgDiv}>
+                <img
+                  src={event.photo}
+                  className={classes.eventPhoto}
+                  alt="Publicity for upcoming event"
+                />
+              </div>
+              <div>
+                <h1>{event.title}</h1>
+                <p>{truncate(event.about, 150)}</p>
+                <div className={classes.eventBtnDiv}>
+                  <p>{event.date}</p>
+                  <Button variant="outlined" className={classes.detailsBtn}>
+                    details
+                  </Button>
+                  <Button variant="contained" className={classes.registerBtn}>
+                    register
+                  </Button>
+                </div>
+              </div>
+            </Paper>
+          </Container>
+        ))}
+      </div>
+    </>
   );
 }
