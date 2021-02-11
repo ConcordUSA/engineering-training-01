@@ -4,11 +4,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
+import AppTheme from "../styles/theme";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   title: {
     flexGrow: 1,
   },
@@ -22,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
   signOutBtn: {
     position: "fixed",
     right: "8%",
+    backgroundColor: "#ffffff",
+    color: AppTheme.primary,
   },
 }));
 export default function ButtonAppBar() {
@@ -34,22 +34,20 @@ export default function ButtonAppBar() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar
-        style={{ backgroundColor: "#FF505F", color: "#FF505F" }}
-        className={classes.menuBar}
-      >
-        <Toolbar>
-          <Button
-            variant="contained"
-            className={classes.signOutBtn}
-            onClick={handleSignOut}
-          >
-            Signout
-          </Button>
-          <Avatar src="/broken-image.jpg" className={classes.avatar} />
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar
+      style={{ backgroundColor: "#FF505F", color: "#FF505F" }}
+      className={classes.menuBar}
+    >
+      <Toolbar>
+        <Button
+          variant="contained"
+          className={classes.signOutBtn}
+          onClick={handleSignOut}
+        >
+          Signout
+        </Button>
+        <Avatar src="/broken-image.jpg" className={classes.avatar} />
+      </Toolbar>
+    </AppBar>
   );
 }
