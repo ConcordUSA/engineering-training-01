@@ -8,10 +8,10 @@ export default class EventsService {
 
   public async createEvent(event: Event) {
     const doc = this.db.collection("events").doc();
-    const id = doc.id
+    const id = doc.id;
 
-    await doc.set({...event, id});
-
+    await doc.set({ ...event, id });
+    // console.log(await this.getEvent(id));
     return id;
   }
 
@@ -21,5 +21,13 @@ export default class EventsService {
     const event = EventFactory(data);
 
     return event;
+  }
+
+  public async getAllEvents(filter?: string[]) {
+    if(filter) {
+      
+    }
+    const docsRef = await this.db.collection("events").get();
+    return docsRef.docs.map((doc) => doc.data());
   }
 }
