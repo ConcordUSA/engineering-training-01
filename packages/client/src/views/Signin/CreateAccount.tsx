@@ -10,7 +10,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 import UsersService from "../../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
-import { isValidEmail, isValidPhone } from "../../models/user";
+import { isValidEmail, formatPhone } from "../../models/user";
 import routes from "../../constants/routes";
 import { signInView } from "../../store";
 import { useRecoilState } from "recoil";
@@ -42,20 +42,27 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "70%",
       margin: "5px",
     },
-    accountInputName: {
-      width: "34%",
-      margin: "5px",
+    accountInputFirstName: {
+      width: "34.5%",
+      margin: "5px 1% 5px 5px",
+    },
+    accountInputLastName: {
+      width: "34.5%",
+      margin: "5px 5px 5px 0px",
     },
     btnAccount: {
-      margin: "10px",
-      marginLeft: "40%",
+      position: "absolute",
+      right: "49.1%",
       color: AppTheme.primaryText,
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
       },
     },
-    btnBack: {},
+    btnBack: {
+      position: "absolute",
+      left: "13.1%",
+    },
     btnDiv: {
       display: "flex",
       marginTop: "8px",
@@ -111,9 +118,9 @@ export default function CreateAccountView() {
       case "email":
         return isValidEmail(value);
       case "companyPhone":
-        return isValidPhone(value);
+        return formatPhone(value);
       case "personalPhone":
-        return isValidPhone(value);
+        return formatPhone(value);
       default:
         return value;
     }
@@ -202,7 +209,7 @@ export default function CreateAccountView() {
           <h1 className={classes.signUpHeader}>Sign Up</h1>
           <TextField
             id="firstName"
-            className={classes.accountInputName}
+            className={classes.accountInputFirstName}
             label="First name"
             value={state.firstName}
             onChange={handleChange}
@@ -210,7 +217,7 @@ export default function CreateAccountView() {
           />
           <TextField
             id="lastName"
-            className={classes.accountInputName}
+            className={classes.accountInputLastName}
             label="Last name"
             value={state.lastName}
             onChange={handleChange}
@@ -256,19 +263,21 @@ export default function CreateAccountView() {
             error={state.personalPhone.invalid}
             helperText={state.personalPhone.helperText}
           />
-          <Input
+          <TextField
             id="password"
+            label="Password"
             className={classes.accountInput}
             value={state.password}
             onChange={handleChange}
             type={state.showPassword ? "text" : "password"}
             required
-            endAdornment={
-              <InputAdornment position="end">
+            InputProps={{
+              endAdornment: (
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
+                  size="small"
                 >
                   {state.showPassword ? (
                     <VisibilityOutlinedIcon />
@@ -276,11 +285,12 @@ export default function CreateAccountView() {
                     <VisibilityOffOutlinedIcon />
                   )}
                 </IconButton>
-              </InputAdornment>
-            }
+              ),
+            }}
           />
-          <Input
+          <TextField
             id="passwordConfirm"
+            label="Confirm Password"
             className={classes.accountInput}
             value={state.passwordConfirm}
             onChange={handleChange}

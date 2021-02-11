@@ -49,8 +49,35 @@ export function isValidPhone(input: string) {
     return {
       input,
       invalid: true,
-      helperText: "Please enter a valid phone number",
+      helperText: "Please enter a valid 10-digit phone number",
     };
 
   return { input, invalid: false, helperText: "" };
 }
+
+export function formatPhone(input:string) {
+    var updateObj = isValidPhone(input);
+    var cleaned = ("" + input).replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+    if (!match) {
+      return updateObj;
+    }
+    const inputLength = match[0].length;
+    let returnNumber;
+    switch (true) {
+      case inputLength < 4:
+        returnNumber = match[1];
+        break;
+      case inputLength < 7:
+        returnNumber = match[1] + "-" + match[2];
+        break;
+      default:
+        returnNumber = match[1] + "-" + match[2] + "-" + match[3];
+    }
+    return { ...updateObj, input: returnNumber };
+
+
+
+
+}
+
