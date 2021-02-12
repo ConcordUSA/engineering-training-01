@@ -3,6 +3,12 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container, Divider } from "@material-ui/core";
 import AppTheme from "../styles/theme";
 import Menubar from "./Menubar";
+import routes from "../constants/routes";
+import { useHistory } from "react-router-dom";
+import { Event, EventFactory } from "../models/event";
+import { selectedEvent } from "../store";
+import { useRecoilState } from "recoil";
+import faker from "faker";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,64 +23,68 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       margin: "0px 5px 5px 0px",
       padding: "5px",
+      height: "170px",
     },
     event: {
       width: "29%",
       height: "30%",
     },
     eventsImgDiv: {
-      width: "50%",
+      width: "40%",
       display: "flex",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "left",
     },
     eventPhoto: {
-      height: "60%",
-      width: "95%",
-      margin: "0px 0px 8px 8px",
+      height: "92%",
+      width: "92%",
+      margin: "4px 0px 4px 7px",
       borderRadius: 4,
     },
     eventPaper: {
       display: "flex",
       flexWrap: "wrap",
-      height: "200px",
-
+      height: "170px",
     },
     eventDetailsDiv: {
       display: "flex",
       width: "50%",
       flexWrap: "wrap",
-      justifyContent: "center",
-
     },
     eventTitle: {
       margin: 0,
-      fontSize: "1.5rem"
+      fontSize: "1.5rem",
+      height: "10px",
     },
     eventParagraph: {
       margin: 0,
-      height: "55px",
-    textAlign: "center"
+      height: "2px",
     },
     eventDivider: {
-      width: "150px",
-      backgroundColor: "#000000"
+      width: "220px",
+      backgroundColor: "#000000",
+      margin: 0,
     },
     eventDateDiv: {
-       display: "flex",
-       width: "100%"
+      display: "flex",
+      width: "100%",
+    },
+    eventDate: {
+      margin: 0,
+      color: AppTheme.primary,
+      height: "10px",
     },
     eventBtnDiv: {
       width: "100%",
-      position: "relative"
+      position: "relative",
     },
     registerBtn: {
       margin: 0,
       color: AppTheme.primaryText,
-      width: "35%",
+      width: "50%",
       position: "absolute",
       bottom: "10px",
-      right: "5px",
+      right: 0,
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
@@ -95,131 +105,40 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+const events: Event[] = [];
+
+const generateEvents = (numberOfEvents: number) => {
+  for (let step = 0; step < numberOfEvents; step++) {
+    const event = EventFactory({
+      id: faker.random.uuid(),
+      topic: faker.random.word(),
+      location: faker.address.city(),
+      price: faker.random.number(),
+      startTime: faker.date.future(),
+      categories: ["marketing"],
+      image: faker.image.imageUrl(400, 400, "business"),
+      description: faker.lorem.paragraph(),
+    });
+    console.log(event.startTime);
+    events.push(event);
+  }
+  return events;
+};
+
 export default function EventListView() {
+  const history = useHistory();
+
+  const [selectedEventState, setSelectedEventState] = useRecoilState(
+    selectedEvent
+  );
+  const events = generateEvents(10);
   const classes = useStyles();
-  //   interface Event {
-  //     title: string,
-  //       photo: string,
-  //       category: string,
-  //       time: string,
-  //       date: string,
-  //       location: string,
-  //       cost: string,
-  //       status: string,
-  //       about: string
-  // }
-  const events = [
-    {
-      id: 1,
-      title: "Perservance",
-      photo:
-        "https://cdn.vox-cdn.com/thumbor/Jet_JZc1v6j7VNqF-xACBxQ-CbY=/0x0:1536x804/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/14768779/seinfeldcast.0.1498614946.jpg",
-      category: "Leadership",
-      time: "12:30pm",
-      date: "FEB 12 2021",
-      location: "432 Death Star Lane, Space 0000",
-      cost: "$60",
-      status: "Active",
-      about: `Be careful, or I will spill the beans on your placeholder text. 
-      The concept of Lorem Ipsum was created by and for the Chinese in order to
-      make U.S.design jobs non-competitive. The other thing with Lorem Ipsum is
-      that you have to take out its family. Despite the constant negative ipsum covfefe.
-      You're telling the enemy exactly what you're going to do. No wonder you've been fighting
-      Lorem Ipsum your entire adult life.`,
-    },
-    {
-      id: 2,
-      title: "Perservance",
-      photo:
-        "https://cdn.vox-cdn.com/thumbor/Jet_JZc1v6j7VNqF-xACBxQ-CbY=/0x0:1536x804/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/14768779/seinfeldcast.0.1498614946.jpg",
-      category: ["Leadership", "Marketing"],
-      time: "12:30pm",
-      date: "FEB 12 2021",
-      location: "432 Death Star Lane, Space 0000",
-      cost: "$60",
-      status: "Active",
-      about: `Be careful, or I will spill the beans on your placeholder text. 
-      The concept of Lorem Ipsum was created by and for the Chinese in order to
-      make U.S.design jobs non-competitive. The other thing with Lorem Ipsum is
-      that you have to take out its family. Despite the constant negative ipsum covfefe.
-      You're telling the enemy exactly what you're going to do. No wonder you've been fighting
-      Lorem Ipsum your entire adult life.`,
-    },
-    {
-      id: 3,
-      title: "Perservance",
-      photo:
-        "https://cdn.vox-cdn.com/thumbor/Jet_JZc1v6j7VNqF-xACBxQ-CbY=/0x0:1536x804/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/14768779/seinfeldcast.0.1498614946.jpg",
-      category: ["Leadership", "Marketing"],
-      time: "12:30pm",
-      date: "FEB 12 2021",
-      location: "432 Death Star Lane, Space 0000",
-      cost: "$60",
-      status: "Active",
-      about: `Be careful, or I will spill the beans on your placeholder text. 
-      The concept of Lorem Ipsum was created by and for the Chinese in order to
-      make U.S.design jobs non-competitive. The other thing with Lorem Ipsum is
-      that you have to take out its family. Despite the constant negative ipsum covfefe.
-      You're telling the enemy exactly what you're going to do. No wonder you've been fighting
-      Lorem Ipsum your entire adult life.`,
-    },
-    {
-      id: 4,
-      title: "Perservance",
-      photo:
-        "https://cdn.vox-cdn.com/thumbor/Jet_JZc1v6j7VNqF-xACBxQ-CbY=/0x0:1536x804/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/14768779/seinfeldcast.0.1498614946.jpg",
-      category: ["Leadership", "Marketing"],
-      time: "12:30pm",
-      date: "FEB 12 2021",
-      location: "432 Death Star Lane, Space 0000",
-      cost: "$60",
-      status: "Active",
-      about: `Be careful, or I will spill the beans on your placeholder text. 
-      The concept of Lorem Ipsum was created by and for the Chinese in order to
-      make U.S.design jobs non-competitive. The other thing with Lorem Ipsum is
-      that you have to take out its family. Despite the constant negative ipsum covfefe.
-      You're telling the enemy exactly what you're going to do. No wonder you've been fighting
-      Lorem Ipsum your entire adult life.`,
-    },
-    {
-      id: 5,
-      title: "Perservance",
-      photo:
-        "https://cdn.vox-cdn.com/thumbor/Jet_JZc1v6j7VNqF-xACBxQ-CbY=/0x0:1536x804/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/14768779/seinfeldcast.0.1498614946.jpg",
-      category: ["Leadership", "Marketing"],
-      time: "12:30pm",
-      date: "FEB 12 2021",
-      location: "432 Death Star Lane, Space 0000",
-      cost: "$60",
-      status: "Active",
-      about: `Be careful, or I will spill the beans on your placeholder text. 
-      The concept of Lorem Ipsum was created by and for the Chinese in order to
-      make U.S.design jobs non-competitive. The other thing with Lorem Ipsum is
-      that you have to take out its family. Despite the constant negative ipsum covfefe.
-      You're telling the enemy exactly what you're going to do. No wonder you've been fighting
-      Lorem Ipsum your entire adult life.`,
-    },
-    {
-      id: 6,
-      title: "Perservance",
-      photo:
-        "https://cdn.vox-cdn.com/thumbor/Jet_JZc1v6j7VNqF-xACBxQ-CbY=/0x0:1536x804/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/14768779/seinfeldcast.0.1498614946.jpg",
-      category: ["Leadership", "Marketing"],
-      time: "12:30pm",
-      date: "FEB 12 2021",
-      location: "432 Death Star Lane, Space 0000",
-      cost: "$60",
-      status: "Active",
-      about: `Be careful, or I will spill the beans on your placeholder text. 
-      The concept of Lorem Ipsum was created by and for the Chinese in order to
-      make U.S.design jobs non-competitive. The other thing with Lorem Ipsum is
-      that you have to take out its family. Despite the constant negative ipsum covfefe.
-      You're telling the enemy exactly what you're going to do. No wonder you've been fighting
-      Lorem Ipsum your entire adult life.`,
-    },
-  ];
   const truncate = (str, n) => {
     return str.length > n ? str.substr(0, n - 1) + "..." : str;
+  };
+  const onClick = (event: Event) => {
+    setSelectedEventState(event);
+    history.push(routes.EVENT_DETAILS_URL);
   };
   return (
     <>
@@ -230,22 +149,27 @@ export default function EventListView() {
             <Paper className={classes.eventPaper}>
               <div className={classes.eventsImgDiv}>
                 <img
-                  src={event.photo}
+                  src={event.image}
                   className={classes.eventPhoto}
                   alt="Publicity for upcoming event"
                 />
               </div>
               <div className={classes.eventDetailsDiv}>
-                <h1 className={classes.eventTitle}>{event.title}</h1>
+                <h1 className={classes.eventTitle}>{event.topic}</h1>
                 <p className={classes.eventParagraph}>
-                  {truncate(event.about, 75)}
+                  {truncate(event.description, 32)}
                 </p>
-                 <Divider  variant="middle"
-                  className={classes.eventDivider}/>
+                <Divider variant="middle" className={classes.eventDivider} />
                 <div className={classes.eventDateDiv}>
-                  <p>{event.date}</p>
+                  <p className={classes.eventDate}>
+                    {event.startTime.toDateString()}
+                  </p>
                   <div className={classes.eventBtnDiv}>
-                    <Button variant="outlined" className={classes.detailsBtn}>
+                    <Button
+                      variant="outlined"
+                      className={classes.detailsBtn}
+                      onClick={() => onClick(event)}
+                    >
                       details
                     </Button>
                     <Button variant="contained" className={classes.registerBtn}>

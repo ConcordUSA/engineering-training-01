@@ -10,6 +10,7 @@ export interface Event {
   categories: string[];
   status?: string;
   image?: string |undefined;
+  description: string
 }
 
 /** 
@@ -25,6 +26,7 @@ export function EventFactory(event?: Event): Event {
     status: "",
     price: 0,
     image: "",
+    description: ""
   };
 
   return { ...defaults, ...event };
