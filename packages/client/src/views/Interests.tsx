@@ -3,6 +3,7 @@ import { Paper, Button, Container, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../styles/theme";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import UsersService from "../services/usersService";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,7 +91,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function InterestsView() {
-  const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
+  const usersService = new UsersService(db, auth);
   let currentUser = {
     id: auth.currentUser.uid,
     interests: [],
@@ -111,11 +113,15 @@ export default function InterestsView() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     //take selected categories and push into currentUser.interests
     for (const category in state) {
       state[category] ? currentUser.interests.push(category) : <></>;
     }
+    //to do test userService here
+    await usersService.updateUser(currentUser.id, {
+      interestedCategories: currentUser.interests,
+    });
   };
   const classes = useStyles();
   return (
