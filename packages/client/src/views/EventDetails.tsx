@@ -9,10 +9,10 @@ import {
   CardMedia,
   Typography,
   Box,
-  Grid,
 } from "@material-ui/core";
-import AppTheme from "../styles/theme";
 import Menubar from "./Menubar";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { selectedEvent } from "../store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,15 +35,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "20px",
     },
     interestTag: {
-      width: "25%",
-      height: "1%",
+      width: "15%",
       textAlign: "center",
-      padding: "0px",
+      padding: "3px",
       borderRadius: "5px",
       color: "white",
       display: "inline-block",
+      float: "right",
       margin: "1px",
-      float: "left",
     },
     eventDescription: {
       marginTop: "10px",
@@ -53,12 +52,34 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: "bold",
       marginBottom: "10px",
     },
-    tags: {},
+    eventHeader: {
+      display: "flex",
+      position: "relative",
+    },
+    eventDate: {
+      position: "absolute",
+      right: 0,
+      bottom: 0,
+    },
   })
 );
 
+function getBackground(category: string) {
+  switch (category) {
+    case "marketing":
+      return "green";
+    case "finance":
+      return "red";
+    case "leadership":
+      return "orange";
+    case "technology":
+      return "blue";
+  }
+}
+
 export default function EventDetailsView() {
   const classes = useStyles();
+  const [selectedEventState] = useRecoilState(selectedEvent);
 
   return (
     <div className={classes.root}>
@@ -66,72 +87,54 @@ export default function EventDetailsView() {
         <CardActionArea>
           <CardMedia
             component="img"
-            alt="Contemplative Reptile"
             height="300px"
-            image="https://www.doi.gov/sites/doi.gov/files/blog-post/thumbnail-images/ZionNPTomMorrisSmall.jpg"
-            title="Contemplative Reptile"
+            image={selectedEventState.image}
           />
           <CardContent>
-            <Typography className={classes.eventTitle}>
-              Canyons in the Workplace
-            </Typography>
-            <div className={classes.tags}>
-              <Box
-                bgcolor="success.main"
-                color="success.contrastText"
-                p={1}
-                className={classes.interestTag}
-              >
-                Marketing
-              </Box>
-              <Box
-                bgcolor="info.main"
-                color="info.contrastText"
-                p={1}
-                className={classes.interestTag}
-              >
-                Leadership
-              </Box>{" "}
+            <div className={classes.eventHeader}>
+              <Typography paragraph className={classes.eventTitle}>
+                {selectedEventState.topic}
+              </Typography>
+              <Typography paragraph className={classes.eventDate}>
+                {selectedEventState.startTime.toDateString()}
+              </Typography>
+            </div>
+            <div>
+              {selectedEventState.categories.map((category) => (
+                <Box
+                  bgcolor={getBackground(category)}
+                  className={classes.interestTag}
+                >
+                  {category}
+                </Box>
+              ))}
+              <br />
               <br />
             </div>
             <Typography className={classes.eventDescription}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec leo
-              tortor, accumsan a risus eget, rhoncus sollicitudin orci. Morbi et
-              magna sed lacus finibus rutrum. In elementum, erat in ultrices
-              tempor, mauris elit molestie mauris, in convallis erat nisi in
-              est. Maecenas justo lorem, commodo ac felis ac, consectetur
-              tincidunt orci. Pellentesque ornare augue lectus. Vivamus a dolor
-              vel nibh suscipit imperdiet. Pellentesque habitant morbi tristique
-              senectus et netus et malesuada fames ac turpis egestas. Phasellus
-              augue turpis, dignissim id elit id, ornare accumsan mi. Curabitur
-              id sagittis libero, ut pellentesque urna. Sed sodales nibh non
-              fermentum ultrices. Curabitur pretium magna orci, non luctus justo
-              fermentum vel. Aliquam eu ex vel mauris viverra rutrum. Ut varius
-              lorem tristique metus sollicitudin, quis ornare libero
-              sollicitudin. Phasellus aliquet, turpis vitae mattis pretium,
-              lacus tortor malesuada neque, sed fermentum nulla elit quis est.
+              {selectedEventState.description}
             </Typography>
 
-            <Typography className={classes.eventData}>
+            <div className={classes.eventData}>
               <Typography paragraph className={classes.infoType}>
-                <b>Address:</b> 1 Zion Park Blvd State Route 9, Springdale, UT
+                <b>Address:</b> {selectedEventState.location}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Time:</b> 12:30 pm
+                <b>Time:</b> {selectedEventState.startTime.toTimeString()}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Cost:</b> $100
+                <b>Cost:</b> ${selectedEventState.price}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Status:</b> Active
+                <b>Status:</b> {selectedEventState.status}
               </Typography>
-            </Typography>
+            </div>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button variant="contained">Edit</Button>
           <Button variant="contained">WatchList</Button>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="primary">
             Register
           </Button>
           <br />
