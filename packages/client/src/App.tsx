@@ -1,15 +1,11 @@
 import React, { useEffect, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import SigninView from "./views/Signin";
 import {
   defaultDependencies,
   AppDependenciesContext,
   AppDependencies,
 } from "./appDependencies";
-import InterestsView from "./views/Interests";
-import createEvent from "./views/CreateEvent";
-import EventListView from "./views/EventList";
 import PasswordResetView from "./views/PasswordReset";
 import EmailVerificationView from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
@@ -17,17 +13,20 @@ import { signedIn, emailVerified } from "./store";
 import routes from "./constants/routes";
 import SignInView from "./views/Signin/SignIn";
 import CreateAccountView from "./views/Signin/CreateAccount";
-import EventDetailsView from "./views/EventDetails";
+import Menubar from "./views/Menubar";
+import AuthenticatedViews from "./views/AuthenticatedViews";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
       display: "flex",
-      height: "100vh",
       justifyContent: "center",
       alignItems: "center",
       overflow: "scroll",
+    },
+    content: {
+      width: "100%",
     },
   })
 );
@@ -56,7 +55,6 @@ export default function App() {
         <Router>
           {!signedInState && (
             <Switch>
-              {!emailVerifiedState}
               <Route
                 exact
                 path={routes.HOME_URL}
@@ -77,24 +75,10 @@ export default function App() {
 
           {signedInState && !emailVerifiedState && <EmailVerificationView />}
           {signedInState && emailVerifiedState && (
-            <Switch>
-              <Route exact path={routes.HOME_URL} component={EventListView} />
-              <Route
-                exact
-                path={routes.INTERESTS_URL}
-                component={InterestsView}
-              />
-              <Route
-                exact
-                path={routes.CREATE_EVENT_URL}
-                component={createEvent}
-              />
-              <Route
-                exact
-                path={routes.EVENT_DETAILS_URL}
-                component={EventDetailsView}
-              ></Route>
-            </Switch>
+            <div className={classes.content}>
+              <Menubar />
+              <AuthenticatedViews />
+            </div>
           )}
         </Router>
       </AppDependenciesContext.Provider>

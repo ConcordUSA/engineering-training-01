@@ -6,8 +6,6 @@ import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService from "../services/eventsService";
 import routes from "../constants/routes";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppTheme from "../styles/theme";
-
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -83,7 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function CreateAccountView() {
+export default function CreateEventView() {
   const classes = useStyles();
   const newEvent = EventFactory();
   const [state, setState] = useState(newEvent);
@@ -125,7 +123,7 @@ export default function CreateAccountView() {
 
     const event: Event = {
       ...state,
-      categories
+      categories,
     };
 
     //make categories required

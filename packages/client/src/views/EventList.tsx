@@ -119,7 +119,6 @@ const generateEvents = (numberOfEvents: number) => {
       image: faker.image.imageUrl(400, 400, "business"),
       description: faker.lorem.paragraph(),
     });
-    console.log(event.startTime);
     events.push(event);
   }
   return events;
@@ -142,7 +141,6 @@ export default function EventListView() {
   };
   return (
     <>
-      <Menubar />
       <div className={classes.root}>
         {events.map((event) => (
           <Container maxWidth="xs" className={classes.container} key={event.id}>
