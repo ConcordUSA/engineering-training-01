@@ -17,6 +17,7 @@ import { signedIn, emailVerified } from "./store";
 import routes from "./constants/routes";
 import SignInView from "./views/Signin/SignIn";
 import CreateAccountView from "./views/Signin/CreateAccount";
+import EventDetailsView from "./views/EventDetails";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,6 +91,11 @@ export default function App() {
                 path={routes.CREATE_EVENT_URL}
                 component={createEvent}
               />
+              <Route
+                exact
+                path={routes.EVENT_DETAILS_URL}
+                component={EventDetailsView}
+              ></Route>
             </Switch>
           )}
         </Router>
