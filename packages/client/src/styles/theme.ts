@@ -1,10 +1,10 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from "@material-ui/core/styles";
 import * as colors from "@material-ui/core/colors";
 
 const AppTheme = {
-  primary: colors.red[500],
+  primary: colors.red.A400,
   primaryText: "#ffffff",
-  secondary: colors.red[300]
+  secondary: colors.red.A700,
 };
 
 export default AppTheme;
@@ -12,10 +12,10 @@ export default AppTheme;
 export const materialTheme = createMuiTheme({
   palette: {
     primary: {
-      main: colors.red[500],
+      main: AppTheme.primary,
     },
     secondary: {
-      main: colors.red[300],
+      main: AppTheme.secondary,
     },
   },
 });
