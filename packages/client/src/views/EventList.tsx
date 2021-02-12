@@ -138,7 +138,7 @@ export default function EventListView() {
   };
   const onClick = (event: Event) => {
     setSelectedEventState(event);
-    history.push(routes.EVENT_DETAILS_URL);
+    // history.push(routes.EVENT_DETAILS_URL);
   };
   return (
     <>
