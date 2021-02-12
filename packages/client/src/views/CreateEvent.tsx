@@ -119,24 +119,27 @@ export default function CreateAccountView() {
   };
 
   const handleCreate = async () => {
+    //gather all interested categories in an array as checked
     const interestedCategories: string[] = [];
-
     if (checkboxState.leadership) interestedCategories.push("leadership");
-    if (checkboxState.leadership) console.log("leadership");
     if (checkboxState.marketing) interestedCategories.push("marketing");
     if (checkboxState.finance) interestedCategories.push("finance");
     if (checkboxState.informationTechnology)
       interestedCategories.push("information technology");
+
     const event: Event = {
       ...state,
       interestedCategories,
     };
-    //test console.logs
-    console.log(event);
+
+    //make categories required
+    if (event.interestedCategories.length === 0) {
+      alert("select at least one category");
+      return;
+    }
     try {
       await eventsService.createEvent(event);
-      // TODO: What do we do after the event is created???
-      console.log("successfully created an event"); // TODO: Handle system messages
+      console.log("successfully created an event");
       history.push(routes.HOME_URL);
     } catch (error) {
       console.log("error", error); //TODO: Handle system messages
@@ -188,6 +191,24 @@ export default function CreateAccountView() {
             onChange={handleChange}
           />
           <br />
+
+          <TextField
+            id="price"
+            label="Price"
+            value={state.price}
+            className={classes.accountInputName}
+            onChange={handleChange}
+            type="number"
+          />
+          <br />
+          <TextField
+            id="image"
+            label="Image"
+            value={state.image}
+            className={classes.accountInputName}
+            onChange={handleChange}
+          />
+          <br />
           <FormControl component="fieldset" className={classes.formControl}>
             <FormLabel component="legend">
               Categories (check all that apply)
@@ -235,23 +256,7 @@ export default function CreateAccountView() {
               />
             </FormGroup>
           </FormControl>
-          <TextField
-            id="price"
-            label="Price"
-            value={state.price}
-            className={classes.accountInputName}
-            onChange={handleChange}
-            type="number"
-          />
-          <br />
-          <TextField
-            id="image"
-            label="Image"
-            value={state.image}
-            className={classes.accountInputName}
-            onChange={handleChange}
-          />
-          <br />
+
           <Button
             id="createEventButton"
             onClick={handleCreate}
