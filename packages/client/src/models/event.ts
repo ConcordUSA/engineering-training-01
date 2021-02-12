@@ -7,7 +7,7 @@ export interface Event {
   price: number;
   startTime: Date;
   endTime?: Date;
-  categories: string[];
+  interestedCategories: string[];
   status?: string;
   image?: string |undefined;
 }
@@ -21,7 +21,7 @@ export function EventFactory(event?: Event): Event {
     location: "",
     startTime: new Date(),
     endTime: new Date(),
-    categories: [],
+    interestedCategories: [],
     status: "",
     price: 0,
     image: "",
