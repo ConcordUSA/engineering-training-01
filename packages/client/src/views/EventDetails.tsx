@@ -9,7 +9,10 @@ import {
   CardMedia,
   Typography,
   Box,
+  Grid,
 } from "@material-ui/core";
+import AppTheme from "../styles/theme";
+import Menubar from "./Menubar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
