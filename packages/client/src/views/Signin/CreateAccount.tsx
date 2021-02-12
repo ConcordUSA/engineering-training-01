@@ -1,19 +1,16 @@
 import React, { useState, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { TextField, Button, Paper, Input } from "@material-ui/core";
+import { TextField, Button, Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AppTheme from "../../styles/theme";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
 import UsersService from "../../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
-import { isValidEmail, formatPhone } from "../../models/user";
+import { isValidEmail, isValidPhone } from "../../models/user";
 import routes from "../../constants/routes";
-import { signInView } from "../../store";
-import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -99,7 +96,6 @@ export default function CreateAccountView() {
   const history = useHistory();
   const { auth, db }: AppDependencies = useContext(AppDependenciesContext);
   const usersService = new UsersService(db, auth);
-  const [, setSignInViewState] = useRecoilState(signInView);
 
   const [state, setState] = useState({
     email: { input: "", invalid: false, helperText: "" },
@@ -118,9 +114,9 @@ export default function CreateAccountView() {
       case "email":
         return isValidEmail(value);
       case "companyPhone":
-        return formatPhone(value);
+        return isValidPhone(value);
       case "personalPhone":
-        return formatPhone(value);
+        return isValidPhone(value);
       default:
         return value;
     }
