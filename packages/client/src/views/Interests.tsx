@@ -114,7 +114,6 @@ export default function InterestsView() {
   const handleSubmit = () => {
     //take selected categories and push into currentUser.interests
     for (const category in state) {
-      console.log(state[category]);
       state[category] ? currentUser.interests.push(category) : <></>;
     }
   };
