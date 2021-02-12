@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100vh",
       justifyContent: "center",
       alignItems: "center",
+      overflow: "scroll",
     },
   })
 );
@@ -39,9 +40,6 @@ export default function App() {
   );
 
   useEffect(() => {
-    // this app will receive a request (to verify the email)
-    // some method to retrigger this check
-
     auth.onAuthStateChanged((user) => {
       const isSignedIn = user ? true : false;
       setSignedInState(isSignedIn);

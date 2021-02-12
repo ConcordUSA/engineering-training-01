@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
 import RecoilizeDebugger from "recoilize";
 import { getFirebaseApp } from "./config/firebase";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { materialTheme } from "./styles/theme";
 
 getFirebaseApp();
 
@@ -13,7 +15,9 @@ ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <RecoilizeDebugger />
-      <App />
+      <ThemeProvider theme={materialTheme}>
+        <App />
+      </ThemeProvider>
     </RecoilRoot>
   </React.StrictMode>,
 
