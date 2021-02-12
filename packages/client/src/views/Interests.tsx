@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Paper, Button, Container, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../styles/theme";
-import Menubar from "./Menubar";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,26 +90,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function InterestsView() {
+  const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  let currentUser = {
+    id: auth.currentUser.uid,
+    interests: [],
+  };
+  console.log(auth.currentUser.uid);
   const [state, setState] = useState<{ [k: string]: any }>({
     finance: false,
     IT: false,
     leadership: false,
     marketing: false,
   });
+
   const handleSelection = (key: string) => {
-    console.log(`in handleSelection`);
+    // change visuals on screen and set category to true if clicked
     setState({
       ...state,
       [key]: !state[key],
     });
-    console.log(`in handleSelection`, state.finance);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    //take selected categories and push into currentUser.interests
+    for (const category in state) {
+      console.log(state[category]);
+      state[category] ? currentUser.interests.push(category) : <></>;
+    }
+  };
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Menubar />
       <Container maxWidth="sm" component="main" className={classes.topDiv}>
         <Typography
           component="h1"
