@@ -23,10 +23,17 @@ describe("EventsService", () => {
   });
 
   it("should return all events", async () => {
-    const event = EventFactory();
+    const event1 = EventFactory();
     const event2 = EventFactory();
+    event1.categories = ["marketing"]    
+    event2.categories = ["it"]    
+    event1.startTime = new Date("2022-01-01")
+    event2.startTime = new Date("2022-01-02")
 
-    const docs = await service.getAllEvents();
+    await service.createEvent(event1);
+    await service.createEvent(event2);
+
+    const docs = await service.getAllEvents({interestedCategories: ['marketing', 'mems']});
 
     expect(docs).toBeDefined();
     expect(docs.length).toBeTruthy();

@@ -115,21 +115,21 @@ export default function CreateAccountView() {
   };
 
   const handleCreate = async () => {
-    //gather all interested categories in an array as checked
-    const interestedCategories: string[] = [];
-    if (checkboxState.leadership) interestedCategories.push("leadership");
-    if (checkboxState.marketing) interestedCategories.push("marketing");
-    if (checkboxState.finance) interestedCategories.push("finance");
+    //gather all categories in an array as checked
+    const categories: string[] = [];
+    if (checkboxState.leadership) categories.push("leadership");
+    if (checkboxState.marketing) categories.push("marketing");
+    if (checkboxState.finance) categories.push("finance");
     if (checkboxState.informationTechnology)
-      interestedCategories.push("information technology");
+      categories.push("information technology");
 
     const event: Event = {
       ...state,
-      interestedCategories,
+      categories
     };
 
     //make categories required
-    if (event.interestedCategories.length === 0) {
+    if (event.categories.length === 0) {
       alert("select at least one category");
       return;
     }
