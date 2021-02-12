@@ -4,7 +4,7 @@ export interface Event {
   id?: string; // should be the same id as what firebase creates for the event
   topic: string;
   location: string;
-  price: number;
+  price: number | string;
   startTime: Date;
   endTime?: Date;
   categories: string[];
@@ -24,7 +24,7 @@ export function EventFactory(event?: Event): Event {
     endTime: new Date(),
     categories: [],
     status: "",
-    price: 0,
+    price: "",
     image: "",
     description: ""
   };

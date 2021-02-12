@@ -104,15 +104,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 const events: Event[] = [];
 
-const generateEvents = (numberOfEvents: number) => {
+const generateEvents = (numberOfEvents: number | string) => {
   for (let step = 0; step < numberOfEvents; step++) {
     const event = EventFactory({
       id: faker.random.uuid(),
       topic: faker.random.word(),
       location: faker.address.city(),
-      price: faker.random.number(),
+      price: faker.commerce.price(),
       startTime: faker.date.future(),
-      categories: ["marketing"],
+      categories: randomCategories(),
       image: faker.image.imageUrl(400, 400, "business"),
       description: faker.lorem.paragraph(),
     });
@@ -120,6 +120,20 @@ const generateEvents = (numberOfEvents: number) => {
   }
   return events;
 };
+//this fucntion used to help randomly generate category data
+const randomCategories = () => {
+  const fullList = ["marketing", "leadership", "finance", "technology"];
+  const shuffled = fullList.sort(function () {
+    return 0.5 - Math.random();
+  });
+  return shuffled.slice(0, getRandomInt(1, 5));
+};
+//this function used to help randomly generate category data
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
 
 export default function EventListView() {
   const [, setSelectedEventState] = useRecoilState(selectedEvent);
@@ -130,7 +144,7 @@ export default function EventListView() {
   };
   const onClick = (event: Event) => {
     setSelectedEventState(event);
-    // history.push(routes.EVENT_DETAILS_URL);
+    history.push(routes.EVENT_DETAILS_URL);
   };
   return (
     <>
