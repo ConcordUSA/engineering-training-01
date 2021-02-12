@@ -17,12 +17,28 @@ describe("UserService", () => {
     user.password = faker.internet.password();
 
     // when
-    const {uid} = await service.createUser(user);
-    const doc = await service.getUser(uid);
+    const {uid, message, error} = await service.createUser(user);
+    const {uid:docUid} = await service.getUser(uid);
     
     // then
-    
+    expect(error).toBeUndefined();
+    expect(message).toBeDefined();    
     expect(uid).toBeDefined();
-    // expect(doc.id).toBe(id);
+    expect(docUid).toBe(uid);
 	});
+
+  it('should update a user', async () => {
+    // given
+    const uid = "testUid"
+    const data = {
+      whatever: 'whatever'
+    }
+    // when
+    const {message,error} = await service.updateUser(uid,data)
+    
+    // then
+    expect(error).toBeUndefined();
+    expect(message).toBeDefined();
+    // TODO: Check the db (when adam gets his crap together and figure out the db connection)
+  });
 });

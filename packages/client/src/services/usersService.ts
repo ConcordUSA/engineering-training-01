@@ -3,10 +3,12 @@ import "firebase/auth";
 import "firebase/firestore";
 import { User, UserFactory } from "../models/user";
 
-export default class UsersService {
+export default class UsersService {  
+  private collection = "users"
+
   constructor(
     private db: firebase.firestore.Firestore,
-    private auth?: firebase.auth.Auth
+    private auth?: firebase.auth.Auth,    
   ) {}
 
   public createUser = async (user: User) => {
@@ -18,30 +20,31 @@ export default class UsersService {
       user.email,
       user.password
     );
-    uid = userCredential?.user?.uid;
+    uid = userCredential?.user?.uid;;
     // create user in db service
     try {
-      await this.db.collection("users").doc(uid).set({...user, uid });
+      await this.db.collection(this.collection).doc(uid).set({...user, uid });
       return {uid, message:"User successfully created"};
     } catch (error) {
       return { error: error.message };
     }
   };
 
-
-  public async getUser(id: string) {
-    const doc = await this.db.collection("events").doc(id).get();
+  public async getUser(uid: string) {
+    const doc = await this.db.collection(this.collection).doc(uid).get();
     const data = doc.data() as User;
     const user = UserFactory(data);
   
     return user;
   }
 
-  // STATE 1
-  // register
-  // logged in, but not verified
+  public async updateUser(uid: string, data: Object) {
+    try {
+      await this.db.collection(this.collection).doc(uid).set({...data}, {merge:true});
+      return {uid, message:"User successfully updated"};      
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
 
-  // STATE 2
-  // trigger the send of an email
-  // put the app in a state that ????
 }
