@@ -25,49 +25,52 @@ export default class EventsService {
     return event;
   }
 
-  public async getAllEvents({interestedCategories}) {
+  public async getAllEvents({ interestedCategories }) {
     const interestArray = Object.values(interestedCategories);
 
     // get from db
-    const docsRefs = await this.db.collection(this.collection).where("startTime", ">", new Date()).get();
+    const docsRefs = await this.db
+      .collection(this.collection)
+      .where("startTime", ">", new Date())
+      .get();
 
     // massage the data
-    const eventsPerCategory = {}
+    const eventsPerCategory = {};
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
-    const docs = docsRefs.docs.forEach(doc => {
-      const event = doc.data() as Event
-      const {categories} = event;
+    docsRefs.docs.forEach((doc) => {
+      const event = doc.data() as Event;
+      const { categories } = event;
 
       // build up the arrays of eventsPerCategory
-      categories.forEach(category => {
-        if (!eventsPerCategory[category]) eventsPerCategory[category] = []
-        eventsPerCategory[category].push(event)
-      })      
+      categories.forEach((category) => {
+        if (!eventsPerCategory[category]) eventsPerCategory[category] = [];
+        eventsPerCategory[category].push(event);
+      });
     });
 
     const categoriesThatExistInQueryData = Object.keys(eventsPerCategory);
-    const result = categoriesThatExistInQueryData.map(key => {
+    const result = categoriesThatExistInQueryData.map((key) => {
       const items = eventsPerCategory[key];
 
       return {
-        category:key,
+        category: key,
         items,
-      }
-    })
+      };
+    });
 
     let array2 = [];
-    result.forEach(elem => {
-      if(interestArray.includes(elem.category)) {
-        array2.push(elem)
+    result.forEach((elem) => {
+      if (interestArray.includes(elem.category)) {
+        array2.push(elem);
       }
     });
-    result.forEach(elem => {
-      if(!interestArray.includes(elem.category)) {
-        array2.push(elem)
+    result.forEach((elem) => {
+      if (!interestArray.includes(elem.category)) {
+        array2.push(elem);
       }
     });
 
-    return result
+    return result;
   }
 }

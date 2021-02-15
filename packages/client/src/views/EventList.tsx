@@ -2,9 +2,6 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container, Divider } from "@material-ui/core";
 import AppTheme from "../styles/theme";
-import Menubar from "./Menubar";
-import routes from "../constants/routes";
-import { useHistory } from "react-router-dom";
 import { Event, EventFactory } from "../models/event";
 import { selectedEvent } from "../store";
 import { useRecoilState } from "recoil";
@@ -125,11 +122,7 @@ const generateEvents = (numberOfEvents: number) => {
 };
 
 export default function EventListView() {
-  const history = useHistory();
-
-  const [selectedEventState, setSelectedEventState] = useRecoilState(
-    selectedEvent
-  );
+  const [, setSelectedEventState] = useRecoilState(selectedEvent);
   const events = generateEvents(10);
   const classes = useStyles();
   const truncate = (str, n) => {

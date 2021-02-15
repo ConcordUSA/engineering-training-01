@@ -8,11 +8,9 @@ import {
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppTheme from "../../styles/theme";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import routes from "../../constants/routes";
-import { signInView } from "../../store";
-import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,7 +72,6 @@ export default function SigninView() {
   const classes = useStyles();
   const history = useHistory();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
-  const [, setSignInViewState] = useRecoilState(signInView);
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
 

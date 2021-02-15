@@ -4,13 +4,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router-dom";
 
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import {
-  Paper,
-  Button,
-  TextField,
-  Input,
-  InputAdornment,
-} from "@material-ui/core";
+import { Paper, Button, TextField } from "@material-ui/core";
 import AppTheme from "../styles/theme";
 import getConfig from "../config";
 import routes from "../constants/routes";
@@ -84,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function PasswordResetView() {
   const classes = useStyles();
   const history = useHistory();
-  const { auth, db }: AppDependencies = useContext(AppDependenciesContext);
+  const { auth }: AppDependencies = useContext(AppDependenciesContext);
   const [emailState, setEmailState] = useState("");
   const config = getConfig();
 

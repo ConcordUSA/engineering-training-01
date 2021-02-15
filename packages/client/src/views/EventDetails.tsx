@@ -1,21 +1,15 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
-  Paper,
   Card,
   CardActionArea,
   CardActions,
   Button,
-  Container,
-  Divider,
   CardContent,
   CardMedia,
   Typography,
   Box,
-  Grid,
 } from "@material-ui/core";
-import AppTheme from "../styles/theme";
-import Menubar from "./Menubar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,8 +57,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EventDetailsView() {
   const classes = useStyles();
 
-  const eventTitle = "Canyons in the Workplace";
-  const eventDate = "Feb 21, 2021";
   return (
     <div className={classes.root}>
       <Card className={classes.card}>

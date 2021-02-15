@@ -18,7 +18,7 @@
     "dev:lerna": "lerna run dev --parallel",
     "dev:cypress": "cypress open",
     "dev:client": "cd packages/client && npm run dev",
-    "build": "lerna run build",
+    "build": "cross-env CI=true lerna run build",
     "release": "lerna version --conventional-commits --conventional-prerelease --create-release github",
     "release:prod": "lerna version --conventional-commits --conventional-graduate --create-release github"
   },
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/faker": "^5.1.6",
     "@types/rimraf": "^3.0.0",
+    "cross-env": "^7.0.3",
     "cypress": "^6.2.1",
     "faker": "^5.3.1",
     "firebase-tools": "^9.1.0",
