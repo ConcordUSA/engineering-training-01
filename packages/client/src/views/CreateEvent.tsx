@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
-      height: "100%",
+      height: "100vh",
       backgroundColor: "#D6D6D6",
     },
     paperWrap: {

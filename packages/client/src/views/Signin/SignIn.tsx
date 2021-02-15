@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       height: "100vh",
       width: "100%",
-      backgroundColor: "#D6D6D6",
+      backgroundColor: AppTheme.background,
     },
     paper: {
       width: "60%",

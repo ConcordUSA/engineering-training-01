@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      height: "100%",
+      height: "100vh",
       width: "100%",
       backgroundColor: "#D6D6D6",
     },
@@ -49,21 +49,20 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     btnAccount: {
       position: "absolute",
-      right: "50%",
+      right: 0,
       color: AppTheme.primaryText,
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
       },
     },
-    btnBack: {
-      position: "absolute",
-      left: "11%",
-    },
+    btnBack: {},
     btnDiv: {
       display: "flex",
-      marginTop: "12px",
-      marginLeft: "13%",
+      marginTop: "18px",
+      marginLeft: "15%",
+      marginRight: "15%",
+      position: "relative",
     },
     form: {
       marginTop: "3%",
