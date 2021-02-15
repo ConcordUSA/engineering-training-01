@@ -20,12 +20,13 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       height: "100%",
       width: "100%",
+      backgroundColor: "#D6D6D6",
     },
     paper: {
       marginTop: "5%",
-      marginBottm: "5%",
+      marginBottom: "5%",
       height: "90%",
-      width: "90%",
+      width: "60%",
       textAlign: "center",
     },
     logo: {
@@ -40,7 +41,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     formContainer: {
       width: "100%", // Fix IE 11 issue.
-      marginTop: "10%",
+      marginTop: "6%",
+      marginBottom: "6%",
       textAlign: "center",
     },
     submit: {
