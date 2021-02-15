@@ -10,8 +10,7 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import Menubar from "./Menubar";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { selectedEvent } from "../store";
 
 const useStyles = makeStyles((theme: Theme) =>
