@@ -204,16 +204,25 @@ export default function SigninView() {
                 variant="contained"
                 className={classes.submit}
                 onClick={handleSignin}
+                id="loginBtn"
               >
                 Sign In
               </Button>
             </div>
             <div className={classes.links}>
-              <Button className={classes.links} onClick={handleForgotPassword}>
+              <Button
+                className={classes.links}
+                onClick={handleForgotPassword}
+                id="forgotPasswordBtn"
+              >
                 Forgot Password?
               </Button>
               OR
-              <Button className={classes.links} onClick={handleCreateAccount}>
+              <Button
+                className={classes.links}
+                onClick={handleCreateAccount}
+                id="createAccountBtn"
+              >
                 Create Account
               </Button>
             </div>
