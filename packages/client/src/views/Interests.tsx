@@ -97,7 +97,6 @@ export default function InterestsView() {
     id: auth.currentUser.uid,
     interests: [],
   };
-  console.log(auth.currentUser.uid);
   const [state, setState] = useState<{ [k: string]: any }>({
     finance: false,
     IT: false,
@@ -122,6 +121,8 @@ export default function InterestsView() {
     await usersService.updateUser(currentUser.id, {
       interestedCategories: currentUser.interests,
     });
+
+    global.window.location.reload();
   };
   const classes = useStyles();
   return (
