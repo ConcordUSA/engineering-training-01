@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "inline-block",
       float: "right",
       margin: "1px",
+      textTransform: "capitalize",
     },
     eventDescription: {
       marginTop: "10px",

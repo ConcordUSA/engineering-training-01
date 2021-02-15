@@ -115,7 +115,7 @@ const generateEvents = (numberOfEvents: number | string) => {
       price: faker.random.number(),
       startTime: faker.date.future(),
       categories: randomCategories(),
-      image: faker.image.imageUrl(400, 400, "business"),
+      image: faker.image.imageUrl(400, 400, "business", true),
       description: faker.lorem.paragraph(),
     });
     events.push(event);
