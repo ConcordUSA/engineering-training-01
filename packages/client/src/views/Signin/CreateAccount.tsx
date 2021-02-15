@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     btnAccount: {
       position: "absolute",
-      right: "49.1%",
+      right: "50%",
       color: AppTheme.primaryText,
       backgroundColor: AppTheme.primary,
       "&:hover": {
@@ -58,15 +58,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     btnBack: {
       position: "absolute",
-      left: "13.1%",
+      left: "11%",
     },
     btnDiv: {
       display: "flex",
-      marginTop: "8px",
-      marginLeft: "15%",
+      marginTop: "12px",
+      marginLeft: "13%",
     },
     form: {
-      marginTop: "10%",
+      marginTop: "3%",
       width: "60%",
       textAlign: "center",
     },
@@ -83,10 +83,11 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "15%",
     },
     iconDiv: {
-      marginTop: "6rem",
+      marginTop: "4rem",
     },
     fstdDiv: {
-      marginTop: "7rem",
+      marginTop: "6rem",
+      marginBottom: "3rem",
     },
   })
 );
