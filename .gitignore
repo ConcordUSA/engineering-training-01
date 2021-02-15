@@ -7,3 +7,4 @@ Lerna-Profile**
 cypress/videos
 cypress/screenshots
 .vscode/settings.json
+serviceAccount.json

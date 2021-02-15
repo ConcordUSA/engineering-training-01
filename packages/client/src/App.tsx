@@ -45,6 +45,11 @@ export default function App() {
               ></Route>
               <Route
                 exact
+                path={routes.SIGNOUT_VIEW}
+                component={SignInView}
+              ></Route>
+              <Route
+                exact
                 path={routes.CREATE_ACCOUNT_URL}
                 component={CreateAccountView}
               ></Route>

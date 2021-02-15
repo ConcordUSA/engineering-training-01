@@ -1,18 +1,3 @@
-/**
- * Gets configs per environment, as set by the environment variable NODE_ENV
- *
- * Note: This is checked in to version control, and is NOT intended for secrets.
- *       ONLY public config variables should be managed here.
- */
-
-interface Configs {
-  name: string;
-  apiUrl: string;
-  appUrl: string;
-  firebaseConfig: Object;
-  useEmulators?: Boolean;
-}
-
 const environments = {
   test: {
     name: "test",
@@ -49,6 +34,7 @@ const environments = {
     name: "staging",
     apiUrl: "https://us-central1-et-2021a-stage.cloudfunctions.net/api/v1",
     appUrl: "https://et-2021a-stage.web.app",
+    testUid: "",
     firebaseConfig: {
       apiKey: "AIzaSyCyu0nOPQIaH-1086Wa1_3ASfUUwarwdX8",
       authDomain: "et-2021a-stage.firebaseapp.com",
@@ -63,6 +49,7 @@ const environments = {
     name: "production",
     apiUrl: "https://us-central1-et-2021a-prod.cloudfunctions.net/api/v1",
     appUrl: "https://et-2021a-prod.web.app",
+    testUid: "",
     firebaseConfig: {
       apiKey: "AIzaSyA5tpaOilpydF3X7bIffgjGX-Xr_AiUE1g",
       authDomain: "et-2021a-prod.firebaseapp.com",
@@ -75,25 +62,4 @@ const environments = {
   },
 };
 
-const getConfigsPerEnvironment = (): Configs => {
-  // If running in browser, or cypress browser
-  const hostname = global?.window?.location?.hostname;
-  let environment;
-  switch (hostname) {
-    case "localhost":
-      environment = environments.development;
-      break;
-    case "et-2021a-dev.web.app":
-      environment = environments.development;
-      break;
-    case "et-2021a-stage.web.app":
-      environment = environments.staging;
-      break;
-    case "et-2021a-prod.web.app":
-      environment = environments.production;
-      break;
-  }
-  console.log("environment configs", environment.name);
-  return environment;
-};
-export default getConfigsPerEnvironment;
+export default environments;
