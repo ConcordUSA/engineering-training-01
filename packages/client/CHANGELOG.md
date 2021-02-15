@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.1](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.0...v0.3.0-alpha.1) (2021-02-15)
+
+
+### Bug Fixes
+
+* Adjust signin height ([5e45ea3](https://github.com/ConcordUSA/engineering-training-2021a/commit/5e45ea3ed21a9c6e51a110822c7ab76c8f84a29d))
+
+
+### Features
+
+* added styling to signup and create account ([03fb65a](https://github.com/ConcordUSA/engineering-training-2021a/commit/03fb65a643a8923630d5ad31fc8a504243a8ab14))
+
+
+
+
+
 # [0.3.0-alpha.0](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.2.2...v0.3.0-alpha.0) (2021-02-15)
 
 
