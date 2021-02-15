@@ -6,6 +6,8 @@ import { Event, EventFactory } from "../models/event";
 import { selectedEvent } from "../store";
 import { useRecoilState } from "recoil";
 import faker from "faker";
+import { useHistory } from "react-router-dom";
+import routes from "../constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -137,6 +139,7 @@ function getRandomInt(min, max) {
 
 export default function EventListView() {
   const [, setSelectedEventState] = useRecoilState(selectedEvent);
+  const history = useHistory();
   const events = generateEvents(10);
   const classes = useStyles();
   const truncate = (str, n) => {
