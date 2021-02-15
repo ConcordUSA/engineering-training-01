@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.0](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.2.2...v0.3.0-alpha.0) (2021-02-15)
+
+
+### Bug Fixes
+
+* added missing type definitions to dev dependencies ([f92caae](https://github.com/ConcordUSA/engineering-training-2021a/commit/f92caae35503dec16cee55daac65d85e4a93cd5b))
+* removed personalPhone from users.ts ([a1fe118](https://github.com/ConcordUSA/engineering-training-2021a/commit/a1fe118a440777e8985784aae677384f45eb6b13))
+* Removes console logs ([60f0d39](https://github.com/ConcordUSA/engineering-training-2021a/commit/60f0d39b7c9badf528c681e209f2e7824fc2738e))
+
+
+### Features
+
+* **signin:** added sign-in, sign-out, and routing capabilities ([e86fd06](https://github.com/ConcordUSA/engineering-training-2021a/commit/e86fd06431a2d81ccc623b7364c54654b6600e9f))
+* **signup:** Adds field validation to signup form ([57601c4](https://github.com/ConcordUSA/engineering-training-2021a/commit/57601c46851bb5596221fa6f662dd27d32d9e937))
+* **signup:** Adds personal phone as optional ([d2ef823](https://github.com/ConcordUSA/engineering-training-2021a/commit/d2ef8238ec7e25e8bd865570036bb18d138f6bfb))
+* **signup:** Migrates logic to server ([44f9f0b](https://github.com/ConcordUSA/engineering-training-2021a/commit/44f9f0bd7d655d8754534a58a58cd324e422008b))
+
+
+
+
+
 ## [0.2.2](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.2.2-alpha.0...v0.2.2) (2021-01-18)
 
 **Note:** Version bump only for package server
