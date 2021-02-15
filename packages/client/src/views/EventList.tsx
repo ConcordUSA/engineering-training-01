@@ -112,7 +112,7 @@ const generateEvents = (numberOfEvents: number | string) => {
       id: faker.random.uuid(),
       topic: faker.random.word(),
       location: faker.address.city(),
-      price: faker.commerce.price(),
+      price: faker.random.number(),
       startTime: faker.date.future(),
       categories: randomCategories(),
       image: faker.image.imageUrl(400, 400, "business"),

@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import { useRecoilState } from "recoil";
 import { selectedEvent } from "../store";
+import { formatCentsToCurrency } from "../models/event";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -122,7 +123,7 @@ export default function EventDetailsView() {
                 <b>Time:</b> {selectedEventState.startTime.toTimeString()}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Cost:</b> ${selectedEventState.price}
+                <b>Cost:</b> {formatCentsToCurrency(selectedEventState.price)}
               </Typography>
               <Typography paragraph className={classes.infoType}>
                 <b>Status:</b> {selectedEventState.status}
