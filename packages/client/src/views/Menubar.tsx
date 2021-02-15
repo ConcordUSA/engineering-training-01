@@ -36,6 +36,7 @@ export default function PrimarySearchAppBar() {
 
   const handleSignout = async () => {
     await auth.signOut();
+    history.push(routes.HOME_URL);
   };
 
   return (

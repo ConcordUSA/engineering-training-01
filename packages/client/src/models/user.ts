@@ -8,6 +8,7 @@ export interface User {
   personalPhone?: string;
   password?: string;
   interestedCategories?: string[];
+  isAdmin?: boolean;
 }
 
 export function UserFactory(user?: User): User {
@@ -20,7 +21,8 @@ export function UserFactory(user?: User): User {
     companyPhone: "",
     personalPhone: "",
     password: "",
-    interestedCategories: []
+    interestedCategories: [],
+    isAdmin: false,
   };
 
   return { ...defaults, ...user };
@@ -40,47 +42,52 @@ export function isValidEmail(input: string) {
   return { input, invalid: false, helperText: "" };
 }
 
-export function isValidPhone(inputNumber:string) {
-    var cleaned = ("" + inputNumber).replace(/\D/g, "");
-    const match = cleaned.match(/(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,1})/);
-    const inputLength = match[0].length;
-    let input;
-    let invalid;
-    let helperText;
-    switch (true) {
-      case inputLength < 4:
-        input = match[1];
-        break;
-      case inputLength < 7:
-        input = match[1] + "-" + match[2];
-        break;
-      case inputLength === 7:
-        input = match[1] + "-" + match[2] + match[3];
-        break;
-      case inputLength <= 10:
-        input = match[1] + "-" + match[2] + "-" + match[3];
-        break;
-      case inputLength >= 11:
-        input = match[1].charAt(0) + "-" + match[1].substr(1,2) + match[2].charAt(0) + "-" + match[2].substr(1,2) + match[3].charAt(0) + "-" + match[3].substr(1,3) + match[4]
-        break;
-    }
+export function isValidPhone(inputNumber: string) {
+  var cleaned = ("" + inputNumber).replace(/\D/g, "");
+  const match = cleaned.match(/(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,1})/);
+  const inputLength = match[0].length;
+  let input;
+  let invalid;
+  let helperText;
+  switch (true) {
+    case inputLength < 4:
+      input = match[1];
+      break;
+    case inputLength < 7:
+      input = match[1] + "-" + match[2];
+      break;
+    case inputLength === 7:
+      input = match[1] + "-" + match[2] + match[3];
+      break;
+    case inputLength <= 10:
+      input = match[1] + "-" + match[2] + "-" + match[3];
+      break;
+    case inputLength >= 11:
+      input =
+        match[1].charAt(0) +
+        "-" +
+        match[1].substr(1, 2) +
+        match[2].charAt(0) +
+        "-" +
+        match[2].substr(1, 2) +
+        match[3].charAt(0) +
+        "-" +
+        match[3].substr(1, 3) +
+        match[4];
+      break;
+  }
 
-    if  (!(inputLength === 7 ) && !(inputLength > 9)) {
-      invalid = true
-      helperText = "Phone number must be 7, 10, or 11 digits"
-    } else {
-      invalid = false
-      helperText = ""
-    }
+  if (!(inputLength === 7) && !(inputLength > 9)) {
+    invalid = true;
+    helperText = "Phone number must be 7, 10, or 11 digits";
+  } else {
+    invalid = false;
+    helperText = "";
+  }
 
-    return {
-      input,
-      invalid,
-      helperText,
-    };
-
-
-
-
+  return {
+    input,
+    invalid,
+    helperText,
+  };
 }
-
