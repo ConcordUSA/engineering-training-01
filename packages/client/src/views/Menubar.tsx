@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -33,13 +33,13 @@ export default function PrimarySearchAppBar() {
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
 
   const [user, setUser] = useState <User>();
-  const usersService = new UsersService(db, auth);
+  
+  const usersService = useMemo (() => new UsersService(db, auth), [db,auth])
+  
   useEffect(() => {
     usersService.getUser(auth.currentUser.uid).then((user) => {
      setUser (user);
     });
-
-
 
   }, [ usersService, auth ]);
   console.log(user)
