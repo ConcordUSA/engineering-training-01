@@ -1,4 +1,4 @@
-//type category = "it" | "marketing" | ""
+export type Category = "it" | "marketing" | "finance" | "leadership";
 
 export interface Event {
   id?: string; // should be the same id as what firebase creates for the event

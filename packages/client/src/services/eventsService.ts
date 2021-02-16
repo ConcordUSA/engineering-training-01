@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Event, EventFactory } from "../models/event";
+import { Category, Event, EventFactory } from "../models/event";
 
 export default class EventsService {
   private collection = "events";
@@ -25,8 +25,14 @@ export default class EventsService {
     return event;
   }
 
-  public async getAllEvents({ interestedCategories }) {
-    const interestArray = Object.values(interestedCategories);
+  public async deleteEvent(id: string) {
+    return await this.db.collection(this.collection).doc(id).delete();
+  }
+
+  public async getAllEvents(interestedCategories?: Category) {
+    const interestArray = interestedCategories
+      ? Object.values(interestedCategories)
+      : [];
 
     // get from db
     const docsRefs = await this.db
