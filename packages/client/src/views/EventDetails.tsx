@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
   Card,
@@ -10,9 +10,11 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import { useRecoilState } from "recoil";
-import { selectedEvent } from "../store";
-import { formatCentsToCurrency } from "../models/event";
+import { EventFactory, formatCentsToCurrency } from "../models/event";
+import EventsService from "../services/eventsService";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import routes from "../constants/routes";
+import { useMemo } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,31 +82,41 @@ function getBackground(category: string) {
 
 export default function EventDetailsView() {
   const classes = useStyles();
-  const [selectedEventState] = useRecoilState(selectedEvent);
+  const { db }: AppDependencies = useContext(AppDependenciesContext);
+  const eventService = useMemo(() => new EventsService(db), [db]);
+  const newEvent = EventFactory();
+  const [eventState, setState] = useState(newEvent);
+
+  function getEventIdFromURL() {
+    return window.location.pathname.replace(routes.EVENT_DETAILS_URL, "");
+  }
+
+  useEffect(() => {
+    eventService.getEvent(getEventIdFromURL()).then((event) => {
+      setState(event);
+    });
+  }, [eventService]);
 
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
         <CardActionArea>
-          <CardMedia
-            component="img"
-            height="300px"
-            image={selectedEventState.image}
-          />
+          <CardMedia component="img" height="300px" image={eventState.image} />
           <CardContent>
             <div className={classes.eventHeader}>
               <Typography paragraph className={classes.eventTitle}>
-                {selectedEventState.topic}
+                {eventState.topic}
               </Typography>
               <Typography paragraph className={classes.eventDate}>
-                {selectedEventState.startTime.toDateString()}
+                {new Date(eventState.startTime).toDateString()}
               </Typography>
             </div>
             <div>
-              {selectedEventState.categories.map((category) => (
+              {eventState.categories.map((category) => (
                 <Box
                   bgcolor={getBackground(category)}
                   className={classes.interestTag}
+                  key={category}
                 >
                   {category}
                 </Box>
@@ -113,21 +125,21 @@ export default function EventDetailsView() {
               <br />
             </div>
             <Typography className={classes.eventDescription}>
-              {selectedEventState.description}
+              {eventState.description}
             </Typography>
 
             <div className={classes.eventData}>
               <Typography paragraph className={classes.infoType}>
-                <b>Address:</b> {selectedEventState.location}
+                <b>Address:</b> {eventState.location}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Time:</b> {selectedEventState.startTime.toTimeString()}
+                <b>Time:</b> {new Date(eventState.startTime).toTimeString()}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Cost:</b> {formatCentsToCurrency(selectedEventState.price)}
+                <b>Cost:</b> {formatCentsToCurrency(eventState.price)}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Status:</b> {selectedEventState.status}
+                <b>Status:</b> {eventState.status}
               </Typography>
             </div>
           </CardContent>

@@ -95,7 +95,7 @@ export default function EmailVerificationView() {
     if (!auth.currentUser.emailVerified)
       auth.currentUser
         ?.sendEmailVerification({
-          url: config.appUrl + routes.HOME_URL,
+          url: config.appUrl + routes.EVENT_LIST_URL,
         })
         .then(() => {
           console.log("email verification sent");

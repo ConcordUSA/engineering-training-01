@@ -26,7 +26,7 @@ export default function App() {
   return (
     <div className={classes.root}>
       <Switch>
-        <Route exact path={routes.HOME_URL} component={EventListView} />
+        <Route exact path={routes.EVENT_LIST_URL} component={EventListView} />
         <Route exact path={routes.INTERESTS_URL} component={InterestsView} />
         <Route
           exact
@@ -34,7 +34,6 @@ export default function App() {
           component={CreateEventView}
         />
         <Route
-          exact
           path={routes.EVENT_DETAILS_URL}
           component={EventDetailsView}
         ></Route>
