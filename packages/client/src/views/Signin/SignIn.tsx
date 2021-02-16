@@ -78,7 +78,7 @@ export default function SigninView() {
   const handleSignin = async () => {
     try {
       await auth.signInWithEmailAndPassword(usernameState, passwordState);
-      history.push(routes.HOME_URL);
+      history.push(routes.EVENT_LIST_URL);
     } catch (e) {
       console.log(e.message);
     }

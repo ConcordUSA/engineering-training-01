@@ -138,7 +138,9 @@ function getRandomInt(min, max) {
 }
 
 export default function EventListView() {
-  const [, setSelectedEventState] = useRecoilState(selectedEvent);
+  const [selectedEventState, setSelectedEventState] = useRecoilState(
+    selectedEvent
+  );
   const history = useHistory();
   const events = generateEvents(10);
   const classes = useStyles();
@@ -147,7 +149,7 @@ export default function EventListView() {
   };
   const onClick = (event: Event) => {
     setSelectedEventState(event);
-    history.push(routes.EVENT_DETAILS_URL);
+    history.push(routes.EVENT_DETAILS_URL + selectedEventState.id);
   };
   return (
     <>

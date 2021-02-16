@@ -134,7 +134,7 @@ export default function CreateEventView() {
     try {
       await eventsService.createEvent(event);
       console.log("successfully created an event");
-      history.push(routes.HOME_URL);
+      history.push(routes.EVENT_LIST_URL);
     } catch (error) {
       console.log("error", error); //TODO: Handle system messages
     }

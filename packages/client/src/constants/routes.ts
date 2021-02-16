@@ -6,7 +6,8 @@ const routes = {
   EMAIL_VERIFICATION_URL: "/EmailVerification",
   PASSWORD_RESET_URL: "/PasswordReset",
   CREATE_EVENT_URL: "/createEvent",
-  EVENT_DETAILS_URL: "/EventDetails",
+  EVENT_DETAILS_URL: "/Events/",
+  EVENT_LIST_URL: "/Events",
 };
 
 export default routes;
