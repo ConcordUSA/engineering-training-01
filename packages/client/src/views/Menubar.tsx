@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,6 +11,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useHistory } from "react-router-dom";
 import routes from "../constants/routes";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { User } from "../models/user";
+import UsersService from "../services/usersService";
 // import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +30,22 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const history = useHistory();
-  const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
+
+  const [user, setUser] = useState <User>();
+  const usersService = new UsersService(db, auth);
+  useEffect(() => {
+    usersService.getUser(auth.currentUser.uid).then((user) => {
+     setUser (user);
+    });
+
+
+
+  }, [ usersService, auth ]);
+  console.log(user)
+  if(user?.isAdmin) {
+    console.log("Im an Admin!");
+  }
 
   const handleCreateEvent = () => {
     history.push(routes.CREATE_EVENT_URL);
@@ -48,13 +65,16 @@ export default function PrimarySearchAppBar() {
           </Typography>
           <div className={classes.grow} />
           <div>
+            {user?.isAdmin && (
             <IconButton
               aria-label="Add Event"
               color="inherit"
               onClick={handleCreateEvent}
             >
               <AddIcon />
+            
             </IconButton>
+            )}
             <IconButton
               aria-label="Signout"
               color="inherit"
