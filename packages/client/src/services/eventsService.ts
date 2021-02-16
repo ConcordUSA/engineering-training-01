@@ -3,6 +3,11 @@ import "firebase/auth";
 import "firebase/firestore";
 import { Category, Event, EventFactory } from "../models/event";
 
+export interface EventsPerCategory {
+  category: Category;
+  items: Event[];
+}
+
 export default class EventsService {
   private collection = "events";
 
@@ -13,7 +18,6 @@ export default class EventsService {
     const id = doc.id;
 
     await doc.set({ ...event, id });
-    // console.log(await this.getEvent(id));
     return id;
   }
 
@@ -29,12 +33,18 @@ export default class EventsService {
     return await this.db.collection(this.collection).doc(id).delete();
   }
 
-  public async getAllEvents(interestedCategories?: Category) {
-    const interestArray = interestedCategories
-      ? Object.values(interestedCategories)
-      : [];
+  public async getAllEvents(interestedCategories?) {
+    const allCatagories = ["it", "marketing", "finance", "leadership"];
+    // if no interestedCategories are passed we default to allCatagories
+    if (!interestedCategories) interestedCategories = allCatagories;
 
-    // get from db
+    const concatArray = interestedCategories.concat(allCatagories);
+    let uniqueArray = [];
+    concatArray.forEach((elem) => {
+      if (!uniqueArray.includes(elem)) uniqueArray.push(elem);
+    });
+
+    // get all future events from db
     const docsRefs = await this.db
       .collection(this.collection)
       .where("startTime", ">", new Date())
@@ -55,28 +65,21 @@ export default class EventsService {
       });
     });
 
-    const categoriesThatExistInQueryData = Object.keys(eventsPerCategory);
-    const result = categoriesThatExistInQueryData.map((key) => {
+    let result = uniqueArray.map((key) => {
       const items = eventsPerCategory[key];
+      if (!items) {
+        return undefined;
+      }
 
-      return {
-        category: key,
+      const item: EventsPerCategory = {
+        category: key as Category,
         items,
       };
+      return item;
     });
 
-    let array2 = [];
-    result.forEach((elem) => {
-      if (interestArray.includes(elem.category)) {
-        array2.push(elem);
-      }
-    });
-    result.forEach((elem) => {
-      if (!interestArray.includes(elem.category)) {
-        array2.push(elem);
-      }
-    });
-
+    result = result.filter((item) => item !== undefined);
+    console.log(result);
     return result;
   }
 }
