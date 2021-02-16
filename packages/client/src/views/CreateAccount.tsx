@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      flexWrap: "wrap",
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
@@ -38,30 +37,46 @@ const useStyles = makeStyles((theme: Theme) =>
     accountInput: {
       width: "70%",
       margin: "5px",
+      "& .MuiInput-underline:after": {
+        borderBottomColor: AppTheme.input,
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
     },
     accountInputFirstName: {
       width: "34.5%",
       margin: "5px 1% 5px 5px",
+      "& .MuiInput-underline:after": {
+        borderBottomColor: AppTheme.input,
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
     },
     accountInputLastName: {
       width: "34.5%",
       margin: "5px 5px 5px 0px",
+      "& .MuiInput-underline:after": {
+        borderBottomColor: AppTheme.input,
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
     },
     btnAccount: {
-      // position: "absolute",
-      // right: "50%",
-      // color: AppTheme.primaryText,
-      // backgroundColor: AppTheme.primary,
-      // "&:hover": {
-      //   backgroundColor: AppTheme.secondary,
-      // },
+      color: AppTheme.primaryText,
+      backgroundColor: AppTheme.primary,
+      "&:hover": {
+        backgroundColor: AppTheme.secondary,
+      },
     },
-    btnBack: {},
     btnDiv: {
       display: "flex",
       justifyContent: "space-between",
-      paddingLeft: "3em",
-      paddingRight: "3em",
+      marginTop: "8px",
+      marginLeft: "15%",
+      marginRight: "15%",
     },
     form: {
       width: "60%",
@@ -73,19 +88,15 @@ const useStyles = makeStyles((theme: Theme) =>
         "linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%)",
       height: "100%",
       width: "40%",
-      textAlign: "center",
+      display: "flex",
+      flexFlow: "column",
+      alignItems: "center",
+      justifyContent: "center",
       borderRadius: "0px 4px 4px 0px",
     },
     signUpHeader: {
       textAlign: "left",
       marginLeft: "15%",
-    },
-    iconDiv: {
-      marginTop: "4rem",
-    },
-    fstdDiv: {
-      marginTop: "6rem",
-      marginBottom: "3rem",
     },
   })
 );
@@ -203,6 +214,7 @@ export default function CreateAccountView() {
         <div className={classes.form}>
           <h1 className={classes.signUpHeader}>Sign Up</h1>
           <TextField
+            autoFocus
             id="firstName"
             className={classes.accountInputFirstName}
             label="First name"
@@ -293,7 +305,7 @@ export default function CreateAccountView() {
             required
           />
           <div className={classes.btnDiv}>
-            <Button className={classes.btnBack} onClick={handleBack}>
+            <Button onClick={handleBack}>
               <ArrowBackIcon />
             </Button>
             <Button
@@ -307,13 +319,13 @@ export default function CreateAccountView() {
           </div>
         </div>
         <div className={classes.banner}>
-          <div className={classes.iconDiv}>
+          <div>
             <img
               src="/fstd-icns.png"
               alt="Flower Sun Leaf Snowflake, Four Seasons Logo"
             />
           </div>
-          <div className={classes.fstdDiv}>
+          <div>
             <img src="./fstd-text.png" alt="Four Seasons Total Development" />
           </div>
         </div>

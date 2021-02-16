@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      marginTop: "12%",
-      height: "100%",
-      width: "100%",
+      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
     },
     container: {
       margin: "0px 5px 5px 0px",
@@ -152,46 +152,44 @@ export default function EventListView() {
     history.push(routes.EVENT_DETAILS_URL + selectedEventState.id);
   };
   return (
-    <>
-      <div className={classes.root}>
-        {events.map((event) => (
-          <Container maxWidth="xs" className={classes.container} key={event.id}>
-            <Paper className={classes.eventPaper}>
-              <div className={classes.eventsImgDiv}>
-                <img
-                  src={event.image}
-                  className={classes.eventPhoto}
-                  alt="Publicity for upcoming event"
-                />
-              </div>
-              <div className={classes.eventDetailsDiv}>
-                <h1 className={classes.eventTitle}>{event.topic}</h1>
-                <p className={classes.eventParagraph}>
-                  {truncate(event.description, 32)}
+    <div className={classes.root}>
+      {events.map((event) => (
+        <Container maxWidth="xs" className={classes.container} key={event.id}>
+          <Paper className={classes.eventPaper}>
+            <div className={classes.eventsImgDiv}>
+              <img
+                src={event.image}
+                className={classes.eventPhoto}
+                alt="Publicity for upcoming event"
+              />
+            </div>
+            <div className={classes.eventDetailsDiv}>
+              <h1 className={classes.eventTitle}>{event.topic}</h1>
+              <p className={classes.eventParagraph}>
+                {truncate(event.description, 32)}
+              </p>
+              <Divider variant="middle" className={classes.eventDivider} />
+              <div className={classes.eventDateDiv}>
+                <p className={classes.eventDate}>
+                  {event.startTime.toDateString()}
                 </p>
-                <Divider variant="middle" className={classes.eventDivider} />
-                <div className={classes.eventDateDiv}>
-                  <p className={classes.eventDate}>
-                    {event.startTime.toDateString()}
-                  </p>
-                  <div className={classes.eventBtnDiv}>
-                    <Button
-                      variant="outlined"
-                      className={classes.detailsBtn}
-                      onClick={() => onClick(event)}
-                    >
-                      details
-                    </Button>
-                    <Button variant="contained" className={classes.registerBtn}>
-                      register
-                    </Button>
-                  </div>
+                <div className={classes.eventBtnDiv}>
+                  <Button
+                    variant="outlined"
+                    className={classes.detailsBtn}
+                    onClick={() => onClick(event)}
+                  >
+                    details
+                  </Button>
+                  <Button variant="contained" className={classes.registerBtn}>
+                    register
+                  </Button>
                 </div>
               </div>
-            </Paper>
-          </Container>
-        ))}
-      </div>
-    </>
+            </div>
+          </Paper>
+        </Container>
+      ))}
+    </div>
   );
 }

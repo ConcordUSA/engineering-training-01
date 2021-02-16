@@ -12,6 +12,7 @@ import routes from "../constants/routes";
 import getConfig from "../config";
 import UsersService from "../services/usersService";
 import { Typography, Button, Paper } from "@material-ui/core";
+import AppTheme from "../styles/theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,9 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      width: "100%",
+      width: "100vw",
       height: "100vh",
-      backgroundColor: "#D6D6D6",
+      backgroundColor: AppTheme.background,
     },
     paperWrap: {
       display: "flex",

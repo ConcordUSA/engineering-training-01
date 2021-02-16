@@ -7,6 +7,8 @@ const AppTheme = {
   secondary: colors.red.A700,
   background: colors.grey[200],
   cardWidth: "900px",
+  menuMargin: '150px',
+  input: colors.blue.A200
 };
 
 export default AppTheme;

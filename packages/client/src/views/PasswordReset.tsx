@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router-dom";
-
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import { Paper, Button, TextField } from "@material-ui/core";
 import AppTheme from "../styles/theme";
@@ -15,53 +14,56 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      height: "100%",
-      width: "100%",
-      backgroundColor: "#D6D6D6",
+      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
+      backgroundColor: AppTheme.background,
     },
     paperWrap: {
-      marginTop: "3%",
-      marginBottom: "3%",
       display: "flex",
       flexWrap: "wrap",
-      width: "90%",
+      width: "900px",
+      overflow: "hidden",
     },
     icon: {
       fontSize: "6em",
     },
     accountInput: {
-      width: "70%",
-      margin: "5px",
+      width: "72%",
+      "& .MuiOutlinedInput-root": {
+        "&.Mui-focused fieldset": {
+          borderColor: AppTheme.input,
+        },
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
     },
-
-    btnBack: {},
+    passwordResetText: {
+      textAlign: "center",
+    },
     btnDiv: {
       display: "flex",
+      justifyContent: "space-around",
       marginTop: "8px",
-      marginLeft: "15%",
     },
     form: {
-      marginTop: "10%",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
       width: "60%",
-      textAlign: "center",
     },
     banner: {
       background:
         "linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%)",
-      height: "100%",
+      backgroundSize: "cover",
       width: "40%",
-      textAlign: "center",
+      display: "flex",
+      flexFlow: "column",
+      alignItems: "center",
+      justifyContent: "space-around",
+      padding: "10px 0px 10px 0px",
       borderRadius: "0px 4px 4px 0px",
-    },
-    signUpHeader: {
-      textAlign: "left",
-      marginLeft: "15%",
-    },
-    iconDiv: {
-      marginTop: "6rem",
-    },
-    fstdDiv: {
-      marginTop: "7rem",
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
@@ -103,27 +105,27 @@ export default function PasswordResetView() {
     <div className={classes.root}>
       <Paper elevation={3} className={classes.paperWrap}>
         <div className={classes.form}>
-          <h1 className={classes.signUpHeader}>Password Reset</h1>
-          <p className={classes.signUpHeader}>
-            Enter email associated with account
-          </p>
-          <TextField
-            className={classes.accountInput}
-            variant="outlined"
-            margin="normal"
-            required
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={emailState}
-            onChange={(e) => {
-              setEmailState(e.target.value);
-            }}
-          />
+          <div className={classes.passwordResetText}>
+            <h1>Password Reset</h1>
+            <p>Enter email associated with account</p>
+            <TextField
+              className={classes.accountInput}
+              variant="outlined"
+              margin="normal"
+              required
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={emailState}
+              onChange={(e) => {
+                setEmailState(e.target.value);
+              }}
+            />
+          </div>
           <div className={classes.btnDiv}>
-            <Button className={classes.btnBack} onClick={handleBack}>
+            <Button onClick={handleBack}>
               <ArrowBackIcon />
             </Button>
             <Button
@@ -132,18 +134,18 @@ export default function PasswordResetView() {
               className={classes.submit}
               variant="contained"
             >
-              Send password reset email
+              Send email
             </Button>
           </div>
         </div>
         <div className={classes.banner}>
-          <div className={classes.iconDiv}>
+          <div>
             <img
               src="/fstd-icns.png"
               alt="Flower Sun Leaf Snowflake, Four Seasons Logo"
             />
           </div>
-          <div className={classes.fstdDiv}>
+          <div>
             <img src="./fstd-text.png" alt="Four Seasons Total Development" />
           </div>
         </div>
