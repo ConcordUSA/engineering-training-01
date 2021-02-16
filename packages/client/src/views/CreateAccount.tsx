@@ -3,14 +3,14 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField, Button, Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AppTheme from "../../styles/theme";
+import AppTheme from "../styles/theme";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
-import UsersService from "../../services/usersService";
-import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
-import { isValidEmail, isValidPhone } from "../../models/user";
-import routes from "../../constants/routes";
+import UsersService from "../services/usersService";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { isValidEmail, isValidPhone } from "../models/user";
+import routes from "../constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,16 +18,16 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      height: "100%",
-      width: "100%",
-      backgroundColor: "#D6D6D6",
+      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
+      backgroundColor: AppTheme.background,
     },
     paperWrap: {
-      marginTop: "3%",
-      marginBottom: "3%",
+      width: AppTheme.cardWidth,
+      height: "600px",
       display: "flex",
       flexWrap: "wrap",
-      width: "90%",
     },
     title: {
       fontSize: "3em",
@@ -48,27 +48,25 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "5px 5px 5px 0px",
     },
     btnAccount: {
-      position: "absolute",
-      right: "50%",
-      color: AppTheme.primaryText,
-      backgroundColor: AppTheme.primary,
-      "&:hover": {
-        backgroundColor: AppTheme.secondary,
-      },
+      // position: "absolute",
+      // right: "50%",
+      // color: AppTheme.primaryText,
+      // backgroundColor: AppTheme.primary,
+      // "&:hover": {
+      //   backgroundColor: AppTheme.secondary,
+      // },
     },
-    btnBack: {
-      position: "absolute",
-      left: "11%",
-    },
+    btnBack: {},
     btnDiv: {
       display: "flex",
-      marginTop: "12px",
-      marginLeft: "13%",
+      justifyContent: "space-between",
+      paddingLeft: "3em",
+      paddingRight: "3em",
     },
     form: {
-      marginTop: "3%",
       width: "60%",
       textAlign: "center",
+      position: "relative",
     },
     banner: {
       background:

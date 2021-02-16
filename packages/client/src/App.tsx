@@ -1,5 +1,4 @@
 import React, { useEffect, useContext } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   defaultDependencies,
@@ -11,28 +10,12 @@ import EmailVerificationView from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
 import { signedIn, emailVerified } from "./store";
 import routes from "./constants/routes";
-import SignInView from "./views/Signin/SignIn";
-import CreateAccountView from "./views/Signin/CreateAccount";
+import SignInView from "./views/SignIn";
+import CreateAccountView from "./views/CreateAccount";
 import Menubar from "./views/Menubar";
 import AuthenticatedViews from "./views/AuthenticatedViews";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      overflow: "scroll",
-    },
-    content: {
-      width: "100%",
-    },
-  })
-);
-
 export default function App() {
-  const classes = useStyles();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
   const [signedInState, setSignedInState] = useRecoilState(signedIn);
   const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(
@@ -50,7 +33,7 @@ export default function App() {
   }, [auth, setSignedInState, setEmailVerifiedState]);
 
   return (
-    <div className={classes.root}>
+    <div>
       <AppDependenciesContext.Provider value={defaultDependencies}>
         <Router>
           {!signedInState && (
@@ -75,7 +58,7 @@ export default function App() {
 
           {signedInState && !emailVerifiedState && <EmailVerificationView />}
           {signedInState && emailVerifiedState && (
-            <div className={classes.content}>
+            <div>
               <Menubar />
               <AuthenticatedViews />
             </div>
