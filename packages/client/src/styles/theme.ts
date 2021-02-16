@@ -6,6 +6,7 @@ const AppTheme = {
   primaryText: "#ffffff",
   secondary: colors.red.A700,
   background: colors.grey[200],
+  cardWidth: "900px",
 };
 
 export default AppTheme;

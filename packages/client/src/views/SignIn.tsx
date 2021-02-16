@@ -7,10 +7,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppTheme from "../../styles/theme";
+import AppTheme from "../styles/theme";
 import { useHistory } from "react-router-dom";
-import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
-import routes from "../../constants/routes";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import routes from "../constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,11 +20,12 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
-      width: "100%",
-      backgroundColor: "#D6D6D6",
+      maxWidth: "100vw",
+      backgroundColor: AppTheme.background,
     },
     paper: {
-      width: "60%",
+      width: AppTheme.cardWidth,
+      margin: "1em",
       textAlign: "center",
     },
     logo: {
