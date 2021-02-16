@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { TextField, Button, Paper } from "@material-ui/core";
 import { EventFactory, Event } from "../models/event";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService from "../services/eventsService";
 import routes from "../constants/routes";
@@ -10,7 +11,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
-
+import AppTheme from "../styles/theme";
 import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,9 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      width: "100%",
-      height: "100%",
-      backgroundColor: "#D6D6D6",
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: AppTheme.background,
     },
     paperWrap: {
       display: "flex",
@@ -36,20 +37,69 @@ const useStyles = makeStyles((theme: Theme) =>
     formInner: {
       display: "inline-block",
       textAlign: "left",
-      width: "80%",
+      width: "85%",
       paddingTop: "1.5em",
     },
+    halfInput: {
+      width: "45%",
+      "& .MuiInput-underline:after": {
+        borderBottomColor: AppTheme.input,
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
+      "& .Mui-focused": {
+        color: AppTheme.input,
+      },
+    },
+    dateAndPriceAndImageDiv: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "space-between",
+    },
     banner: {
-      flex: 1,
       background:
         "linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%)",
-      textAlign: "center",
+      backgroundSize: "cover",
+      width: "40%",
+      display: "flex",
+      flexFlow: "column",
+      alignItems: "center",
+      justifyContent: "space-around",
       borderRadius: "0px 4px 4px 0px",
     },
     formControl: {
       width: "100%",
       margin: 0,
       marginBottom: "1em",
+      "& .MuiInput-underline:after": {
+        borderBottomColor: AppTheme.input,
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
+      "& .Mui-focused": {
+        color: AppTheme.input,
+      },
+    },
+    checkBox: {
+      "&.Mui-checked": {
+        color: AppTheme.input,
+      },
+    },
+    checkBoxForm: {
+      marginTop: "20px",
+      "& .Mui-focused": {
+        color: AppTheme.input,
+      },
+    },
+    checkBoxDiv: {
+      margin: "10px 0px 10px 0px",
+      justifyContent: "space-between",
+      "&.MuiFormGroup-root": {
+        display: "flex",
+        flexDirection: "row",
+      },
     },
     title: {
       textAlign: "center",
@@ -59,24 +109,18 @@ const useStyles = makeStyles((theme: Theme) =>
     icon: {
       fontSize: "6em",
     },
-    buttonContainer: {
-      textAlign: "center",
-      paddingBottom: "1em",
-    },
-    btnCreateEvent: {
-      margin: "10px auto",
-    },
-    btnBack: {},
     btnDiv: {
       display: "flex",
-      marginTop: "8px",
-      marginLeft: "15%",
+      justifyContent: "space-between",
     },
-    iconDiv: {
-      marginTop: "6rem",
-    },
-    fstdDiv: {
-      marginTop: "7rem",
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+      color: AppTheme.primaryText,
+      width: "30%",
+      backgroundColor: AppTheme.primary,
+      "&:hover": {
+        backgroundColor: AppTheme.secondary,
+      },
     },
   })
 );
@@ -96,6 +140,9 @@ export default function CreateEventView() {
     finance: false,
   });
 
+  const handleBack = () => {
+    history.push(routes.HOME_URL);
+  };
   const handleCheck = (event) => {
     setCheckBoxState({
       ...checkboxState,
@@ -120,7 +167,6 @@ export default function CreateEventView() {
     if (checkboxState.finance) categories.push("finance");
     if (checkboxState.informationTechnology)
       categories.push("information technology");
-
     const event: Event = {
       ...state,
       categories,
@@ -160,53 +206,59 @@ export default function CreateEventView() {
               value={state.location}
               onChange={handleChange}
             />
-            <TextField
-              id="startTime"
-              label="Start time"
-              type="datetime-local"
-              defaultValue="2021-01-24T9:00"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              className={classes.formControl}
-              value={state.startTime}
-              onChange={handleChange}
-            />
-            <TextField
-              id="endTime"
-              label="end time"
-              type="datetime-local"
-              defaultValue="2021-01-24T9:00"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              className={classes.formControl}
-              value={state.endTime}
-              onChange={handleChange}
-            />
-            <TextField
-              id="price"
-              label="Price"
-              value={state.price}
-              className={classes.formControl}
-              onChange={handleChange}
-              type="number"
-            />
-            <TextField
-              id="image"
-              label="Image"
-              value={state.image}
-              className={classes.formControl}
-              onChange={handleChange}
-            />
-            <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">
+            <div className={classes.dateAndPriceAndImageDiv}>
+              <TextField
+                id="startTime"
+                label="Start time"
+                type="datetime-local"
+                defaultValue="2021-01-24T9:00"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={classes.halfInput}
+                value={state.startTime}
+                onChange={handleChange}
+              />
+              <TextField
+                id="endTime"
+                label="end time"
+                type="datetime-local"
+                defaultValue="2021-01-24T9:00"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={classes.halfInput}
+                value={state.endTime}
+                onChange={handleChange}
+              />
+            </div>
+            <div className={classes.dateAndPriceAndImageDiv}>
+              <TextField
+                id="price"
+                label="Price"
+                value={state.price}
+                className={classes.halfInput}
+                onChange={handleChange}
+                type="number"
+              />
+              <TextField
+                id="image"
+                label="Image"
+                value={state.image}
+                className={classes.halfInput}
+                onChange={handleChange}
+              />
+            </div>
+
+            <FormControl component="fieldset" className={classes.checkBoxForm}>
+              <FormLabel component="legend" className={classes.checkBox}>
                 Categories (check all that apply)
               </FormLabel>
-              <FormGroup>
+              <FormGroup className={classes.checkBoxDiv}>
                 <FormControlLabel
                   control={
                     <Checkbox
+                      className={classes.checkBox}
                       checked={checkboxState.leadership}
                       onChange={handleCheck}
                       name="leadership"
@@ -217,6 +269,7 @@ export default function CreateEventView() {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      className={classes.checkBox}
                       checked={checkboxState.marketing}
                       onChange={handleCheck}
                       name="marketing"
@@ -227,6 +280,7 @@ export default function CreateEventView() {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      className={classes.checkBox}
                       checked={checkboxState.finance}
                       onChange={handleCheck}
                       name="finance"
@@ -237,6 +291,7 @@ export default function CreateEventView() {
                 <FormControlLabel
                   control={
                     <Checkbox
+                      className={classes.checkBox}
                       checked={checkboxState.informationTechnology}
                       onChange={handleCheck}
                       name="informationTechnology"
@@ -246,11 +301,14 @@ export default function CreateEventView() {
                 />
               </FormGroup>
             </FormControl>
-            <div className={classes.buttonContainer}>
+            <div className={classes.btnDiv}>
+              <Button onClick={handleBack}>
+                <ArrowBackIcon />
+              </Button>
               <Button
                 id="createEventButton"
                 onClick={handleCreate}
-                className={classes.btnCreateEvent}
+                className={classes.submit}
                 variant="contained"
                 color="primary"
               >
@@ -260,13 +318,13 @@ export default function CreateEventView() {
           </div>
         </div>
         <div className={classes.banner}>
-          <div className={classes.iconDiv}>
+          <div>
             <img
               src="/fstd-icns.png"
               alt="Flower Sun Leaf Snowflake, Four Seasons Logo"
             />
           </div>
-          <div className={classes.fstdDiv}>
+          <div>
             <img src="./fstd-text.png" alt="Four Seasons Total Development" />
           </div>
         </div>

@@ -32,18 +32,17 @@ export default function PrimarySearchAppBar() {
   const history = useHistory();
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
 
-  const [user, setUser] = useState <User>();
-  
-  const usersService = useMemo (() => new UsersService(db, auth), [db,auth])
-  
+  const [user, setUser] = useState<User>();
+
+  const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
+
   useEffect(() => {
     usersService.getUser(auth.currentUser.uid).then((user) => {
-     setUser (user);
+      setUser(user);
     });
-
-  }, [ usersService, auth ]);
-  console.log(user)
-  if(user?.isAdmin) {
+  }, [usersService, auth]);
+  console.log(user);
+  if (user?.isAdmin) {
     console.log("Im an Admin!");
   }
 
@@ -57,47 +56,42 @@ export default function PrimarySearchAppBar() {
   };
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="absolute">
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Four Seasons
-          </Typography>
-          <div className={classes.grow} />
-          <div>
-            {user?.isAdmin && (
-            <IconButton
-              aria-label="Add Event"
-              color="inherit"
-              onClick={handleCreateEvent}
-            >
-              <AddIcon />
-            
-            </IconButton>
-            )}
-            <IconButton
-              aria-label="Signout"
-              color="inherit"
-              onClick={handleSignout}
-            >
-              <ExitToAppIcon />
-            </IconButton>
-            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
+    <AppBar position="relative" className={classes.grow}>
+      <Toolbar>
+        <Typography className={classes.title} variant="h6" noWrap>
+          Four Seasons
+        </Typography>
+        <div className={classes.grow} />
+        <div>
+          <IconButton
+            aria-label="Add Event"
+            color="inherit"
+            onClick={handleCreateEvent}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            aria-label="Signout"
+            color="inherit"
+            onClick={handleSignout}
+          >
+            <ExitToAppIcon />
+          </IconButton>
+          {/* <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-            <IconButton
-              edge="end"
-              aria-label="User account"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+          <IconButton
+            edge="end"
+            aria-label="User account"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }

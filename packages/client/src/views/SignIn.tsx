@@ -65,6 +65,14 @@ const useStyles = makeStyles((theme: Theme) =>
     accountInput: {
       width: "50%",
       margin: "5px",
+      "& .MuiOutlinedInput-root": {
+        "&.Mui-focused fieldset": {
+          borderColor: AppTheme.input,
+        },
+      },
+      "& label.Mui-focused": {
+        color: AppTheme.input,
+      },
     },
   })
 );

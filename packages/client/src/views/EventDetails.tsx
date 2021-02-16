@@ -15,6 +15,7 @@ import EventsService from "../services/eventsService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
 import { useMemo } from "react";
+import AppTheme from "../styles/theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,9 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      marginTop: "12%",
-      height: "100%",
-      width: "100%",
+      height: "100vh",
+      width: "100vw",
+      background: AppTheme.background,
     },
     card: {
       width: "50%",

@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      width: "100%",
       height: "100vh",
+      width: "100vw",
       backgroundColor: AppTheme.background,
     },
     paperWrap: {
