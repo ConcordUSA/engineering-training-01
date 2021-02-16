@@ -7,6 +7,12 @@ import faker from "faker";
 
 describe("EventsService", () => {
   const options = { projectId: "et-2021a-dev" }; // this is the firebase project id that the local emulators are using / acting as
+  firebase.useEmulators({
+    firestore: {
+      host: "localhost",
+      port: 8080,
+    },
+  });
   const adminApp = firebase.initializeAdminApp(options);
   const testApp = firebase.initializeTestApp(options);
   const db = testApp.firestore() as firebaseApp.firestore.Firestore;
@@ -56,7 +62,27 @@ describe("EventsService", () => {
 
     // when
     const docs = await service.getAllEvents();
-    console.log(docs);
+
+    // then
+    const marketing = docs.find((item) => item.category === "marketing");
+    expect(marketing).toBeDefined();
+    expect(marketing.items.length).toBe(2);
+    const it = docs.find((item) => item.category === "it");
+    expect(it).toBeDefined();
+    expect(it.items.length).toBe(1);
+  });
+
+  it("should get all events and sort according to interestedCategories", async () => {
+    // given
+    const events = [
+      { categories: ["marketing"], startTime: faker.date.future() },
+      { categories: ["marketing"], startTime: faker.date.future() },
+      { categories: ["it"], startTime: faker.date.future() },
+    ];
+    Promise.all(events.map((event) => db.collection("events").add(event)));
+
+    // when
+    const docs = await service.getAllEvents(["leadership", "it"]);
 
     // then
     const marketing = docs.find((item) => item.category === "marketing");
