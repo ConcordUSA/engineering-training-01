@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     checkBoxForm: {
-      marginTop: "20px",
+      marginTop: "0px",
       "& .Mui-focused": {
         color: AppTheme.input,
       },
@@ -121,6 +121,10 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         backgroundColor: AppTheme.secondary,
       },
+    },
+    eventDescription: {
+      marginTop: "20px",
+      marginBottom: 0,
     },
   })
 );
@@ -247,6 +251,19 @@ export default function CreateEventView() {
                 value={state.image}
                 className={classes.halfInput}
                 onChange={handleChange}
+              />
+            </div>
+            <div className={classes.eventDescription}>
+              <TextField
+                id="description"
+                label="Event Description"
+                multiline
+                rows={4}
+                rowsMax={8}
+                className={classes.formControl}
+                value={state.description}
+                onChange={handleChange}
+                variant="outlined"
               />
             </div>
 
