@@ -16,18 +16,25 @@ export default class UsersService {
     // create user in auth service
     let uid: string | undefined;
 
-    const userCredential = await this.auth?.createUserWithEmailAndPassword(
-      user.email,
-      user.password
-    );
-    uid = userCredential?.user?.uid;
+    try {
+      const userCredential = await this.auth?.createUserWithEmailAndPassword(
+        user.email,
+        user.password
+      );
+      uid = userCredential?.user?.uid;
+    } catch (error) {
+      return { error: error.message };
+    }
+
     // create user in db service
-    delete user.password;
+    const data = { ...user, uid }
+    delete data.password
+
     try {
       await this.db
         .collection(this.collection)
         .doc(uid)
-        .set({ ...user, uid });
+        .set(data);
       return { uid, message: "User successfully created" };
     } catch (error) {
       return { error: error.message };

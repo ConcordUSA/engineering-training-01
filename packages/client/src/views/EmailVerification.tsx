@@ -1,16 +1,8 @@
-import React, {
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-} from "react";
+import React, { useContext, useCallback, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import InterestsView from "./Interests";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
 import getConfig from "../config";
-import UsersService from "../services/usersService";
 import { Typography, Button, Paper } from "@material-ui/core";
 import AppTheme from "../styles/theme";
 
@@ -88,9 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EmailVerificationView() {
   const classes = useStyles();
   const config = getConfig();
-  const [hasPreferences, setHasPreferences] = useState(false);
-  const { auth, db }: AppDependencies = useContext(AppDependenciesContext);
-  const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
+  const { auth }: AppDependencies = useContext(AppDependenciesContext);
 
   const handleSend = useCallback(() => {
     if (!auth.currentUser.emailVerified)
@@ -108,20 +98,10 @@ export default function EmailVerificationView() {
   }, [auth, config.appUrl]);
 
   useEffect(() => {
-    if (auth.currentUser) {
-      const uid = auth.currentUser.uid;
-      usersService.getUser(uid).then((user) => {
-        // set local view state
-        const hasPreferences = user.interestedCategories.length > 0;
-        setHasPreferences(hasPreferences);
+    handleSend();
+  }, [handleSend]);
 
-        // send email verification
-        handleSend();
-      });
-    }
-  }, [auth, config.appUrl, usersService, handleSend]);
-
-  return hasPreferences ? (
+  return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.paperWrap}>
         <div className={classes.form}>
@@ -157,7 +137,5 @@ export default function EmailVerificationView() {
         </div>
       </Paper>
     </div>
-  ) : (
-    <InterestsView />
   );
 }

@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import {EventFactory} from '../models/event'
+import {UserFactory} from '../models/user'
 
 export const signedIn = atom({
   key: "signedIn",
@@ -19,4 +20,9 @@ export const signInView = atom({
 export const selectedEvent = atom({
   key: "selectedEvent",
   default: EventFactory(),
+});
+
+export const createUserForm = atom({
+  key: "createUserForm",
+  default: UserFactory(),
 });
