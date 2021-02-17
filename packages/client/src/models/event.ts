@@ -45,9 +45,9 @@ export function formatCentsToCurrency(
 }
 
 export function displayEventDate(date) {
-    return new Date(date).toDateString();
-  }
+  return new Date(date).toDateString();
+}
 
 export function displayEventTime(time) {
-    return new Date(time).toTimeString();
-  }
+  return new Date(time).toTimeString();
+}

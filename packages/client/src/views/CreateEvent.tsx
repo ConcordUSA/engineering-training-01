@@ -171,7 +171,7 @@ export default function CreateEventView() {
       ...state,
       categories,
     };
-
+    console.log(event);
     //make categories required
     if (event.categories.length === 0) {
       alert("select at least one category");
