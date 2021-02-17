@@ -26,6 +26,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^1.2.0",
     "@types/faker": "^5.1.6",
     "@types/rimraf": "^3.0.0",
     "cross-env": "^7.0.3",
