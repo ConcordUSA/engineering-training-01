@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { Paper, Button, Container, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppTheme from "../styles/theme";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import UsersService from "../services/usersService";
+import AppTheme from "../../styles/theme";
+import { createUserForm } from "../../store";
+import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -109,18 +109,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function InterestsView() {
-  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
-  const usersService = new UsersService(db, auth);
-  let currentUser = {
-    id: auth.currentUser.uid,
-    interests: [],
-  };
+export default function InterestsFormView(props) {
+  const { onSubmit } = props;
+  const [user] = useRecoilState(createUserForm);
   const [state, setState] = useState<{ [k: string]: any }>({
-    finance: false,
-    IT: false,
-    leadership: false,
-    marketing: false,
+    finance: user.interestedCategories?.includes("finance"),
+    it: user.interestedCategories?.includes("it"),
+    leadership: user.interestedCategories?.includes("leadership"),
+    marketing: user.interestedCategories?.includes("marketing"),
   });
 
   const handleSelection = (key: string) => {
@@ -132,16 +128,12 @@ export default function InterestsView() {
   };
 
   const handleSubmit = async () => {
-    //take selected categories and push into currentUser.interests
-    for (const category in state) {
-      state[category] ? currentUser.interests.push(category) : <></>;
-    }
-    //to do test userService here
-    await usersService.updateUser(currentUser.id, {
-      interestedCategories: currentUser.interests,
+    const interestedCategories = [];
+    Object.keys(state).forEach((category) => {
+      if (state[category]) interestedCategories.push(category);
     });
 
-    global.window.location.reload();
+    onSubmit({ action: "createUser", data: { interestedCategories } });
   };
   const classes = useStyles();
   return (
@@ -216,7 +208,7 @@ export default function InterestsView() {
               </Paper>
             </div>
           )}
-          {state.IT ? (
+          {state.it ? (
             <div className={classes.interestsWrapper}>
               <img
                 src="./Vector.svg"
@@ -225,7 +217,7 @@ export default function InterestsView() {
               />
               <Paper
                 className={classes.selected}
-                onClick={() => handleSelection("IT")}
+                onClick={() => handleSelection("it")}
               >
                 <img
                   src="./it-icn.svg"
@@ -246,7 +238,7 @@ export default function InterestsView() {
             <div className={classes.interestsWrapper}>
               <Paper
                 className={classes.interestsPaper}
-                onClick={() => handleSelection("IT")}
+                onClick={() => handleSelection("it")}
                 elevation={3}
               >
                 <img

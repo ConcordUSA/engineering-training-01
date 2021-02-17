@@ -1,16 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField, Button, Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AppTheme from "../styles/theme";
+import AppTheme from "../../styles/theme";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
-import UsersService from "../services/usersService";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import { isValidEmail, isValidPhone } from "../models/user";
-import routes from "../constants/routes";
+import { isValidEmail, isValidPhone, User } from "../../models/user";
+import routes from "../../constants/routes";
+import { createUserForm } from "../../store";
+import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -101,21 +101,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function CreateAccountView() {
+export default function UserDetailsFormView(props) {
+  const { onSubmit } = props;
+  const [user] = useRecoilState(createUserForm);
   const classes = useStyles();
   const history = useHistory();
-  const { auth, db }: AppDependencies = useContext(AppDependenciesContext);
-  const usersService = new UsersService(db, auth);
 
   const [state, setState] = useState({
-    email: { input: "", invalid: false, helperText: "" },
+    email: { input: user.email, invalid: false, helperText: "" },
     password: "",
     passwordConfirm: "",
-    firstName: "",
-    lastName: "",
-    company: "",
-    companyPhone: { input: "", invalid: false, helperText: "" },
-    personalPhone: { input: "", invalid: false, helperText: "" },
+    firstName: user.firstName,
+    lastName: user.lastName,
+    company: user.company,
+    companyPhone: { input: user.companyPhone, invalid: false, helperText: "" },
+    personalPhone: {
+      input: user.personalPhone ? user.personalPhone : "",
+      invalid: false,
+      helperText: "",
+    },
     showPassword: false,
   });
 
@@ -145,36 +149,43 @@ export default function CreateAccountView() {
   //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
   //TODO confirmation after submit button clicked - or some UI
 
-  const handleRegister = async () => {
+  const validateForm = () => {
     // handle email checker
     if (state.password !== state.passwordConfirm) {
       // TODO: Properly handle this error - present something in the UI
       alert("passwords don't match");
-      return;
+      return false;
     }
     //check each required field for input
     //return if missing
     switch ("") {
       case state.firstName:
         alert("First Name is required.");
-        return;
+        return false;
       case state.lastName:
         alert("Last Name is required.");
-        return;
+        return false;
       case state.email.input:
         alert("Email is required.");
-        return;
+        return false;
       case state.password:
         alert("Password is required.");
-        return;
+        return false;
       case state.company:
         alert("Company is required.");
-        return;
+        return false;
       case state.companyPhone.input:
         alert("Company phone is required.");
-        return;
+        return false;
     }
-    const data = {
+    return true;
+  };
+
+  const handleNext = () => {
+    const isValid = validateForm();
+    if (!isValid) return;
+
+    const user: User = {
       email: state.email.input,
       password: state.password,
       firstName: state.firstName,
@@ -184,18 +195,9 @@ export default function CreateAccountView() {
       personalPhone: state.companyPhone.input,
     };
 
-    const { error, message } = await usersService.createUser(data);
-    if (error) {
-      // TODO: handle this message
-      console.log("error", error);
-      return;
-    }
-
-    // TODO: handle this message
-    console.log("message", message);
-
-    history.push(routes.EVENT_LIST_URL);
+    onSubmit({ action: "navToInterests", data: user });
   };
+
   const handleClickShowPassword = () => {
     setState({ ...state, showPassword: !state.showPassword });
   };
@@ -310,7 +312,7 @@ export default function CreateAccountView() {
             </Button>
             <Button
               id="registerButton"
-              onClick={handleRegister}
+              onClick={handleNext}
               className={classes.btnAccount}
               variant="contained"
             >

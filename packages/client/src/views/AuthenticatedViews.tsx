@@ -5,7 +5,6 @@ import routes from "../constants/routes";
 import EventDetailsView from "./EventDetails";
 import CreateEventView from "./CreateEvent";
 import EventListView from "./EventList";
-import InterestsView from "./Interests";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +25,6 @@ export default function App() {
     <div className={classes.root}>
       <Switch>
         <Route exact path={routes.EVENT_LIST_URL} component={EventListView} />
-        <Route exact path={routes.INTERESTS_URL} component={InterestsView} />
         <Route
           exact
           path={routes.CREATE_EVENT_URL}
