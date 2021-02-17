@@ -10,7 +10,12 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
-import { EventFactory, formatCentsToCurrency } from "../models/event";
+import {
+  EventFactory,
+  formatCentsToCurrency,
+  displayEventDate,
+  displayEventTime,
+} from "../models/event";
 import EventsService from "../services/eventsService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
@@ -109,7 +114,7 @@ export default function EventDetailsView() {
                 {eventState.topic}
               </Typography>
               <Typography paragraph className={classes.eventDate}>
-                {new Date(eventState.startTime).toDateString()}
+                {displayEventDate(eventState.startTime)}
               </Typography>
             </div>
             <div>
@@ -134,7 +139,7 @@ export default function EventDetailsView() {
                 <b>Address:</b> {eventState.location}
               </Typography>
               <Typography paragraph className={classes.infoType}>
-                <b>Time:</b> {new Date(eventState.startTime).toTimeString()}
+                <b>Time:</b> {displayEventTime(eventState.startTime)}
               </Typography>
               <Typography paragraph className={classes.infoType}>
                 <b>Cost:</b> {formatCentsToCurrency(eventState.price)}

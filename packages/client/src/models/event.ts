@@ -43,3 +43,11 @@ export function formatCentsToCurrency(
     currency,
   });
 }
+
+export function displayEventDate(date) {
+    return new Date(date).toDateString();
+  }
+
+export function displayEventTime(time) {
+    return new Date(time).toTimeString();
+  }
