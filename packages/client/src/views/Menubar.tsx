@@ -63,13 +63,15 @@ export default function PrimarySearchAppBar() {
         </Typography>
         <div className={classes.grow} />
         <div>
-          <IconButton
-            aria-label="Add Event"
-            color="inherit"
-            onClick={handleCreateEvent}
-          >
-            <AddIcon />
-          </IconButton>
+          {user?.isAdmin && (
+            <IconButton
+              aria-label="Add Event"
+              color="inherit"
+              onClick={handleCreateEvent}
+            >
+              <AddIcon />
+            </IconButton>
+          )}
           <IconButton
             aria-label="Signout"
             color="inherit"
