@@ -58,7 +58,9 @@ describe("EventsService", () => {
       { categories: ["marketing"], startTime: faker.date.future() },
       { categories: ["it"], startTime: faker.date.future() },
     ];
-    Promise.all(events.map((event) => db.collection("events").add(event)));
+    await Promise.all(
+      events.map((event) => db.collection("events").add(event))
+    );
 
     // when
     const docs = await service.getAllEvents();
@@ -79,7 +81,9 @@ describe("EventsService", () => {
       { categories: ["marketing"], startTime: faker.date.future() },
       { categories: ["it"], startTime: faker.date.future() },
     ];
-    Promise.all(events.map((event) => db.collection("events").add(event)));
+    await Promise.all(
+      events.map((event) => db.collection("events").add(event))
+    );
 
     // when
     const docs = await service.getAllEvents(["leadership", "it"]);

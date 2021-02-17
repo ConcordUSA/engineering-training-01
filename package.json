@@ -11,7 +11,7 @@
     "test:client": "cd packages/client && npm run test",
     "test:watch:client": "cd packages/client && npm run test:watch",
     "test:watch:server": "cd packages/server && npm run test:watch",
-    "test:watch": "run-p test:watch:*",
+    "test:watch": "firebase emulators:exec \"run-p test:watch:client\"",
     "test:subcutaneous": "lerna run test:subcutaneous",
     "dev": "run-p dev:emulators dev:cypress dev:client",
     "dev:emulators": "firebase emulators:start --inspect-functions",
