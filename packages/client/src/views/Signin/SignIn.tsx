@@ -14,7 +14,7 @@ import AppTheme from "../../styles/theme";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import routes from "../../constants/routes";
-import { ArrowLeftTwoTone } from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -160,7 +160,7 @@ export default function SigninView() {
                 setPasswordState(e.target.value);
               }}
             />
-            
+
           <div>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
