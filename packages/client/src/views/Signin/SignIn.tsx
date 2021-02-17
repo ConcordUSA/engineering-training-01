@@ -1,4 +1,7 @@
 import React, { useContext, useState } from "react";
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import {
   Paper,
   Button,
@@ -11,6 +14,7 @@ import AppTheme from "../../styles/theme";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import routes from "../../constants/routes";
+import { ArrowLeftTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -156,15 +160,22 @@ export default function SigninView() {
                 setPasswordState(e.target.value);
               }}
             />
+            
+          <div>
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"/>
+            </div>
+
             <div>
               <Button
                 variant="contained"
                 className={classes.submit}
                 onClick={handleSignin}
               >
-                Submit
+                Sign In
               </Button>
-            </div>
+              </div>
             <div className={classes.links}>
               <Button className={classes.links} onClick={handleForgotPassword}>
                 Forgot Password?
