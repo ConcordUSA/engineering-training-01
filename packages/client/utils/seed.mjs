@@ -7,7 +7,6 @@ const events = [];
 const generateEvents = (numberOfEvents) => {
   for (let step = 0; step < numberOfEvents; step++) {
     const event = {
-      id: faker.random.uuid(),
       topic: faker.random.word(),
       location: faker.address.city(),
       price: faker.random.number(),
@@ -22,7 +21,7 @@ const generateEvents = (numberOfEvents) => {
 };
 //this function used to help randomly generate category data
 const randomCategories = () => {
-  const fullList = ["marketing", "leadership", "finance", "technology"];
+  const fullList = ["marketing", "leadership", "finance", "it"];
   const shuffled = fullList.sort(function () {
     return 0.5 - Math.random();
   });
@@ -43,8 +42,12 @@ function seed() {
   const db = admin.firestore();
 
   generateEvents(20);
+  let counter = 20;
+  const doc = db.collection("events").doc();
+
   events.map((event) => {
-    db.collection("events").add(event);
+    const id = doc.id;
+    doc.set({ ...event, id });
   });
 }
 

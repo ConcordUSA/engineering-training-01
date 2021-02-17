@@ -98,7 +98,10 @@ export default function EventDetailsView() {
   }
 
   useEffect(() => {
-    eventService.getEvent(getEventIdFromURL()).then((event) => {
+    const getEvent = getEventIdFromURL();
+    console.log(getEvent);
+    eventService.getEvent(getEvent).then((event) => {
+      console.log(event);
       setState(event);
     });
   }, [eventService]);
