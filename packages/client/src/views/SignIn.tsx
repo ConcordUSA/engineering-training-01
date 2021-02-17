@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import React, { useContext, useEffect, useState } from "react";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import {
   Paper,
@@ -15,7 +15,6 @@ import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -29,7 +28,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       width: AppTheme.cardWidth,
-      margin: "1em",      textAlign: "center",
+      margin: "1em",
+      textAlign: "center",
     },
     logo: {
       marginTop: "2%",
@@ -86,10 +86,26 @@ export default function SigninView() {
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const localStorageEmailKey = 'fourSeasonsEmail'
+
+  useEffect(() => {
+    const email = localStorage.getItem(localStorageEmailKey)
+    if (email) {
+      setUsernameState(email)
+      setRememberMe(true)
+    }
+  },[])
+
 
   const handleSignin = async () => {
     try {
       await auth.signInWithEmailAndPassword(usernameState, passwordState);
+      
+      // manage email in local storage
+      if (!rememberMe) localStorage.removeItem(localStorageEmailKey)
+      if (rememberMe && usernameState) localStorage.setItem(localStorageEmailKey, usernameState);
+
       history.push(routes.EVENT_LIST_URL);
     } catch (e) {
       console.log(e.message);
@@ -103,6 +119,10 @@ export default function SigninView() {
   const handleForgotPassword = () => {
     history.push(routes.PASSWORD_RESET_URL);
   };
+
+  const handleCheck = () => {
+    setRememberMe(!rememberMe)
+  }
 
   return (
     <div className={classes.root}>
@@ -169,10 +189,14 @@ export default function SigninView() {
               }}
             />
 
-          <div>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"/>
+            <div>
+              <FormControlLabel
+                control={
+                  <Checkbox id="remember" checked={rememberMe} color="primary" />
+                }
+                label="Remember me"
+                onChange={handleCheck}
+              />
             </div>
 
             <div>
@@ -183,7 +207,7 @@ export default function SigninView() {
               >
                 Sign In
               </Button>
-              </div>
+            </div>
             <div className={classes.links}>
               <Button className={classes.links} onClick={handleForgotPassword}>
                 Forgot Password?
