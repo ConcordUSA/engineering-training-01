@@ -24,9 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function EventListView() {
-  // const [selectedEventState, setSelectedEventState] = useRecoilState(
-  //   selectedEvent
-  // );
+  
   const classes = useStyles();
   const [user, setUser] = useState<User>();
   const [events, setEvents] = useState<EventsPerCategory[]>([]);
