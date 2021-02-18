@@ -6,19 +6,20 @@ import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService, { EventsPerCategory } from "../services/eventsService";
 import { User } from "../models/user";
 import Events from "./Events";
+import Grid from "@material-ui/core/Grid";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
+      overflow: "scroll",
     },
-    categoryList: {
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      alignItems: "center",
+    allEventsDiv: {
+      height: "500px",
+      overflow: "scroll",
     },
+    categoryH1: {},
   })
 );
 
@@ -52,11 +53,20 @@ export default function EventListView() {
     <React.Fragment>
       <div className={classes.root}>
         {eventState?.map((categoryList: EventsPerCategory) => (
-          <div className={classes.categoryList}>
-            <h1> {categoryList.category}</h1>
-            {categoryList?.items?.map((event: Event | any) => (
-              <Events event={event} />
-            ))}
+          <div>
+            <h1 className={classes.categoryH1}> {categoryList.category}</h1>
+            <div className={classes.allEventsDiv}>
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="flex-start"
+              >
+                {categoryList?.items?.map((event: Event | any) => (
+                  <Events event={event} />
+                ))}
+              </Grid>
+            </div>
           </div>
         ))}
       </div>
