@@ -87,24 +87,24 @@ export default function SigninView() {
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const localStorageEmailKey = 'fourSeasonsEmail'
+  const localStorageEmailKey = "fourSeasonsEmail";
 
   useEffect(() => {
-    const email = localStorage.getItem(localStorageEmailKey)
+    const email = localStorage.getItem(localStorageEmailKey);
     if (email) {
-      setUsernameState(email)
-      setRememberMe(true)
+      setUsernameState(email);
+      setRememberMe(true);
     }
-  },[])
-
+  }, []);
 
   const handleSignin = async () => {
     try {
       await auth.signInWithEmailAndPassword(usernameState, passwordState);
-      
+
       // manage email in local storage
-      if (!rememberMe) localStorage.removeItem(localStorageEmailKey)
-      if (rememberMe && usernameState) localStorage.setItem(localStorageEmailKey, usernameState);
+      if (!rememberMe) localStorage.removeItem(localStorageEmailKey);
+      if (rememberMe && usernameState)
+        localStorage.setItem(localStorageEmailKey, usernameState);
 
       history.push(routes.EVENT_LIST_URL);
     } catch (e) {
@@ -121,8 +121,8 @@ export default function SigninView() {
   };
 
   const handleCheck = () => {
-    setRememberMe(!rememberMe)
-  }
+    setRememberMe(!rememberMe);
+  };
 
   return (
     <div className={classes.root}>
@@ -192,7 +192,11 @@ export default function SigninView() {
             <div>
               <FormControlLabel
                 control={
-                  <Checkbox id="remember" checked={rememberMe} color="primary" />
+                  <Checkbox
+                    id="rememberCheckBox"
+                    checked={rememberMe}
+                    color="primary"
+                  />
                 }
                 label="Remember me"
                 onChange={handleCheck}

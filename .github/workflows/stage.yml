@@ -27,24 +27,24 @@ jobs:
           env:
             FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
             PROJECT_ID: et-2021a-stage
-  e2e_tests:
-      environment: staging
-      needs: build_test_deploy
-      runs-on: ubuntu-latest
-      steps:      
-        - name: Checkout Repo
-          uses: actions/checkout@master
-        - name: Install Dependencies
-          run: npm ci
-        # - name: Subcutaneous Tests
-        #   run: npm run test:subcutaneous
-        #   env:
-        #     NODE_ENV: staging
-        - name: End to End Tests
-          run: npm run test:e2e
-          env:
-            CYPRESS_BASE_URL: https://et-2021a-stage.web.app/
-            NODE_ENV: staging
+  # e2e_tests:
+  #     environment: staging
+  #     needs: build_test_deploy
+  #     runs-on: ubuntu-latest
+  #     steps:      
+  #       - name: Checkout Repo
+  #         uses: actions/checkout@master
+  #       - name: Install Dependencies
+  #         run: npm ci
+  #       # - name: Subcutaneous Tests
+  #       #   run: npm run test:subcutaneous
+  #       #   env:
+  #       #     NODE_ENV: staging
+  #       - name: End to End Tests
+  #         run: npm run test:e2e
+  #         env:
+  #           CYPRESS_BASE_URL: https://et-2021a-stage.web.app/
+  #           NODE_ENV: staging
   analyze:
     name: Analyze
     runs-on: ubuntu-latest

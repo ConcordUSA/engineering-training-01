@@ -81,7 +81,7 @@ const getConfigsPerEnvironment = (): Configs => {
   let environment;
   switch (hostname) {
     case "localhost":
-      environment = environments.development;
+      environment = environments.test;
       break;
     case "et-2021a-dev.web.app":
       environment = environments.development;
@@ -92,8 +92,9 @@ const getConfigsPerEnvironment = (): Configs => {
     case "et-2021a-prod.web.app":
       environment = environments.production;
       break;
+    default:
+      environment = environments.test;
   }
-  console.log("environment configs", environment.name);
   return environment;
 };
 export default getConfigsPerEnvironment;
