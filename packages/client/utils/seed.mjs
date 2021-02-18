@@ -2,11 +2,28 @@
 
 import faker from "faker";
 import * as firebase from "@firebase/rules-unit-testing";
+import chalk from "chalk";
 
 const events = [];
+const args = process.argv.slice(2);
+
+const numberOfEvents = args[0] ?? 20;
+console.log(
+  chalk`{magentaBright ${numberOfEvents}} {whiteBright Events will be seeded.}`
+);
+
 const generateEvents = (numberOfEvents) => {
+  firebase.useEmulators({ firestore: { host: "localhost", port: 8080 } });
+
+  const projectId = "et-2021a-dev";
+  const admin = firebase.initializeAdminApp({ projectId });
+  const db = admin.firestore();
+
   for (let step = 0; step < numberOfEvents; step++) {
+    const docRef = db.collection("events").doc();
+
     const event = {
+      id: docRef.id,
       topic: faker.random.word(),
       location: faker.address.city(),
       price: faker.random.number(),
@@ -15,10 +32,10 @@ const generateEvents = (numberOfEvents) => {
       image: faker.image.imageUrl(400, 400, "business", true),
       description: faker.lorem.paragraph(),
     };
-    events.push(event);
+    docRef.set(event);
   }
-  return events;
 };
+
 //this function used to help randomly generate category data
 const randomCategories = () => {
   const fullList = ["marketing", "leadership", "finance", "it"];
@@ -34,21 +51,5 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-function seed() {
-  firebase.useEmulators({ firestore: { host: "localhost", port: 8080 } });
-
-  const projectId = "et-2021a-dev";
-  const admin = firebase.initializeAdminApp({ projectId });
-  const db = admin.firestore();
-
-  generateEvents(20);
-  let counter = 20;
-  const doc = db.collection("events").doc();
-
-  events.map((event) => {
-    const id = doc.id;
-    doc.set({ ...event, id });
-  });
-}
-
-seed();
+generateEvents(numberOfEvents);
+console.log(chalk`{greenBright Seeding Successful!}`);
