@@ -76,6 +76,7 @@ export default function PrimarySearchAppBar() {
             aria-label="Signout"
             color="inherit"
             onClick={handleSignout}
+            id="signoutBtn"
           >
             <ExitToAppIcon />
           </IconButton>

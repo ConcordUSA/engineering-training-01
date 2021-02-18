@@ -83,7 +83,7 @@ export default function EmailVerificationView() {
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
 
   const handleSend = useCallback(() => {
-    if (!auth.currentUser.emailVerified)
+    if (!auth.currentUser?.emailVerified)
       auth.currentUser
         ?.sendEmailVerification({
           url: config.appUrl + routes.EVENT_LIST_URL,
@@ -113,7 +113,7 @@ export default function EmailVerificationView() {
             </Typography>
             <div className={classes.buttonContainer}>
               <Button
-                id="createEventButton"
+                id="sendEmailBtn"
                 className={classes.btnCreateEvent}
                 variant="contained"
                 color="primary"

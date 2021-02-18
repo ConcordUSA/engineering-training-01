@@ -14,7 +14,9 @@ const getConfigsPerEnvironment = () => {
     const baseUrl = Cypress.env("CYPRESS_BASE_URL");
     switch (baseUrl) {
       case "http://localhost:3000":
-        return environments.development;
+        return environments.test;
+      case "http://localhost:5000":
+        return environments.test;
       case "https://et-2021a-dev.web.app/":
         return environments.development;
       case "https://et-2021a-stage.web.app/":
@@ -28,7 +30,7 @@ const getConfigsPerEnvironment = () => {
   const hostname = global?.window?.location?.hostname;
   switch (hostname) {
     case "localhost":
-      return environments.development;
+      return environments.test;
     case "et-2021a-dev.web.app":
       return environments.development;
     case "et-2021a-stage.web.app":

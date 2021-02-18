@@ -3,7 +3,6 @@ const environments = {
     name: "test",
     apiUrl: "http://localhost:5001/et-2021a-dev/us-central1/api/v1",
     appUrl: "http://localhost:3000",
-    testUid: "jAW706OIycfuN632Sv3nqJLz0Z93",
     firebaseConfig: {
       apiKey: "AIzaSyCzAzy1AU1MAY7QGE-j7Ej2dWqcYrh0CHU",
       authDomain: "et-2021a-dev.firebaseapp.com",
@@ -19,7 +18,6 @@ const environments = {
     name: "development",
     apiUrl: "https://us-central1-et-2021a-dev.cloudfunctions.net/api/v1",
     appUrl: "https://et-2021a-dev.web.app",
-    testUid: "jAW706OIycfuN632Sv3nqJLz0Z93",
     firebaseConfig: {
       apiKey: "AIzaSyCzAzy1AU1MAY7QGE-j7Ej2dWqcYrh0CHU",
       authDomain: "et-2021a-dev.firebaseapp.com",
@@ -34,7 +32,6 @@ const environments = {
     name: "staging",
     apiUrl: "https://us-central1-et-2021a-stage.cloudfunctions.net/api/v1",
     appUrl: "https://et-2021a-stage.web.app",
-    testUid: "",
     firebaseConfig: {
       apiKey: "AIzaSyCyu0nOPQIaH-1086Wa1_3ASfUUwarwdX8",
       authDomain: "et-2021a-stage.firebaseapp.com",
@@ -49,7 +46,6 @@ const environments = {
     name: "production",
     apiUrl: "https://us-central1-et-2021a-prod.cloudfunctions.net/api/v1",
     appUrl: "https://et-2021a-prod.web.app",
-    testUid: "",
     firebaseConfig: {
       apiKey: "AIzaSyA5tpaOilpydF3X7bIffgjGX-Xr_AiUE1g",
       authDomain: "et-2021a-prod.firebaseapp.com",
