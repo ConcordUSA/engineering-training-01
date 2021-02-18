@@ -44,7 +44,6 @@ export default class UsersService {
   public async getUser(uid: string) {
     const doc = await this.db.collection(this.collection).doc(uid).get();
     const data = doc.data() as User;
-    console.log(data)
 
     return data;
   }
