@@ -26,7 +26,6 @@ export default class EventsService {
     const doc = await this.db.collection(this.collection).doc(id).get();
     const data = doc.data() as Event;
     const event = EventFactory(data);
-    console.log(data);
 
     return event;
   }
@@ -59,7 +58,6 @@ export default class EventsService {
     docsRefs.docs.forEach((doc) => {
       const event = doc.data() as Event;
       const { categories } = event;
-      console.log("event", event);
       // build up the arrays of eventsPerCategory
       categories.forEach((category) => {
         if (!eventsPerCategory[category]) eventsPerCategory[category] = [];
@@ -81,7 +79,6 @@ export default class EventsService {
     });
 
     result = result.filter((item) => item !== undefined);
-    console.log(result);
     return result;
   }
 }
