@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { User, UserFactory } from "../models/user";
+import { User } from "../models/user";
 
 export default class UsersService {
   private collection = "users";
@@ -27,14 +27,11 @@ export default class UsersService {
     }
 
     // create user in db service
-    const data = { ...user, uid }
-    delete data.password
+    const data = { ...user, uid };
+    delete data.password;
 
     try {
-      await this.db
-        .collection(this.collection)
-        .doc(uid)
-        .set(data);
+      await this.db.collection(this.collection).doc(uid).set(data);
       return { uid, message: "User successfully created" };
     } catch (error) {
       return { error: error.message };

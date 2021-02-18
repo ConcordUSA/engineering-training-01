@@ -106,9 +106,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Events(props) {
   const classes = useStyles();
   const history = useHistory();
-  const [selectedEventState, setSelectedEventState] = useRecoilState(
-    selectedEvent
-  );
+  const [, setSelectedEventState] = useRecoilState(selectedEvent);
   const truncate = (str, n) => {
     return str.length > n ? str.substr(0, n - 1) + "..." : str;
   };
