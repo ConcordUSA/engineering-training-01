@@ -46,31 +46,33 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: "1.5rem",
     },
     eventParagraph: {
+      display: "-webkit-box",
+      "-webkit-line-clamp": 3,
+      "-webkit-box-orient": "vertical",
+      padding: 0,
       margin: 0,
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
     },
+
     eventDateDiv: {
       display: "flex",
       width: "100%",
+    },
+    eventParaDiv: {
+      marginTop: "10px",
+      width: "100%",
+      overflow: "hidden",
+      height: "3.6em",
     },
     eventDate: {
       margin: 0,
       color: AppTheme.primary,
       height: "10px",
     },
-    eventBtnDiv: {
-      width: "100%",
-      position: "relative",
-    },
+
     registerBtn: {
       margin: 0,
       color: AppTheme.primaryText,
       width: "50%",
-      position: "absolute",
-      bottom: "10px",
-      right: 0,
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
@@ -108,12 +110,12 @@ export default function Events(props) {
             </div>
             <div className={classes.eventDetailsDiv}>
               <div>
-                {" "}
-                class
                 <h1 className={classes.eventTitle}>{props.event.topic}</h1>
-                <p className={classes.eventParagraph}>
-                  {props.event.description}
-                </p>
+                <div className={classes.eventParaDiv}>
+                  <p className={classes.eventParagraph}>
+                    {props.event.description}
+                  </p>
+                </div>
               </div>
               <div className={classes.eventDateDiv}>
                 <p className={classes.eventDate}>
@@ -121,11 +123,9 @@ export default function Events(props) {
                     props.event.startTime.seconds * 1000
                   ).toDateString()}
                 </p>
-                <div className={classes.eventBtnDiv}>
-                  <Button variant="contained" className={classes.registerBtn}>
-                    register
-                  </Button>
-                </div>
+                <Button variant="contained" className={classes.registerBtn}>
+                  register
+                </Button>
               </div>
             </div>
           </Paper>
