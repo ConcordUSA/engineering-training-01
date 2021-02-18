@@ -1,11 +1,11 @@
 import React from "react";
-import { useRecoilState } from "recoil";
-import { useHistory } from "react-router-dom";
+// import { useRecoilState } from "recoil";
+// import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Paper, Button, Container, Divider } from "@material-ui/core";
+import { Paper, Button, Container } from "@material-ui/core";
 import AppTheme from "../styles/theme";
-import routes from "../constants/routes";
-import { selectedEvent } from "../store";
+// import routes from "../constants/routes";
+// import { selectedEvent } from "../store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,16 +44,12 @@ const useStyles = makeStyles((theme: Theme) =>
     eventTitle: {
       margin: 0,
       fontSize: "1.5rem",
-      height: "10px",
     },
     eventParagraph: {
       margin: 0,
-      height: "2px",
-    },
-    eventDivider: {
-      width: "220px",
-      backgroundColor: "#000000",
-      margin: 0,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
     eventDateDiv: {
       display: "flex",
@@ -80,34 +76,19 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: AppTheme.secondary,
       },
     },
-    detailsBtn: {
-      margin: 0,
-      color: AppTheme.primary,
-      width: "35%",
-      position: "absolute",
-      bottom: "10px",
-      backgroundColor: "#ffffff",
-      borderColor: AppTheme.primary,
-      "&:hover": {
-        backgroundColor: AppTheme.primary,
-        color: "#ffffff",
-      },
-    },
   })
 );
 
 export default function Events(props) {
   const classes = useStyles();
-  const history = useHistory();
-  const [, setSelectedEventState] = useRecoilState(selectedEvent);
-  const truncate = (str, n) => {
-    return str.length > n ? str.substr(0, n - 1) + "..." : str;
-  };
+  // const [selectedEventState, setSelectedEventState] = useRecoilState(
+  //   selectedEvent
+  // );
 
-  const onClick = (event?) => {
-    setSelectedEventState(event);
-    history.push(routes.EVENT_DETAILS_URL + event.id);
-  };
+  // const onClick = (event?) => {
+  //   setSelectedEventState(event);
+  //   history.push(routes.EVENT_DETAILS_URL + event.id);
+  // };
 
   return (
     <React.Fragment>
@@ -126,11 +107,14 @@ export default function Events(props) {
               />
             </div>
             <div className={classes.eventDetailsDiv}>
-              <h1 className={classes.eventTitle}>{props.topic}</h1>
-              <p className={classes.eventParagraph}>
-                {truncate(props.event.description, 32)}
-              </p>
-              <Divider variant="middle" className={classes.eventDivider} />
+              <div>
+                {" "}
+                class
+                <h1 className={classes.eventTitle}>{props.event.topic}</h1>
+                <p className={classes.eventParagraph}>
+                  {props.event.description}
+                </p>
+              </div>
               <div className={classes.eventDateDiv}>
                 <p className={classes.eventDate}>
                   {new Date(
@@ -138,13 +122,6 @@ export default function Events(props) {
                   ).toDateString()}
                 </p>
                 <div className={classes.eventBtnDiv}>
-                  <Button
-                    variant="outlined"
-                    className={classes.detailsBtn}
-                    onClick={() => onClick(props.event)}
-                  >
-                    details
-                  </Button>
                   <Button variant="contained" className={classes.registerBtn}>
                     register
                   </Button>
