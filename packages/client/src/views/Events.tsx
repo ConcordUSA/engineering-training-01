@@ -9,14 +9,7 @@ import { selectedEvent } from "../store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      marginTop: "12%",
-      height: "100%",
-      width: "100%",
-    },
+    root: {},
     container: {
       margin: "0px 5px 5px 0px",
       padding: "5px",
