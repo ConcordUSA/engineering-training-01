@@ -1,11 +1,9 @@
 import React from "react";
-// import { useRecoilState } from "recoil";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container } from "@material-ui/core";
 import AppTheme from "../styles/theme";
-// import routes from "../constants/routes";
-// import { selectedEvent } from "../store";
+import routes from "../constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -83,14 +81,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Events(props) {
   const classes = useStyles();
-  // const [selectedEventState, setSelectedEventState] = useRecoilState(
-  //   selectedEvent
-  // );
+  const history = useHistory();
+  const truncate = (str, n) => {
+    return str.length > n ? str.substr(0, n - 1) + "..." : str;
+  };
 
-  // const onClick = (event?) => {
-  //   setSelectedEventState(event);
-  //   history.push(routes.EVENT_DETAILS_URL + event.id);
-  // };
+  const onClick = (event?) => {
+    history.push(routes.EVENT_DETAILS_URL + event.id);
+  };
 
   return (
     <React.Fragment>

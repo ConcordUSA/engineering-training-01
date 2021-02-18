@@ -13,6 +13,8 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import AppTheme from "../styles/theme";
 import Checkbox from "@material-ui/core/Checkbox";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -135,6 +137,7 @@ export default function CreateEventView() {
   const [state, setState] = useState(newEvent);
   const history = useHistory();
   const { db }: AppDependencies = useContext(AppDependenciesContext);
+  // const { db, storage }: AppDependencies = useContext(AppDependenciesContext);
   const eventsService = new EventsService(db);
 
   const [checkboxState, setCheckBoxState] = React.useState({
@@ -154,12 +157,38 @@ export default function CreateEventView() {
     });
   };
 
+  function determineValue(id, val) {
+    if (id === "price") {
+      return ("" + val).replace(/\D/g, "").replaceAll(/^0*/g, "");
+    }
+    return val;
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
     const id = e.target.id;
+    const value = determineValue(id, e.target.value);
     setState({
       ...state,
       [id]: value,
+    });
+  };
+
+  const handleStartDateChange = (d: Date) => {
+    let newEndTime = state.endTime;
+    if (d > newEndTime) {
+      newEndTime = d;
+    }
+    setState({
+      ...state,
+      startTime: d,
+      endTime: newEndTime,
+    });
+  };
+
+  const handleEndDateChange = (d: Date) => {
+    setState({
+      ...state,
+      endTime: d,
     });
   };
 
@@ -189,6 +218,34 @@ export default function CreateEventView() {
     }
   };
 
+  const formatPrice = (price) => {
+    //price is int
+    //formatted price is $int/100
+    //switch case based on length of price string
+
+    const priceString = "" + price;
+    const priceLength = priceString.length;
+    let formattedPrice;
+    switch (true) {
+      case priceLength === 0:
+        formattedPrice = "$";
+        break;
+      case priceLength === 1:
+        formattedPrice = "$ 0.0" + priceString;
+        break;
+      case priceLength === 2:
+        formattedPrice = "$ 0." + priceString;
+        break;
+      default:
+        formattedPrice =
+          "$" +
+          priceString.substring(0, priceLength - 2) +
+          "." +
+          priceString.substring(priceLength - 2);
+    }
+    return formattedPrice;
+  };
+
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.paperWrap}>
@@ -210,39 +267,37 @@ export default function CreateEventView() {
               onChange={handleChange}
             />
             <div className={classes.dateAndPriceAndImageDiv}>
-              <TextField
-                id="startTime"
-                label="Start time"
-                type="datetime-local"
-                defaultValue="2021-01-24T9:00"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                className={classes.halfInput}
-                value={state.startTime}
-                onChange={handleChange}
-              />
-              <TextField
-                id="endTime"
-                label="end time"
-                type="datetime-local"
-                defaultValue="2021-01-24T9:00"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                className={classes.halfInput}
-                value={state.endTime}
-                onChange={handleChange}
-              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DateTimePicker
+                  id="startTime"
+                  label="Start time"
+                  defaultValue={new Date()}
+                  value={state.startTime}
+                  onChange={handleStartDateChange}
+                  disablePast
+                  className={classes.halfInput}
+                  format={"MM-dd-yy hh:mm a"}
+                />
+                <DateTimePicker
+                  id="endTime"
+                  label="End time"
+                  className={classes.halfInput}
+                  defaultValue={new Date()}
+                  value={state.endTime}
+                  onChange={handleEndDateChange}
+                  disablePast
+                  minDate={state.startTime}
+                  format={"MM-dd-yy hh:mm a"}
+                />
+              </MuiPickersUtilsProvider>
             </div>
             <div className={classes.dateAndPriceAndImageDiv}>
               <TextField
                 id="price"
                 label="Price"
-                value={state.price}
+                value={formatPrice(state.price)}
                 className={classes.halfInput}
                 onChange={handleChange}
-                type="number"
               />
               <TextField
                 id="image"
