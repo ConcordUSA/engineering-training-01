@@ -28,31 +28,33 @@ export default function EventListView() {
   //   selectedEvent
   // );
   const classes = useStyles();
+  const [user, setUser] = useState<User>();
+  const [events, setEvents] = useState<EventsPerCategory[]>([]);
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const userService = useMemo(() => new UsersService(db, auth), [db, auth]);
   const eventService = useMemo(() => new EventsService(db), [db]);
-  const [userState, setState] = useState({ interests: [] });
-  let coolEvents: EventsPerCategory[];
-  const [eventState, setEventState] = useState(coolEvents);
 
   useEffect(() => {
-    userService.getUser(auth.currentUser.uid).then((user: User) => {
-      setState({
-        interests: user.interestedCategories,
-      });
+    userService.getUser(auth.currentUser?.uid).then((user: User) => {
+      setUser({ ...user });
     });
-    eventService
-      .getAllEvents(userState.interests)
-      .then((eventList: EventsPerCategory[]) => {
-        setEventState(eventList);
-      });
-  }, [userService, eventService, auth.currentUser.uid, userState.interests]);
-  console.log(eventState);
+  }, [userService, auth.currentUser]);
+
+  useEffect(() => {
+    if (user?.interestedCategories) {
+      eventService
+        .getAllEvents(user.interestedCategories)
+        .then((eventList: EventsPerCategory[]) => {
+          setEvents(eventList);
+        });
+    }
+  }, [eventService, user]);
+  console.log(events);
 
   return (
     <React.Fragment>
       <div className={classes.root}>
-        {eventState?.map((categoryList: EventsPerCategory) => (
+        {events?.map((categoryList: EventsPerCategory) => (
           <div>
             <h1 className={classes.categoryH1}> {categoryList.category}</h1>
             <div className={classes.allEventsDiv}>
