@@ -7,7 +7,9 @@ const AppTheme = {
   secondary: colors.red.A700,
   background: colors.grey[200],
   cardWidth: "900px",
-  input: colors.blue.A200
+  input: colors.blue.A200,
+  hover: colors.grey[100],
+  cardWidthSmall: '600px',
 };
 
 export default AppTheme;

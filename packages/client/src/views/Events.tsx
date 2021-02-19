@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
+import { capitalize } from "../models/event";
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container } from "@material-ui/core";
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "170px",
       marginBottom: "10px",
       "&:hover": {
-        backgroundColor: AppTheme.background,
+        backgroundColor: AppTheme.hover,
       },
     },
     eventDetailsDiv: {
@@ -125,7 +126,9 @@ export default function Events(props) {
             </div>
             <div className={classes.eventDetailsDiv}>
               <div>
-                <h1 className={classes.eventTitle}>{props.event.topic}</h1>
+                <h1 className={classes.eventTitle}>
+                  {capitalize(props.event.topic)}
+                </h1>
                 <div className={classes.eventParaDiv}>
                   <p className={classes.eventParagraph}>
                     {props.event.description}

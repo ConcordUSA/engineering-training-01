@@ -1,5 +1,10 @@
 export type Category = "it" | "marketing" | "finance" | "leadership";
 
+export const capitalize = (s) => {
+  if (typeof s !== "string") return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
 export interface Event {
   id?: string; // should be the same id as what firebase creates for the event
   topic: string;
