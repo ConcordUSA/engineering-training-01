@@ -1,11 +1,11 @@
-import React from "react";
-// import { useRecoilState } from "recoil";
-// import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container } from "@material-ui/core";
 import AppTheme from "../styles/theme";
-// import routes from "../constants/routes";
-// import { selectedEvent } from "../store";
+import routes from "../constants/routes";
+import { selectedEvent } from "../store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       margin: "0px 5px 5px 0px",
       padding: "5px",
-      height: "170px",
     },
     event: {
       width: "29%",
@@ -35,10 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       height: "170px",
+      marginBottom: "10px",
+      "&:hover": {
+        backgroundColor: AppTheme.background,
+      },
     },
     eventDetailsDiv: {
       display: "flex",
-      width: "50%",
+      width: "60%",
       flexWrap: "wrap",
     },
     eventTitle: {
@@ -55,6 +58,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
     eventDateDiv: {
       display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
       width: "100%",
     },
     eventParaDiv: {
@@ -66,13 +71,11 @@ const useStyles = makeStyles((theme: Theme) =>
     eventDate: {
       margin: 0,
       color: AppTheme.primary,
-      height: "10px",
     },
 
     registerBtn: {
-      margin: 0,
+      marginRight: "15px",
       color: AppTheme.primaryText,
-      width: "50%",
       backgroundColor: AppTheme.primary,
       "&:hover": {
         backgroundColor: AppTheme.secondary,
@@ -83,14 +86,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Events(props) {
   const classes = useStyles();
-  // const [selectedEventState, setSelectedEventState] = useRecoilState(
-  //   selectedEvent
-  // );
+  const history = useHistory();
+  const [elevationState, setElevationState] = useState(1);
+  const onMouseEnter = () => {
+    setElevationState(10);
+  };
+  const onMouseLeave = () => {
+    setElevationState(1);
+  };
+  const [, setSelectedEventState] = useRecoilState(selectedEvent);
 
-  // const onClick = (event?) => {
-  //   setSelectedEventState(event);
-  //   history.push(routes.EVENT_DETAILS_URL + event.id);
-  // };
+  const onClick = (e): any => {
+    setSelectedEventState(e);
+    history.push(routes.EVENT_DETAILS_URL + e.id);
+  };
 
   return (
     <React.Fragment>
@@ -100,7 +109,13 @@ export default function Events(props) {
           className={classes.container}
           key={props.event.id}
         >
-          <Paper className={classes.eventPaper}>
+          <Paper
+            className={classes.eventPaper}
+            elevation={elevationState}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onClick={() => onClick(props.event)}
+          >
             <div className={classes.eventsImgDiv}>
               <img
                 src={props.event.image}
