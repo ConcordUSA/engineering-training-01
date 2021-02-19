@@ -135,11 +135,71 @@ export default function InterestsFormView(props) {
 
     onSubmit({ action: "createUser", data: { interestedCategories } });
   };
+
+  const checkboxMetaData = [
+    {
+      imgSrc: "./finance-icn.svg",
+      key: "finance",
+      text: "Finance",
+    },
+    {
+      imgSrc: "./it-icn.svg",
+      key: "it",
+      text: "IT",
+    },
+    {
+      imgSrc: "./leadership.svg",
+      key: "leadership",
+      text: "Leadership",
+    },
+    {
+      imgSrc: "./marketing-icn.svg",
+      key: "marketing",
+      text: "Marketing",
+    },
+  ];
+
+  const buildCheckboxes = (data) => {
+    const paperClass = state[data.key]
+      ? classes.selected
+      : classes.interestsPaper;
+    return (
+      <div className={classes.interestsWrapper}>
+        {state[data.key] && (
+          <img
+            src="./Vector.svg"
+            className={classes.checkMark}
+            alt="check mark"
+          />
+        )}
+        <Paper
+          className={paperClass}
+          id={data.key + "Checkbox"}
+          onClick={() => handleSelection(data.key)}
+          elevation={3}
+        >
+          <img
+            src={data.imgSrc}
+            alt={data.text}
+            className={classes.interestsImg}
+          />
+          <Typography
+            component="h1"
+            variant="h6"
+            align="center"
+            color="textPrimary"
+          >
+            {data.text}
+          </Typography>
+        </Paper>
+      </div>
+    );
+  };
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.paperWrap}>
-        {/* <div className={classes.column}> */}
         <Typography
           component="h1"
           variant="h3"
@@ -159,205 +219,11 @@ export default function InterestsFormView(props) {
           >
             Select all that apply
           </Typography>
-          {state.finance ? (
-            <div className={classes.interestsWrapper}>
-              <img
-                src="./Vector.svg"
-                className={classes.checkMark}
-                alt="check mark"
-              />
-              <Paper
-                className={classes.selected}
-                onClick={() => handleSelection("finance")}
-              >
-                <img
-                  src="./finance-icn.svg"
-                  alt="Finance"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  Finance
-                </Typography>
-              </Paper>
-            </div>
-          ) : (
-            <div className={classes.interestsWrapper}>
-              <Paper
-                className={classes.interestsPaper}
-                onClick={() => handleSelection("finance")}
-                elevation={3}
-              >
-                <img
-                  src="./finance-icn.svg"
-                  alt="Finance"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  Finance
-                </Typography>
-              </Paper>
-            </div>
-          )}
-          {state.it ? (
-            <div className={classes.interestsWrapper}>
-              <img
-                src="./Vector.svg"
-                className={classes.checkMark}
-                alt="check mark"
-              />
-              <Paper
-                className={classes.selected}
-                onClick={() => handleSelection("it")}
-              >
-                <img
-                  src="./it-icn.svg"
-                  alt="Information Technology"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  IT
-                </Typography>
-              </Paper>
-            </div>
-          ) : (
-            <div className={classes.interestsWrapper}>
-              <Paper
-                className={classes.interestsPaper}
-                onClick={() => handleSelection("it")}
-                elevation={3}
-              >
-                <img
-                  src="./it-icn.svg"
-                  alt="Information Technology"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  IT
-                </Typography>
-              </Paper>
-            </div>
-          )}
-          {state.leadership ? (
-            <div className={classes.interestsWrapper}>
-              <img
-                src="./Vector.svg"
-                className={classes.checkMark}
-                alt="check mark"
-              />
-              <Paper
-                className={classes.selected}
-                onClick={() => handleSelection("leadership")}
-              >
-                <img
-                  src="./leadership.svg"
-                  alt="Leadership"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  Leadership
-                </Typography>
-              </Paper>
-            </div>
-          ) : (
-            <div className={classes.interestsWrapper}>
-              <Paper
-                className={classes.interestsPaper}
-                onClick={() => handleSelection("leadership")}
-                elevation={3}
-              >
-                <img
-                  src="./leadership.svg"
-                  alt="Leadership"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  Leadership
-                </Typography>
-              </Paper>
-            </div>
-          )}
-          {state.marketing ? (
-            <div className={classes.interestsWrapper}>
-              <img
-                src="./Vector.svg"
-                className={classes.checkMark}
-                alt="check mark"
-              />
-              <Paper
-                className={classes.selected}
-                onClick={() => handleSelection("marketing")}
-              >
-                <img
-                  src="./marketing-icn.svg"
-                  alt="Marketing"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  Marketing
-                </Typography>
-              </Paper>
-            </div>
-          ) : (
-            <div className={classes.interestsWrapper}>
-              <Paper
-                className={classes.interestsPaper}
-                onClick={() => handleSelection("marketing")}
-                elevation={3}
-              >
-                <img
-                  src="./marketing-icn.svg"
-                  alt="Marketing"
-                  className={classes.interestsImg}
-                />
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  align="center"
-                  color="textPrimary"
-                >
-                  Marketing
-                </Typography>
-              </Paper>
-            </div>
-          )}
+          {checkboxMetaData.map(buildCheckboxes)}
           <div className={classes.btnDiv}>
             <Button
               type="submit"
+              id="submitBtn"
               variant="contained"
               className={classes.submit}
               onClick={handleSubmit}
@@ -366,7 +232,6 @@ export default function InterestsFormView(props) {
             </Button>
           </div>
         </Container>
-        {/* </div> */}
       </Paper>
     </div>
   );
