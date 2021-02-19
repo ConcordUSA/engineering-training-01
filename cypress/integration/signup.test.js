@@ -1,7 +1,20 @@
 /// <reference types="cypress" />
 import faker from "faker";
 
-describe("Signin", () => {
+describe("Signup", () => {
+  const generateUser = () => {
+    return {
+      uid: faker.random.uuid(),
+      email: faker.internet.email(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      company: faker.company.companyName(),
+      companyPhone: faker.phone.phoneNumber(),
+      personalPhone: faker.phone.phoneNumber(),
+      password: faker.internet.password(),
+      isAdmin: false,
+    };
+  };
   before(() => {});
 
   beforeEach(() => {
@@ -11,71 +24,46 @@ describe("Signin", () => {
   });
 
   afterEach(() => {
-    cy.signOut();
+    // cy.signOut();
   });
 
-  it("should navigate to the home screen when logging in with email verified user", () => {
-    const email = faker.internet.email().toLowerCase();
-    const password = faker.internet.password();
+  it("should create a user", async () => {
+    const user = generateUser();
+    cy.visit("/createAccount", { timeout: 100000 });
 
-    cy.createUser(email, password).then(function () {
-      cy.verifyUserEmail(email).then(function () {
-        cy.signOut().then(function () {
-          cy.get("#email").type(email);
-          cy.get("#password").type(password);
-          cy.get("#loginBtn").click();
-          cy.location("pathname").should("equal", "/events");
-        });
-      });
-    });
+    // user details form
+    cy.get("#firstName").type(user.firstName);
+    cy.get("#lastName").type(user.lastName);
+    cy.get("#email").type(user.email);
+    cy.get("#company").type(user.company);
+    cy.get("#companyPhone").type(user.companyPhone);
+    cy.get("#personalPhone").type(user.personalPhone);
+    cy.get("#password").type(user.password);
+    cy.get("#passwordConfirm").type(user.password);
+    cy.get("#registerButton").click();
+
+    // test
+    cy.location("pathname").should("equal", "/createAccount");
+    cy.get("h1").should("contain", "Categories");
+
+    // interests form
+    cy.get("#financeCheckbox").click();
+    cy.get("#submitBtn").click();
+
+    // test
+    cy.location("pathname").should("equal", "/events");
+    cy.get("#sendEmailBtn").should("exist");
   });
 
-  it("should show the email verification view if not verified", () => {
-    const email = faker.internet.email().toLowerCase();
-    const password = faker.internet.password();
+  // it("should navigate to the home screen when logging in with email verified user", () => {
+  //   const email = faker.internet.email().toLowerCase();
+  //   const password = faker.internet.password();
 
-    cy.createUser(email, password).then(function () {
-      cy.verifyUserEmail(email).then(function () {
-        cy.location("pathname").should("equal", "/");
-        cy.get("#sendEmailBtn").should("exist");
-      });
-    });
-  });
-
-  it("should logout the user when clicking the logout button", () => {
-    const email = faker.internet.email().toLowerCase();
-    const password = faker.internet.password();
-
-    cy.createUser(email, password).then(function () {
-      cy.verifyUserEmail(email).then(function () {
-        cy.signOut().then(function () {
-          cy.get("#email").type(email);
-          cy.get("#password").type(password);
-          cy.get("#loginBtn").click();
-          cy.get("#signoutBtn").click();
-          cy.location("pathname").should("equal", "/");
-        });
-      });
-    });
-  });
-
-  it("should store the email if remember me is checked", () => {
-    const email = faker.internet.email().toLowerCase();
-    const password = faker.internet.password();
-
-    cy.createUser(email, password).then(function () {
-      cy.verifyUserEmail(email).then(function () {
-        cy.signOut().then(function () {
-          cy.get("#email").type(email);
-          cy.get("#password").type(password);
-          cy.get("#rememberCheckBox").click();
-          cy.get("#loginBtn")
-            .click()
-            .should(() => {
-              expect(localStorage.getItem("fourSeasonsEmail")).to.eq(email);
-            });
-        });
-      });
-    });
-  });
+  //   cy.createUser(email, password).then(function () {
+  //     cy.verifyUserEmail(email).then(function () {
+  //       cy.signOut().then(function () {
+  //       });
+  //     });
+  //   });
+  // });
 });
