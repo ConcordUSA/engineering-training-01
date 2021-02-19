@@ -13,18 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       height: "100vh",
       width: "100vw",
-      overflow: "scroll",
     },
-    allEventsDiv: {
-      height: "500px",
-      overflow: "scroll",
-    },
+    allEventsDiv: {},
     categoryH1: {},
   })
 );
 
 export default function EventListView() {
-  
   const classes = useStyles();
   const [user, setUser] = useState<User>();
   const [events, setEvents] = useState<EventsPerCategory[]>([]);
