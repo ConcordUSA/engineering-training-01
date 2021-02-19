@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
       "& .Mui-focused": {
         color: AppTheme.input,
       },
+      marginBottom: "10px",
     },
     dateAndPriceAndImageDiv: {
       width: "100%",
@@ -137,8 +138,14 @@ export default function CreateEventView() {
   const [state, setState] = useState(newEvent);
   const history = useHistory();
   const { db }: AppDependencies = useContext(AppDependenciesContext);
-  // const { db, storage }: AppDependencies = useContext(AppDependenciesContext);
   const eventsService = new EventsService(db);
+  const [files, setFiles] = useState([]);
+  const imageHelperText =
+    "Please submit a url that ends with a .jpg, .jpeg, or .png file extension.";
+  const [imageState, setImageState] = useState({
+    error: false,
+    helperText: "",
+  });
 
   const [checkboxState, setCheckBoxState] = React.useState({
     leadership: false,
@@ -192,7 +199,34 @@ export default function CreateEventView() {
     });
   };
 
+  const validateImageLink = (event) => {
+    const link = event.target.value;
+    const match = link.match(/\..{3,4}$/gm);
+    if (!match) {
+      setImageState({ error: true, helperText: imageHelperText });
+      return false;
+    }
+    console.log(match);
+    switch (match[0]) {
+      case ".jpg":
+        setImageState({ error: false, helperText: "" });
+        return true;
+      case ".jpeg":
+        setImageState({ error: false, helperText: "" });
+        return true;
+      case ".png":
+        setImageState({ error: false, helperText: "" });
+        return true;
+      default:
+        setImageState({ error: true, helperText: imageHelperText });
+        return false;
+    }
+  };
+
   const handleCreate = async () => {
+    if (imageState.error) {
+      return;
+    }
     //gather all categories in an array as checked
     const categories: string[] = [];
     if (checkboxState.leadership) categories.push("leadership");
@@ -301,10 +335,13 @@ export default function CreateEventView() {
               />
               <TextField
                 id="image"
-                label="Image"
+                label="Image URL"
                 value={state.image}
                 className={classes.halfInput}
                 onChange={handleChange}
+                onBlur={validateImageLink}
+                error={imageState.error}
+                helperText={imageState.helperText}
               />
             </div>
             <div className={classes.eventDescription}>
