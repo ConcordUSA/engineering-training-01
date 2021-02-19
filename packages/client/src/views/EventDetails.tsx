@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
   Card,
-  CardActionArea,
   CardActions,
   Button,
   CardContent,
@@ -15,6 +14,7 @@ import {
   formatCentsToCurrency,
   displayEventDate,
   displayEventTime,
+  Category,
 } from "../models/event";
 import EventsService from "../services/eventsService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
@@ -75,6 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "center",
+      marginBottom: "10px",
     },
     registerBtn: {
       marginRight: "15px",
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function getBackground(category: string) {
+function getBackground(category: Category) {
   switch (category) {
     case "marketing":
       return "green";

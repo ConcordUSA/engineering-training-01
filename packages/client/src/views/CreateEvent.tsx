@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { TextField, Button, Paper } from "@material-ui/core";
-import { EventFactory, Event } from "../models/event";
+import { EventFactory, Event, Category } from "../models/event";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService from "../services/eventsService";
@@ -228,12 +228,11 @@ export default function CreateEventView() {
       return;
     }
     //gather all categories in an array as checked
-    const categories: string[] = [];
+    const categories: Category[] = [];
     if (checkboxState.leadership) categories.push("leadership");
     if (checkboxState.marketing) categories.push("marketing");
     if (checkboxState.finance) categories.push("finance");
-    if (checkboxState.informationTechnology)
-      categories.push("information technology");
+    if (checkboxState.informationTechnology) categories.push("it");
     const event: Event = {
       ...state,
       categories,

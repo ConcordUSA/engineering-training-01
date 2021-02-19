@@ -7,7 +7,7 @@ export interface Event {
   price: number;
   startTime: Date;
   endTime?: Date;
-  categories: string[];
+  categories: Category[];
   status?: string;
   image?: string | undefined;
   description: string;
