@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import {
   Card,
   CardActions,
@@ -9,12 +10,14 @@ import {
   Typography,
   Box,
 } from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {
   EventFactory,
   formatCentsToCurrency,
   displayEventDate,
   displayEventTime,
   Category,
+  capitalize,
 } from "../models/event";
 import EventsService from "../services/eventsService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
@@ -33,8 +36,15 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100vw",
       background: AppTheme.background,
     },
+    cardWrapper: {
+      position: "relative",
+    },
+    backArrow: {
+      position: "absolute",
+      left: "-10%",
+    },
     card: {
-      width: AppTheme.cardWidth,
+      width: AppTheme.cardWidthSmall,
     },
     infoType: {
       fontSize: "1.2em",
@@ -117,6 +127,7 @@ function getBackground(category: Category) {
 
 export default function EventDetailsView() {
   const classes = useStyles();
+  const history = useHistory();
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
   const newEvent = EventFactory();
@@ -134,64 +145,72 @@ export default function EventDetailsView() {
       setState(event);
     });
   }, [eventService]);
+  const handleBack = () => {
+    history.push(routes.EVENT_LIST_URL);
+  };
 
   return (
     <div className={classes.root}>
-      <Card className={classes.card}>
-        <CardMedia component="img" height="300px" image={eventState.image} />
-        <CardContent>
-          <div className={classes.eventHeader}>
-            <Typography paragraph className={classes.eventTitle}>
-              {eventState.topic}
+      <div className={classes.cardWrapper}>
+        <Button onClick={handleBack} className={classes.backArrow}>
+          <ArrowBackIcon />
+        </Button>
+        <Card className={classes.card}>
+          <CardMedia component="img" height="300px" image={eventState.image} />
+          <CardContent>
+            <div className={classes.eventHeader}>
+              <Typography paragraph className={classes.eventTitle}>
+                {capitalize(eventState.topic)}
+              </Typography>
+              <Typography paragraph className={classes.eventDate}>
+                {displayEventDate(eventState.startTime)}
+              </Typography>
+            </div>
+            <div className={classes.categoryDiv}>
+              {eventState.categories.map((category) => (
+                <Box
+                  bgcolor={getBackground(category)}
+                  className={classes.interestTag}
+                  key={category}
+                >
+                  {category}
+                </Box>
+              ))}
+            </div>
+            <Typography className={classes.eventDescription}>
+              {eventState.description}
             </Typography>
-            <Typography paragraph className={classes.eventDate}>
-              {displayEventDate(eventState.startTime)}
-            </Typography>
-          </div>
-          <div className={classes.categoryDiv}>
-            {eventState.categories.map((category) => (
-              <Box
-                bgcolor={getBackground(category)}
-                className={classes.interestTag}
-                key={category}
-              >
-                {category}
-              </Box>
-            ))}
-          </div>
-          <Typography className={classes.eventDescription}>
-            {eventState.description}
-          </Typography>
 
-          <div className={classes.eventData}>
-            <Typography paragraph className={classes.infoType}>
-              <b>Address:</b> {eventState.location}
-            </Typography>
-            <Typography paragraph className={classes.infoType}>
-              <b>Time:</b> {displayEventTime(eventState.startTime)}
-            </Typography>
-            <Typography paragraph className={classes.infoType}>
-              <b>Cost:</b> {formatCentsToCurrency(eventState.price)}
-            </Typography>
-            <Typography paragraph className={classes.infoType}>
-              <b>Status:</b> {eventState.status}
-            </Typography>
+            <div className={classes.eventData}>
+              <Typography paragraph className={classes.infoType}>
+                <b>Address:</b> {eventState.location}
+              </Typography>
+              <Typography paragraph className={classes.infoType}>
+                <b>Time:</b> {displayEventTime(eventState.startTime)}
+              </Typography>
+              <Typography paragraph className={classes.infoType}>
+                <b>Cost:</b> {formatCentsToCurrency(eventState.price)}
+              </Typography>
+              <Typography paragraph className={classes.infoType}>
+                <b>Status:</b> {eventState.status}
+              </Typography>
+            </div>
+          </CardContent>
+          <div className={classes.btnDiv}>
+            <CardActions>
+              <Button variant="outlined" className={classes.secondaryBtn}>
+                Edit
+              </Button>
+              <Button variant="outlined" className={classes.secondaryBtn}>
+                WatchList
+              </Button>
+              <Button variant="contained" className={classes.registerBtn}>
+                Register
+              </Button>
+            </CardActions>
           </div>
-        </CardContent>
-        <div className={classes.btnDiv}>
-          <CardActions>
-            <Button variant="outlined" className={classes.secondaryBtn}>
-              Edit
-            </Button>
-            <Button variant="outlined" className={classes.secondaryBtn}>
-              WatchList
-            </Button>
-            <Button variant="contained" className={classes.registerBtn}>
-              Register
-            </Button>
-          </CardActions>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

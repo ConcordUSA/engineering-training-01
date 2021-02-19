@@ -1,6 +1,6 @@
 import { atom } from "recoil";
-import {EventFactory} from '../models/event'
-import {UserFactory} from '../models/user'
+import { EventFactory } from "../models/event";
+import { UserFactory } from "../models/user";
 
 export const signedIn = atom({
   key: "signedIn",
@@ -25,4 +25,9 @@ export const selectedEvent = atom({
 export const createUserForm = atom({
   key: "createUserForm",
   default: UserFactory(),
+});
+
+export const searchTerm = atom({
+  key: "searchTerm",
+  default: "",
 });
