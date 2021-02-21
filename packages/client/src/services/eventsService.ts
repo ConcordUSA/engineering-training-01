@@ -1,11 +1,11 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Category, Event, EventFactory } from "../models/event";
+import { Category, IEvent, EventFactory } from "../models/event";
 
 export interface EventsPerCategory {
   category: Category;
-  items: Event[];
+  items: IEvent[];
 }
 const allCatagories: Category[] = ["it", "marketing", "finance", "leadership"];
 
@@ -28,7 +28,7 @@ export default class EventsService {
   private collection = "events";
   constructor(private db: firebase.firestore.Firestore) {}
 
-  public async createEvent(event: Event) {
+  public async createEvent(event: IEvent) {
     const newEvent = EventFactory(event);
     const doc = this.db.collection(this.collection).doc();
 
@@ -40,7 +40,7 @@ export default class EventsService {
   public async getEvent(id: string) {
     console.log("id is", id);
     const doc = await this.db.collection(this.collection).doc(id).get();
-    const data = doc.data() as Event;
+    const data = doc.data() as IEvent;
     const event = EventFactory(data);
 
     return event;
@@ -78,7 +78,7 @@ export default class EventsService {
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
     const eventsPerCategory = {};
     docsRefs.docs.forEach((doc) => {
-      const event = doc.data() as Event;
+      const event = doc.data() as IEvent;
       const { categories } = event;
       // build up the arrays of eventsPerCategory
       categories.forEach((category) => {
