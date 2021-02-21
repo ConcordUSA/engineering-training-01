@@ -26,7 +26,6 @@ const getUniqueArray = (arr) => {
 // }
 export default class EventsService {
   private collection = "events";
-
   constructor(private db: firebase.firestore.Firestore) {}
 
   public async createEvent(event: Event) {
@@ -101,5 +100,17 @@ export default class EventsService {
 
     result = result.filter((item) => item !== undefined);
     return result;
+  }
+
+  public async updateEvent(uid: string, data: Object) {
+    try {
+      await this.db
+        .collection(this.collection)
+        .doc(uid)
+        .set({ ...data }, { merge: true });
+      return { uid, message: "User successfully updated" };
+    } catch (error) {
+      return { error: error.message };
+    }
   }
 }
