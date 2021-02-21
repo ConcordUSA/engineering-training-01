@@ -29,6 +29,24 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const searchFilter = (search: string, events: EventsPerCategory[]): any => {
+  let res = [];
+  const searchTermArray = [
+    search,
+    search.toLowerCase(),
+    search.toUpperCase(),
+    capitalize(search.toLowerCase()),
+  ];
+  events.forEach((eventCategory: EventsPerCategory) => {
+    eventCategory.items = eventCategory.items.filter((event: Event) => {
+      const topicWords = event.topic.split(" ");
+      return searchTermArray.some((i) => topicWords.includes(i));
+    });
+    res.push(eventCategory);
+  });
+  return res;
+};
+
 export default function EventListView() {
   const classes = useStyles();
   const [user, setUser] = useState<User>();
@@ -39,7 +57,6 @@ export default function EventListView() {
   const eventService = useMemo(() => new EventsService(db), [db]);
 
   useEffect(() => {
-    console.log("searchTerm from EventList", searchTermState);
     userService.getUser(auth.currentUser?.uid).then((user: User) => {
       setUser({ ...user });
     });
@@ -50,22 +67,26 @@ export default function EventListView() {
       eventService
         .getAllEvents(user.interestedCategories)
         .then((eventList: EventsPerCategory[]) => {
-          setEvents(eventList);
+          setEvents(
+            searchTermState
+              ? searchFilter(searchTermState, eventList)
+              : eventList
+          );
         });
     }
-  }, [eventService, user]);
-  console.log(events);
+  }, [eventService, user, searchTermState]);
 
   return (
     <React.Fragment>
       <div className={classes.root}>
         {events?.map((categoryList: EventsPerCategory) => (
           <div className={classes.gridDiv}>
-            <h1 className={classes.categoryHeader}>
-              {" "}
-              {capitalize(categoryList.category)}
-            </h1>
-
+            {categoryList.items.length > 0 && (
+              <h1 className={classes.categoryHeader}>
+                {" "}
+                {capitalize(categoryList.category)}
+              </h1>
+            )}
             <Grid
               container
               direction="row"
