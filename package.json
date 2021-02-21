@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "lerna bootstrap && npm rebuild",
     "clean": "npx lerna run clean && npx lerna clean --yes && rimraf node_modules ",
     "test": "firebase emulators:exec \"run-p test:client test:e2e \"",
     "test:e2e": "cypress run",

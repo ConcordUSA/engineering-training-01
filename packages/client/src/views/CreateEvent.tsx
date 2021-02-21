@@ -135,11 +135,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function CreateEventView() {
   const classes = useStyles();
   const newEvent = EventFactory();
-  const [state, setState] = useState(newEvent);
   const history = useHistory();
+  const [state, setState] = useState(newEvent);
+  const [files, setFiles] = useState([]);
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventsService = new EventsService(db);
-  const [files, setFiles] = useState([]);
   const imageHelperText =
     "Please submit a url that ends with a .jpg, .jpeg, or .png file extension.";
   const [imageState, setImageState] = useState({
@@ -157,6 +157,7 @@ export default function CreateEventView() {
   const handleBack = () => {
     history.push(routes.HOME_URL);
   };
+
   const handleCheck = (event) => {
     setCheckBoxState({
       ...checkboxState,
