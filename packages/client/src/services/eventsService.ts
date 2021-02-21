@@ -34,7 +34,7 @@ export default class EventsService {
     return await this.db.collection(this.collection).doc(id).delete();
   }
 
-  public async getAllEvents(interestedCategories?) {
+  public async getAllEvents(interestedCategories?: string[]) {
     const allCatagories: Category[] = [
       "it",
       "marketing",

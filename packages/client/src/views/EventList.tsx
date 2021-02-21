@@ -80,7 +80,7 @@ export default function EventListView() {
     <React.Fragment>
       <div className={classes.root}>
         {events?.map((categoryList: EventsPerCategory) => (
-          <div className={classes.gridDiv}>
+          <div className={classes.gridDiv} key={categoryList.category}>
             {categoryList.items.length > 0 && (
               <h1 className={classes.categoryHeader}>
                 {" "}
@@ -94,7 +94,7 @@ export default function EventListView() {
               alignItems="flex-start"
             >
               {categoryList?.items?.map((event: Event | any) => (
-                <Events event={event} />
+                <Events event={event} key={event.topic} />
               ))}
             </Grid>
           </div>
