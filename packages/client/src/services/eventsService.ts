@@ -7,17 +7,34 @@ export interface EventsPerCategory {
   category: Category;
   items: Event[];
 }
+const allCatagories: Category[] = ["it", "marketing", "finance", "leadership"];
 
+const getUniqueArray = (arr) => {
+  let uniqueArray = [];
+  arr.forEach((elem) => {
+    if (!uniqueArray.includes(elem)) uniqueArray.push(elem);
+  });
+  return uniqueArray;
+};
+
+// interface IService {
+//   collection: string;
+//   createEvent();
+//   getEvent();
+//   deleteEvent();
+//   getAllEvents();
+// }
 export default class EventsService {
   private collection = "events";
 
   constructor(private db: firebase.firestore.Firestore) {}
 
   public async createEvent(event: Event) {
+    const newEvent = EventFactory(event);
     const doc = this.db.collection(this.collection).doc();
-    const id = doc.id;
 
-    await doc.set({ ...event, id });
+    const id = doc.id;
+    await doc.set({ ...newEvent, id });
     return id;
   }
 
@@ -34,32 +51,33 @@ export default class EventsService {
     return await this.db.collection(this.collection).doc(id).delete();
   }
 
-  public async getAllEvents(interestedCategories?: string[]) {
-    const allCatagories: Category[] = [
-      "it",
-      "marketing",
-      "finance",
-      "leadership",
-    ];
+  public async getAllEvents(
+    interestedCategories?: string[],
+    includePastEvents?: boolean
+  ) {
     // if no interestedCategories are passed we default to allCatagories
-    if (!interestedCategories) interestedCategories = allCatagories;
+    interestedCategories = interestedCategories
+      ? interestedCategories
+      : allCatagories;
 
-    const concatArray = interestedCategories.concat(allCatagories);
-    let uniqueArray = [];
-    concatArray.forEach((elem) => {
-      if (!uniqueArray.includes(elem)) uniqueArray.push(elem);
-    });
+    // Get a unique list of interest and non-interest
+    const uniqueArray = getUniqueArray(
+      interestedCategories.concat(allCatagories)
+    );
 
-    // get all future events from db
-    const docsRefs = await this.db
-      .collection(this.collection)
-      .where("startTime", ">", new Date())
-      .get();
-
-    // massage the data
-    const eventsPerCategory = {};
+    // Past events will be added if parameter is true
+    let docsRefs;
+    if (includePastEvents) {
+      docsRefs = await this.db.collection(this.collection).get();
+    } else {
+      docsRefs = await this.db
+        .collection(this.collection)
+        .where("startTime", ">", new Date())
+        .get();
+    }
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
+    const eventsPerCategory = {};
     docsRefs.docs.forEach((doc) => {
       const event = doc.data() as Event;
       const { categories } = event;
@@ -72,9 +90,7 @@ export default class EventsService {
 
     let result = uniqueArray.map((key) => {
       const items = eventsPerCategory[key];
-      if (!items) {
-        return undefined;
-      }
+      if (!items) return undefined;
 
       const item: EventsPerCategory = {
         category: key as Category,
