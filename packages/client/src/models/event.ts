@@ -5,7 +5,7 @@ export const capitalize = (s) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-export interface Event {
+export interface IEvent {
   id?: string; // should be the same id as what firebase creates for the event
   topic: string;
   location: string;
@@ -21,8 +21,8 @@ export interface Event {
 /**
  * Creates an event and defines defaults for all optional/not-provided keys
  */
-export function EventFactory(event?: Event): Event {
-  const defaults: Event = {
+export function EventFactory(event?: IEvent): IEvent {
+  const defaults: IEvent = {
     topic: "",
     location: "",
     startTime: new Date(),

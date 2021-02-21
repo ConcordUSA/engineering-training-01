@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { TextField, Button, Paper } from "@material-ui/core";
-import { EventFactory, Event, Category } from "../models/event";
+import { EventFactory, IEvent, Category } from "../models/event";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService from "../services/eventsService";
@@ -234,7 +234,7 @@ export default function CreateEventView() {
     if (checkboxState.marketing) categories.push("marketing");
     if (checkboxState.finance) categories.push("finance");
     if (checkboxState.informationTechnology) categories.push("it");
-    const event: Event = {
+    const event: IEvent = {
       ...state,
       categories,
     };
