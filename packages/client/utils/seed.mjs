@@ -24,7 +24,7 @@ const generateEvents = (numberOfEvents) => {
 
     const event = {
       id: docRef.id,
-      topic: faker.random.word(),
+      topic: faker.random.word() + " " + faker.random.word(),
       location: faker.address.city(),
       price: faker.random.number(),
       startTime: faker.date.future(),

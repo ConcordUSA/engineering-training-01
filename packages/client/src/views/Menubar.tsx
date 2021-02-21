@@ -76,7 +76,7 @@ export default function PrimarySearchAppBar() {
   const history = useHistory();
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const [user, setUser] = useState<User>();
-  const [searchTermState, setSearchTermState] = useRecoilState(searchTerm);
+  const [, setSearchTermState] = useRecoilState(searchTerm);
   const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
 
   // gosh, that clint guy is something else...I'll have to remember to...... :)

@@ -84,7 +84,6 @@ export default class EventsService {
     });
 
     result = result.filter((item) => item !== undefined);
-    console.log(result);
     return result;
   }
 }
