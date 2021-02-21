@@ -35,7 +35,12 @@ export default class EventsService {
   }
 
   public async getAllEvents(interestedCategories?) {
-    const allCatagories = ["it", "marketing", "finance", "leadership"];
+    const allCatagories: Category[] = [
+      "it",
+      "marketing",
+      "finance",
+      "leadership",
+    ];
     // if no interestedCategories are passed we default to allCatagories
     if (!interestedCategories) interestedCategories = allCatagories;
 
@@ -79,6 +84,7 @@ export default class EventsService {
     });
 
     result = result.filter((item) => item !== undefined);
+    console.log(result);
     return result;
   }
 }
