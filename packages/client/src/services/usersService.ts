@@ -55,5 +55,5 @@ export default class UsersService {
     } catch (error) {
       return { error: error.message };
     }
-  }
+  }  
 }

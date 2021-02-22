@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { Category, IEvent, EventFactory } from "../models/event";
+import { User } from "../models/user";
 
 export interface EventsPerCategory {
   category: Category;
@@ -31,7 +32,6 @@ export default class EventsService {
   }
 
   public async getEvent(id: string) {
-    console.log("id is", id);
     const doc = await this.db.collection(this.collection).doc(id).get();
     const data = doc.data() as IEvent;
     const event = EventFactory(data);
@@ -96,5 +96,46 @@ export default class EventsService {
     } catch (error) {
       return { error: error.message };
     }
+  }
+  public async registerForEvent(
+    user: User,
+    event: IEvent,
+    isRegistered: boolean
+  ) {
+    if (!isRegistered) {
+      const doc = this.db
+        .collection(this.collection)
+        .doc(event.id)
+        .collection("attendees")
+        .doc(user.uid);
+      await doc.set(user);
+      return;
+    }
+    this.db
+      .collection(this.collection)
+      .doc(event.id)
+      .collection("attendees")
+      .doc(user.uid)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  }
+
+  public async getAttendees(event: IEvent) {
+    const docsRefs = await this.db
+      .collection(this.collection)
+      .doc(event.id)
+      .collection("attendees")
+      .get();
+
+    const attendees = [];
+    docsRefs.docs.forEach((doc) => {
+      attendees.push(doc.id);
+    });
+    return attendees;
   }
 }
