@@ -23,10 +23,6 @@ describe("Signup", () => {
     cy.reload(true);
   });
 
-  afterEach(() => {
-    // cy.signOut();
-  });
-
   it("should create a user", async () => {
     const user = generateUser();
     cy.visit("/createAccount", { timeout: 100000 });
@@ -54,16 +50,4 @@ describe("Signup", () => {
     cy.location("pathname").should("equal", "/events");
     cy.get("#sendEmailBtn").should("exist");
   });
-
-  // it("should navigate to the home screen when logging in with email verified user", () => {
-  //   const email = faker.internet.email().toLowerCase();
-  //   const password = faker.internet.password();
-
-  //   cy.createUser(email, password).then(function () {
-  //     cy.verifyUserEmail(email).then(function () {
-  //       cy.signOut().then(function () {
-  //       });
-  //     });
-  //   });
-  // });
 });

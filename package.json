@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "npx lerna run clean && npx lerna clean --yes && rimraf node_modules ",
-    "test": "firebase emulators:exec \"run-p test:client test:e2e \"",
+    "test": "cross-env CYPRESS_BASE_URL=\"http://localhost:5000/\" firebase emulators:exec \"run-p test:client test:e2e \"",
     "test:e2e": "cypress run",
     "test:client": "cd packages/client && npm run test",
     "test:watch:client": "cd packages/client && npm run test:watch",
