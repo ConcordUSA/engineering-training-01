@@ -35,7 +35,7 @@
   "scripts": {
     "clean": "rimraf build",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env CI=true react-scripts build",
     "test": "jest --runInBand --forceExit",
     "test:watch": "jest --runInBand --watchAll --forceExit",
     "eject": "react-scripts eject",

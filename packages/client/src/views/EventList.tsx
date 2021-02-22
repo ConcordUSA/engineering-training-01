@@ -92,7 +92,7 @@ export default function EventListView() {
     setFilteredEvents(
       searchTermState ? searchFilter(searchTermState, events) : events
     );
-  }, [events, searchTermState, searchFilter]);
+  }, [events, searchTermState]);
 
   return (
     <div className={classes.root}>
