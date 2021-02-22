@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
       "-webkit-box-orient": "vertical",
       padding: 0,
       margin: 0,
+      lineHeight: "1.2em",
     },
 
     eventDateDiv: {
