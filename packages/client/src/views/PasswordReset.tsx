@@ -107,6 +107,7 @@ export default function PasswordResetView() {
         <div className={classes.form}>
           <div className={classes.passwordResetText}>
             <h1>Password Reset</h1>
+            <img src="./lock-icon.svg" alt="lock icon" />
             <p>Enter email associated with account</p>
             <TextField
               className={classes.accountInput}
