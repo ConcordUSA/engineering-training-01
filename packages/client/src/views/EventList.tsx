@@ -35,10 +35,17 @@ const useStyles = makeStyles((theme: Theme) =>
       color: colors.grey[500],
       fontWeight: 500,
     },
+    emptyState: {
+      textAlign: "center",
+      marginTop: "3em",
+      fontSize: "2.2em",
+      color: colors.grey[500],
+      fontWeight: 500,
+    },
   })
 );
 
-const searchFilter = async (search: string, events: EventsPerCategory[]) => {
+const searchFilter = (search: string, events: EventsPerCategory[]) => {
   let res: EventsPerCategory[] = [];
   events.forEach((eventCategory: EventsPerCategory) => {
     const regex = new RegExp(`^${search}`, "gi");
@@ -50,7 +57,7 @@ const searchFilter = async (search: string, events: EventsPerCategory[]) => {
       }
       return false;
     });
-    res.push(eventCategory);
+    if (eventCategory.items.length) res.push(eventCategory);
   });
   return res;
 };
@@ -59,54 +66,58 @@ export default function EventListView() {
   const classes = useStyles();
   const [user, setUser] = useState<User>();
   const [events, setEvents] = useState<EventsPerCategory[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<EventsPerCategory[]>([]);
   const [searchTermState] = useRecoilState(searchTerm);
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const userService = useMemo(() => new UsersService(db, auth), [db, auth]);
   const eventService = useMemo(() => new EventsService(db), [db]);
 
+  // get user from service
   useEffect(() => {
     userService.getUser(auth.currentUser?.uid).then((user: User) => {
       setUser({ ...user });
     });
   }, [userService, auth.currentUser, searchTermState]);
 
+  // get events from service
   useEffect(() => {
-    if (user?.interestedCategories) {
-      eventService
-        .getAllEvents(user.interestedCategories)
-        .then(async (eventList: EventsPerCategory[]) => {
-          setEvents(
-            searchTermState
-              ? await searchFilter(searchTermState, eventList)
-              : eventList
-          );
-        });
-    }
-  }, [eventService, user, searchTermState]);
+    const interestedCategories = user?.interestedCategories
+      ? user.interestedCategories
+      : undefined;
+    eventService.getAllEvents(interestedCategories).then(setEvents);
+  }, [eventService, user]);
+
+  // filter events based on search term in ui
+  useEffect(() => {
+    setFilteredEvents(
+      searchTermState ? searchFilter(searchTermState, events) : events
+    );
+  }, [events, searchTermState, searchFilter]);
 
   return (
-    <React.Fragment>
-      <div className={classes.root}>
-        {events?.map((categoryList: EventsPerCategory) => (
-          <div className={classes.gridDiv} key={categoryList.category}>
-            {categoryList.items.length > 0 && (
-              <h1 className={classes.categoryHeader}>
-                {capitalize(categoryList.category)}
-              </h1>
-            )}
-            <Grid
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="flex-start"
-            >
-              {categoryList?.items?.map((event: IEvent | any) => (
-                <Events event={event} key={event.topic} />
-              ))}
-            </Grid>
-          </div>
-        ))}
-      </div>
-    </React.Fragment>
+    <div className={classes.root}>
+      {!filteredEvents.length && (
+        <div className={classes.emptyState}>No Events</div>
+      )}
+      {filteredEvents?.map((categoryList: EventsPerCategory) => (
+        <div className={classes.gridDiv} key={categoryList.category}>
+          {categoryList.items.length > 0 && (
+            <h1 className={classes.categoryHeader}>
+              {capitalize(categoryList.category)}
+            </h1>
+          )}
+          <Grid
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="flex-start"
+          >
+            {categoryList?.items?.map((event: IEvent | any) => (
+              <Events event={event} key={event.topic} />
+            ))}
+          </Grid>
+        </div>
+      ))}
+    </div>
   );
 }
