@@ -4,8 +4,9 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import { Paper, Button, TextField } from "@material-ui/core";
-import AppTheme from "../styles/theme";
+import AppTheme, { materialTheme } from "../styles/theme";
 import getConfig from "../config";
+import LockIcon from "@material-ui/icons/LockRounded";
 import routes from "../constants/routes";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -74,6 +75,11 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: AppTheme.secondary,
       },
     },
+    lockIcn: {
+      width: "50%",
+      height: "50%",
+      color: materialTheme.palette.background.default,
+    },
   })
 );
 
@@ -108,6 +114,7 @@ export default function PasswordResetView() {
           <div className={classes.passwordResetText}>
             <h1>Password Reset</h1>
             <p>Enter email associated with account</p>
+            <LockIcon className={classes.lockIcn} />
             <TextField
               className={classes.accountInput}
               variant="outlined"

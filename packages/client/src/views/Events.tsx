@@ -4,7 +4,7 @@ import { capitalize } from "../models/event";
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container } from "@material-ui/core";
-import AppTheme from "../styles/theme";
+import { materialTheme } from "../styles/theme";
 import routes from "../constants/routes";
 import { selectedEvent } from "../store";
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
     eventPhoto: {
       height: "92%",
       width: "92%",
-      margin: "4px 0px 4px 7px",
+      margin: "0px 0px 0px 8px",
       borderRadius: 4,
     },
     eventPaper: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "170px",
       marginBottom: "10px",
       "&:hover": {
-        backgroundColor: AppTheme.hover,
+        boxShadow: materialTheme.shadows[6],
       },
     },
     eventDetailsDiv: {
@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     eventTitle: {
       margin: 0,
+      fontWeight: 400,
+      fontFamily: "Roboto",
       fontSize: "1.5rem",
     },
     eventParagraph: {
@@ -71,15 +73,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     eventDate: {
       margin: 0,
-      color: AppTheme.primary,
+      color: materialTheme.palette.primary.main,
     },
 
     registerBtn: {
       marginRight: "15px",
-      color: AppTheme.primaryText,
-      backgroundColor: AppTheme.primary,
+      color: materialTheme.palette.text.primary,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
   })

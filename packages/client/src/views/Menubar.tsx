@@ -17,6 +17,7 @@ import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import { User } from "../models/user";
 import { searchTerm } from "../store/atoms";
 import UsersService from "../services/usersService";
+import { Button } from "@material-ui/core";
 // import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: "block",
+    fontWeight: 600,
   },
   search: {
     position: "relative",
@@ -103,7 +105,7 @@ export default function PrimarySearchAppBar() {
   return (
     <AppBar position="relative" className={classes.grow}>
       <Toolbar>
-        <Typography className={classes.title} variant="h6" noWrap>
+        <Typography className={classes.title} variant="h5" noWrap>
           Four Seasons
         </Typography>
         <div className={classes.grow} />
@@ -132,14 +134,15 @@ export default function PrimarySearchAppBar() {
                 <AddIcon />
               </IconButton>
             )}
-            <IconButton
-              aria-label="Signout"
-              color="inherit"
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
               onClick={handleSignout}
-              id="signoutBtn"
+              endIcon={<ExitToAppIcon />}
             >
-              <ExitToAppIcon />
-            </IconButton>
+              Sign Out
+            </Button>
             {/* <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon />
