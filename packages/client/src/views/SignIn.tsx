@@ -14,6 +14,8 @@ import AppTheme from "../styles/theme";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
+import { Message } from "../models/message";
+import Messages from "../components/messages";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -86,6 +88,7 @@ export default function SigninView() {
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
   const [usernameState, setUsernameState] = useState("");
   const [passwordState, setPasswordState] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
   const [rememberMe, setRememberMe] = useState(false);
   const localStorageEmailKey = "fourSeasonsEmail";
 
@@ -98,6 +101,7 @@ export default function SigninView() {
   }, []);
 
   const handleSignin = async () => {
+    setMessages([]);
     try {
       await auth.signInWithEmailAndPassword(usernameState, passwordState);
 
@@ -108,6 +112,8 @@ export default function SigninView() {
 
       history.push(routes.EVENT_LIST_URL);
     } catch (e) {
+      const message: Message = { text: e.message };
+      setMessages([...messages, message]);
       console.log(e.message);
     }
   };
@@ -148,6 +154,7 @@ export default function SigninView() {
             TOTAL DEVELOPMENT
           </Typography>
         </Container>
+        <Messages messages={messages} />
         <div className={classes.formContainer}>
           <Typography
             variant="h6"

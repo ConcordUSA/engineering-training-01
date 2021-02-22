@@ -30,6 +30,23 @@ describe("Signin", () => {
     });
   });
 
+  it.only("should show an error when logging in with invalid credentials", () => {
+    const email = faker.internet.email().toLowerCase();
+    const password = faker.internet.password();
+
+    cy.createUser(email, password).then(function () {
+      cy.verifyUserEmail(email).then(function () {
+        cy.signOut().then(function () {
+          cy.get("#email").type(email);
+          cy.get("#password").type("somethingincorrect");
+          cy.get("#loginBtn").click();
+          cy.get("#messages").should("exist");
+          cy.location("pathname").should("equal", "/");
+        });
+      });
+    });
+  });
+
   it("should show the email verification view if not verified", () => {
     const email = faker.internet.email().toLowerCase();
     const password = faker.internet.password();
