@@ -1,32 +1,18 @@
 import { createMuiTheme, Theme } from "@material-ui/core/styles";
-import * as colors from "@material-ui/core/colors";
 import fsCore from "./theme/core";
-
-const AppTheme = {
-  primary: fsCore.primary.base,
-  primaryText: fsCore.textDark.primary,
-  secondary: fsCore.secondary.base,
-  background: colors.grey[200],
-  cardWidth: "900px",
-  input: colors.blue.A200,
-  hover: colors.grey[100],
-  cardWidthSmall: "600px",
-};
-
-export default AppTheme;
 
 export const materialTheme: Theme = createMuiTheme({
   palette: {
     divider: "rgba(0, 0, 0, 0.12)",
     type: "light",
     primary: {
-      // contrastText: fsCore.textLight.primary,
+      contrastText: fsCore.textLight.primary,
       light: fsCore.primary.lighter,
-      main: AppTheme.primary,
+      main: fsCore.primary.base,
       dark: fsCore.primary.darker,
     },
     secondary: {
-      // contrastText: fsCore.textLight.primary,
+      contrastText: fsCore.textLight.primary,
       light: fsCore.secondary.lighter,
       main: fsCore.secondary.base,
       dark: fsCore.secondary.darker,
@@ -63,6 +49,19 @@ export const materialTheme: Theme = createMuiTheme({
     },
   },
 });
+
+const AppTheme = {
+  primary: materialTheme.palette.primary.main,
+  primaryText: materialTheme.palette.text.primary,
+  secondary: materialTheme.palette.secondary.main,
+  background: materialTheme.palette.grey[200],
+  cardWidth: "900px",
+  input: materialTheme.palette.info.main,
+  hover: materialTheme.palette.grey[100],
+  cardWidthSmall: materialTheme.breakpoints.values.sm,
+};
+
+export default AppTheme;
 
 // TODO: Separate Material Ui Elevation
 // materialTheme.shadows = ([
