@@ -16,17 +16,23 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: "100%",
-      width: "100vw",
+      width: "100%",
       backgroundColor: AppTheme.background,
       backgroundSize: "cover",
     },
     gridDiv: {
       backgroundColor: AppTheme.background,
-      paddingTop: "20px",
+      display: "flex",
+      flexFlow: "row wrap",
+      // alignItems: "left",
+      justifyContent: "left",
+      alignContent: "flex-start",
+      paddingTop: "1rem",
+      paddingLeft: "2em",
     },
     categoryHeader: {
       fontSize: "2.2em",
-      paddingLeft: "6vh",
+      paddingLeft: "8px",
       color: colors.grey[500],
       fontWeight: 500,
     },
@@ -86,14 +92,13 @@ export default function EventListView() {
           <div className={classes.gridDiv} key={categoryList.category}>
             {categoryList.items.length > 0 && (
               <h1 className={classes.categoryHeader}>
-                {" "}
                 {capitalize(categoryList.category)}
               </h1>
             )}
             <Grid
               container
               direction="row"
-              justify="center"
+              justify="flex-start"
               alignItems="flex-start"
             >
               {categoryList?.items?.map((event: IEvent | any) => (
