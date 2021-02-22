@@ -11,6 +11,8 @@ import { isValidEmail, isValidPhone, User } from "../../models/user";
 import routes from "../../constants/routes";
 import { createUserForm } from "../../store";
 import { useRecoilState } from "recoil";
+import { Message } from "../../models/message";
+import Messages from "../../components/messages";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -106,7 +108,6 @@ export default function UserDetailsFormView(props) {
   const [user] = useRecoilState(createUserForm);
   const classes = useStyles();
   const history = useHistory();
-
   const [state, setState] = useState({
     email: { input: user.email, invalid: false, helperText: "" },
     password: "",
@@ -122,6 +123,7 @@ export default function UserDetailsFormView(props) {
     },
     showPassword: false,
   });
+  const [messages, setMessages] = useState<Message[]>([]);
 
   function updateObject(id: any, value: string) {
     switch (id) {
@@ -149,36 +151,31 @@ export default function UserDetailsFormView(props) {
   //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
   //TODO confirmation after submit button clicked - or some UI
 
+  const addMessage = (text: string) => {
+    setMessages([...messages, { text }]);
+  };
+
   const validateForm = () => {
+    setMessages([]); // reset
+    const messageList: Message[] = [];
     // handle email checker
     if (state.password !== state.passwordConfirm) {
       // TODO: Properly handle this error - present something in the UI
-      alert("passwords don't match");
-      return false;
+      messageList.push({ text: "passwords don't match" });
     }
     //check each required field for input
     //return if missing
-    switch ("") {
-      case state.firstName:
-        alert("First Name is required.");
-        return false;
-      case state.lastName:
-        alert("Last Name is required.");
-        return false;
-      case state.email.input:
-        alert("Email is required.");
-        return false;
-      case state.password:
-        alert("Password is required.");
-        return false;
-      case state.company:
-        alert("Company is required.");
-        return false;
-      case state.companyPhone.input:
-        alert("Company phone is required.");
-        return false;
-    }
-    return true;
+
+    if (!state.firstName) messageList.push({ text: "First Name is required." });
+    if (!state.lastName) messageList.push({ text: "Last Name is required." });
+    if (!state.email.input) messageList.push({ text: "Email is required." });
+    if (!state.password) messageList.push({ text: "Password is required." });
+    if (!state.company) messageList.push({ text: "Company is required." });
+    if (!state.companyPhone.input)
+      messageList.push({ text: "Company phone is required." });
+
+    setMessages(messageList);
+    return messageList.length < 1;
   };
 
   const handleNext = () => {
@@ -215,6 +212,7 @@ export default function UserDetailsFormView(props) {
       <Paper elevation={3} className={classes.paperWrap}>
         <div className={classes.form}>
           <h1 className={classes.signUpHeader}>Sign Up</h1>
+          <Messages messages={messages} />
           <TextField
             autoFocus
             id="firstName"
