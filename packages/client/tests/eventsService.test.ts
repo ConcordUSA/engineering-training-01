@@ -1,6 +1,5 @@
-import { getFirestore } from "../src/config/firebase";
 import EventsService from "../src/services/eventsService";
-import { Category, Event, EventFactory } from "../src/models/event";
+import { IEvent, EventFactory } from "../src/models/event";
 import firebaseApp from "firebase/app";
 import * as firebase from "@firebase/rules-unit-testing";
 import faker from "faker";
@@ -25,7 +24,7 @@ describe("EventsService", () => {
 
   it("should create an event", async () => {
     // given
-    const event = EventFactory();
+    const event: IEvent = EventFactory();
 
     // when
     const id = await service.createEvent(event);
