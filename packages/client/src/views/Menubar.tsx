@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
     },
   },
+  logoutBtn: {
+    display: "flex",
+  },
   searchIcon: {
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -135,11 +138,14 @@ export default function PrimarySearchAppBar() {
               </IconButton>
             )}
             <Button
+              key={classes.logoutBtn}
+              aria-label="Signout"
               variant="contained"
               size="small"
               color="secondary"
               onClick={handleSignout}
               endIcon={<ExitToAppIcon />}
+              id="signoutBtn"
             >
               Sign Out
             </Button>
