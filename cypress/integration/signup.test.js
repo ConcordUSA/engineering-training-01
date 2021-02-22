@@ -42,7 +42,7 @@ describe("Signin", () => {
     });
   });
 
-  it.skip("should logout the user when clicking the logout button", () => {
+  it("should logout the user when clicking the logout button", () => {
     const email = faker.internet.email().toLowerCase();
     const password = faker.internet.password();
 

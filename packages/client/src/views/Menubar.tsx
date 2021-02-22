@@ -84,8 +84,6 @@ export default function PrimarySearchAppBar() {
   const [, setSearchTermState] = useRecoilState(searchTerm);
   const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
 
-  // gosh, that clint guy is something else...I'll have to remember to...... :)
-
   useEffect(() => {
     usersService.getUser(auth.currentUser.uid).then((user) => {
       setUser(user);

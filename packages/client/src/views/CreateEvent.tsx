@@ -137,7 +137,6 @@ export default function CreateEventView() {
   const newEvent = EventFactory();
   const history = useHistory();
   const [state, setState] = useState(newEvent);
-  // const [files, setFiles] = useState([]);
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventsService = new EventsService(db);
   const imageHelperText =

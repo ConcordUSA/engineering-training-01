@@ -17,13 +17,6 @@ const getUniqueArray = (arr) => {
   return uniqueArray;
 };
 
-// interface IService {
-//   collection: string;
-//   createEvent();
-//   getEvent();
-//   deleteEvent();
-//   getAllEvents();
-// }
 export default class EventsService {
   private collection = "events";
   constructor(private db: firebase.firestore.Firestore) {}
@@ -50,10 +43,7 @@ export default class EventsService {
     return await this.db.collection(this.collection).doc(id).delete();
   }
 
-  public async getAllEvents(
-    interestedCategories?: string[],
-    includePastEvents?: boolean
-  ) {
+  public async getAllEvents(interestedCategories?: string[]) {
     // if no interestedCategories are passed we default to allCatagories
     interestedCategories = interestedCategories
       ? interestedCategories
@@ -64,16 +54,10 @@ export default class EventsService {
       interestedCategories.concat(allCatagories)
     );
 
-    // Past events will be added if parameter is true
-    let docsRefs;
-    if (includePastEvents) {
-      docsRefs = await this.db.collection(this.collection).get();
-    } else {
-      docsRefs = await this.db
-        .collection(this.collection)
-        .where("startTime", ">", new Date())
-        .get();
-    }
+    const docsRefs = await this.db
+      .collection(this.collection)
+      .where("startTime", ">", new Date())
+      .get();
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
     const eventsPerCategory = {};
