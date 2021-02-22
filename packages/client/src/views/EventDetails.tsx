@@ -24,6 +24,7 @@ import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
 import { useMemo } from "react";
 import AppTheme, { materialTheme } from "../styles/theme";
+import RegisterButton from "./RegisterButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -132,85 +133,79 @@ export default function EventDetailsView() {
   const eventService = useMemo(() => new EventsService(db), [db]);
   const newEvent = EventFactory();
   const [eventState, setState] = useState(newEvent);
-
+  const eventID = getEventIdFromURL();
   function getEventIdFromURL() {
     return window.location.pathname.replace(routes.EVENT_DETAILS_URL, "");
   }
 
   useEffect(() => {
-    const getEvent = getEventIdFromURL();
-    console.log(getEvent);
-    eventService.getEvent(getEvent).then((event) => {
-      console.log(event);
+    eventService.getEvent(eventID).then((event) => {
       setState(event);
     });
-  }, [eventService]);
+  }, [eventService, eventID]);
+
   const handleBack = () => {
     history.push(routes.EVENT_LIST_URL);
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.cardWrapper}>
-        <Button onClick={handleBack} className={classes.backArrow}>
-          <ArrowBackIcon />
-        </Button>
-        <Card className={classes.card}>
-          <CardMedia component="img" height="300px" image={eventState.image} />
-          <CardContent>
-            <div className={classes.eventHeader}>
-              <Typography paragraph className={classes.eventTitle}>
-                {capitalize(eventState.topic)}
-              </Typography>
-              <Typography paragraph className={classes.eventDate}>
-                {displayEventDate(eventState.startTime)}
-              </Typography>
-            </div>
-            <div className={classes.categoryDiv}>
-              {eventState.categories.map((category) => (
-                <Box
-                  bgcolor={getBackground(category)}
-                  className={classes.interestTag}
-                  key={category}
-                >
-                  {category}
-                </Box>
-              ))}
-            </div>
-            <Typography className={classes.eventDescription}>
-              {eventState.description}
+    <div className={classes.cardWrapper}>
+      <Button onClick={handleBack} className={classes.backArrow}>
+        <ArrowBackIcon />
+      </Button>
+      <Card className={classes.card}>
+        <CardMedia component="img" height="300px" image={eventState.image} />
+        <CardContent>
+          <div className={classes.eventHeader}>
+            <Typography paragraph className={classes.eventTitle}>
+              {capitalize(eventState.topic)}
             </Typography>
-
-            <div className={classes.eventData}>
-              <Typography paragraph className={classes.infoType}>
-                <b>Address:</b> {eventState.location}
-              </Typography>
-              <Typography paragraph className={classes.infoType}>
-                <b>Time:</b> {displayEventTime(eventState.startTime)}
-              </Typography>
-              <Typography paragraph className={classes.infoType}>
-                <b>Cost:</b> {formatCentsToCurrency(eventState.price)}
-              </Typography>
-              <Typography paragraph className={classes.infoType}>
-                <b>Status:</b> {eventState.status}
-              </Typography>
-            </div>
-          </CardContent>
-          <div className={classes.btnDiv}>
-            <CardActions>
-              <Button variant="outlined" className={classes.secondaryBtn}>
-                Edit
-              </Button>
-              <Button variant="outlined" className={classes.secondaryBtn}>
-                WatchList
-              </Button>
-              <Button variant="contained" className={classes.registerBtn}>
-                Register
-              </Button>
-            </CardActions>
+            <Typography paragraph className={classes.eventDate}>
+              {displayEventDate(eventState.startTime)}
+            </Typography>
           </div>
-        </Card>
-      </div>
+          <div className={classes.categoryDiv}>
+            {eventState.categories.map((category) => (
+              <Box
+                bgcolor={getBackground(category)}
+                className={classes.interestTag}
+                key={category}
+              >
+                {category}
+              </Box>
+            ))}
+          </div>
+          <Typography className={classes.eventDescription}>
+            {eventState.description}
+          </Typography>
+
+          <div className={classes.eventData}>
+            <Typography paragraph className={classes.infoType}>
+              <b>Address:</b> {eventState.location}
+            </Typography>
+            <Typography paragraph className={classes.infoType}>
+              <b>Time:</b> {displayEventTime(eventState.startTime)}
+            </Typography>
+            <Typography paragraph className={classes.infoType}>
+              <b>Cost:</b> {formatCentsToCurrency(eventState.price)}
+            </Typography>
+            <Typography paragraph className={classes.infoType}>
+              <b>Status:</b> {eventState.status}
+            </Typography>
+          </div>
+        </CardContent>
+        <div className={classes.btnDiv}>
+          <CardActions>
+            <Button variant="outlined" className={classes.secondaryBtn}>
+              Edit
+            </Button>
+            <Button variant="outlined" className={classes.secondaryBtn}>
+              WatchList
+            </Button>
+            <RegisterButton event={eventState} />
+          </CardActions>
+        </div>
+      </Card>
     </div>
   );
 }

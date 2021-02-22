@@ -9,6 +9,7 @@ export interface User {
   password?: string;
   interestedCategories?: string[];
   isAdmin?: boolean;
+  eventsAttending?: string[];
 }
 
 export function UserFactory(user?: User): User {
@@ -23,6 +24,7 @@ export function UserFactory(user?: User): User {
     password: "",
     interestedCategories: [],
     isAdmin: false,
+    eventsAttending: []
   };
 
   return { ...defaults, ...user };
