@@ -50,4 +50,22 @@ describe("Signup", () => {
     cy.location("pathname").should("equal", "/events");
     cy.get("#sendEmailBtn").should("exist");
   });
+
+  it("should fail creating a user if fields are missing", async () => {
+    const user = generateUser();
+    cy.visit("/createAccount", { timeout: 100000 });
+
+    // user details form
+    // cy.get("#firstName").type(user.firstName);
+    cy.get("#lastName").type(user.lastName);
+    cy.get("#email").type(user.email);
+    cy.get("#company").type(user.company);
+    cy.get("#companyPhone").type(user.companyPhone);
+    cy.get("#personalPhone").type(user.personalPhone);
+    cy.get("#password").type(user.password);
+    cy.get("#passwordConfirm").type(user.password);
+    cy.get("#registerButton").click();
+
+    cy.get("#messages").should("exist");
+  });
 });

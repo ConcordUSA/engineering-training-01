@@ -151,10 +151,6 @@ export default function UserDetailsFormView(props) {
   //TODO (Mani?) Set up rules for password ((min length of 8, one upper case, one lower case, one special character, one number)
   //TODO confirmation after submit button clicked - or some UI
 
-  const addMessage = (text: string) => {
-    setMessages([...messages, { text }]);
-  };
-
   const validateForm = () => {
     setMessages([]); // reset
     const messageList: Message[] = [];

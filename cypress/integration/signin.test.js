@@ -30,7 +30,7 @@ describe("Signin", () => {
     });
   });
 
-  it.only("should show an error when logging in with invalid credentials", () => {
+  it("should show an error when logging in with invalid credentials", () => {
     const email = faker.internet.email().toLowerCase();
     const password = faker.internet.password();
 
