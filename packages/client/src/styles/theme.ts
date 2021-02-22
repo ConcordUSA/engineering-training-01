@@ -20,13 +20,13 @@ export const materialTheme: Theme = createMuiTheme({
     divider: "rgba(0, 0, 0, 0.12)",
     type: "light",
     primary: {
-      // contrastText: fsCore.textLight.primary,
+      contrastText: fsCore.textDark.primary,
       light: fsCore.primary.lighter,
       main: AppTheme.primary,
       dark: fsCore.primary.darker,
     },
     secondary: {
-      // contrastText: fsCore.textLight.primary,
+      contrastText: fsCore.textDark.primary,
       light: fsCore.secondary.lighter,
       main: fsCore.secondary.base,
       dark: fsCore.secondary.darker,
