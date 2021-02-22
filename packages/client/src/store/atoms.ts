@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import { EventFactory } from "../models/event";
 import { UserFactory } from "../models/user";
+import { Message } from "../models/message";
 
 export const signedIn = atom({
   key: "signedIn",
@@ -30,4 +31,9 @@ export const createUserForm = atom({
 export const searchTerm = atom({
   key: "searchTerm",
   default: "",
+});
+
+export const messages = atom<Message[]>({
+  key: "messages",
+  default: [],
 });
