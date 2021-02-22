@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: AppTheme.background,
       display: "flex",
       flexFlow: "row wrap",
-      // alignItems: "left",
       justifyContent: "left",
       alignContent: "flex-start",
       paddingTop: "1rem",
