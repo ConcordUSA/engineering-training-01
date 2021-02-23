@@ -18,10 +18,17 @@ export interface IEvent {
   description: string;
 }
 
+export interface IFilter {
+  topic?: string;
+  startDate?: any;
+  catagories?: Category[];
+  location?: string;
+}
+
 /**
  * Creates an event and defines defaults for all optional/not-provided keys
  */
-export function EventFactory(event?: IEvent): IEvent {
+export function EventFactory(event?: Partial<IEvent>): IEvent {
   const defaults: IEvent = {
     topic: "",
     location: "",
