@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useContext, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import AppTheme from "../styles/theme";
+import { materialTheme } from "../styles/theme";
 import { UserFactory } from "../models/user";
 import EventsService from "../services/eventsService";
 import UsersService from "../services/usersService";
@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     registerBtn: {
       marginRight: "15px",
-      color: AppTheme.primaryText,
-      backgroundColor: AppTheme.primary,
+      color: materialTheme.palette.common.white,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
   })

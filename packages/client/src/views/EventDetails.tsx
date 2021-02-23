@@ -151,7 +151,6 @@ export default function EventDetailsView() {
   };
   const onShareClick = () => {
     setShareUrl(window.location.href);
-    console.log(window.location.href);
   };
 
   return (
