@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { IEvent, capitalize, Category, IFilter } from "../models/event";
+import { IEvent, capitalize } from "../models/event";
 import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService, { EventsPerCategory } from "../services/eventsService";

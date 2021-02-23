@@ -179,7 +179,6 @@ describe("EventsService", () => {
       // when
       const filter: IFilter = {
         topic: undefined,
-        startDate: undefined,
         catagories: ["it", "leadership"],
         location: undefined,
       };
@@ -194,7 +193,6 @@ describe("EventsService", () => {
     it("should filter out undesired catagories", async () => {
       const filter: IFilter = {
         topic: undefined,
-        startDate: undefined,
         catagories: ["it", "marketing"],
         location: undefined,
       };
@@ -216,7 +214,6 @@ describe("EventsService", () => {
       // when
       const filter: IFilter = {
         topic: undefined,
-        startDate: undefined,
         catagories: undefined,
         location: "north",
       };
@@ -234,7 +231,6 @@ describe("EventsService", () => {
     it("should filter fuzzy searched topics", async () => {
       const filter: IFilter = {
         topic: "101",
-        startDate: undefined,
         catagories: undefined,
         location: undefined,
       };

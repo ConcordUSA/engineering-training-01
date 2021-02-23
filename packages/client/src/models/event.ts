@@ -22,7 +22,6 @@ export interface IEvent {
 
 export interface IFilter {
   topic?: string;
-  startDate?: any;
   catagories?: Category[];
   location?: string;
 }
