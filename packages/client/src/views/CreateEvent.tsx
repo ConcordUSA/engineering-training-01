@@ -11,7 +11,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
-import AppTheme from "../styles/theme";
+import AppTheme, { materialTheme } from "../styles/theme";
 import Checkbox from "@material-ui/core/Checkbox";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       width: "100vw",
       height: "100vh",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
     },
     paperWrap: {
       display: "flex",
@@ -45,13 +45,13 @@ const useStyles = makeStyles((theme: Theme) =>
     halfInput: {
       width: "45%",
       "& .MuiInput-underline:after": {
-        borderBottomColor: AppTheme.input,
+        borderBottomColor: materialTheme.palette.secondary.main,
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
       "& .Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
       marginBottom: "10px",
     },
@@ -76,24 +76,24 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 0,
       marginBottom: "1em",
       "& .MuiInput-underline:after": {
-        borderBottomColor: AppTheme.input,
+        borderBottomColor: materialTheme.palette.secondary.main,
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
       "& .Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     checkBox: {
       "&.Mui-checked": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     checkBoxForm: {
       marginTop: "0px",
       "& .Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     checkBoxDiv: {
@@ -118,11 +118,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      color: AppTheme.primaryText,
+      color: materialTheme.palette.common.white,
       width: "30%",
-      backgroundColor: AppTheme.primary,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
     eventDescription: {

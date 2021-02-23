@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TextField, Button, Paper } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import AppTheme from "../../styles/theme";
+import AppTheme, { materialTheme } from "../../styles/theme";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@material-ui/icons/VisibilityOffOutlined";
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       height: "100vh",
       width: "100vw",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
     },
     paperWrap: {
       width: AppTheme.cardWidth,
@@ -40,37 +40,37 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "70%",
       margin: "5px",
       "& .MuiInput-underline:after": {
-        borderBottomColor: AppTheme.input,
+        borderBottomColor: materialTheme.palette.secondary.main,
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     accountInputFirstName: {
       width: "34.5%",
       margin: "5px 1% 5px 5px",
       "& .MuiInput-underline:after": {
-        borderBottomColor: AppTheme.input,
+        borderBottomColor: materialTheme.palette.secondary.main,
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     accountInputLastName: {
       width: "34.5%",
       margin: "5px 5px 5px 0px",
       "& .MuiInput-underline:after": {
-        borderBottomColor: AppTheme.input,
+        borderBottomColor: materialTheme.palette.secondary.main,
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     btnAccount: {
-      color: AppTheme.primaryText,
-      backgroundColor: AppTheme.primary,
+      color: materialTheme.palette.common.white,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
     btnDiv: {
