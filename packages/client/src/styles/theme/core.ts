@@ -117,7 +117,7 @@ const fsCore: Partial<IColorTheme> = {
     },
   },
   background: {
-    default: "#ffffff",
+    default: colors.grey[200],
     paper: "#fafafa",
   },
   common: {

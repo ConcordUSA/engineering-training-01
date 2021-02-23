@@ -25,7 +25,8 @@ import routes from "../constants/routes";
 import { useMemo } from "react";
 import AppTheme, { materialTheme } from "../styles/theme";
 import RegisterButton from "./RegisterButton";
-
+import { shareUrl } from "../store/atoms";
+import { useRecoilState } from "recoil";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -134,6 +135,7 @@ export default function EventDetailsView() {
   const newEvent = EventFactory();
   const [eventState, setState] = useState(newEvent);
   const eventID = getEventIdFromURL();
+  const [, setShareUrl] = useRecoilState(shareUrl);
   function getEventIdFromURL() {
     return window.location.pathname.replace(routes.EVENT_DETAILS_URL, "");
   }
@@ -146,6 +148,10 @@ export default function EventDetailsView() {
 
   const handleBack = () => {
     history.push(routes.EVENT_LIST_URL);
+  };
+  const onShareClick = () => {
+    setShareUrl(window.location.href);
+    console.log(window.location.href);
   };
 
   return (
@@ -199,8 +205,12 @@ export default function EventDetailsView() {
             <Button variant="outlined" className={classes.secondaryBtn}>
               Edit
             </Button>
-            <Button variant="outlined" className={classes.secondaryBtn}>
-              WatchList
+            <Button
+              variant="outlined"
+              className={classes.secondaryBtn}
+              onClick={onShareClick}
+            >
+              Share
             </Button>
             <RegisterButton event={eventState} />
           </CardActions>
