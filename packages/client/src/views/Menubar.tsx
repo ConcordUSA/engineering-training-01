@@ -7,21 +7,19 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-// import Badge from "@material-ui/core/Badge";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import AddIcon from "@material-ui/icons/Add";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import routes from "../constants/routes";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import { User } from "../models/user";
 import { searchTerm } from "../store/atoms";
 import UsersService from "../services/usersService";
 import { Button } from "@material-ui/core";
-// import NotificationsIcon from "@material-ui/icons/Notifications";
-import FilterListIcon from "@material-ui/icons/FilterList";
 import { materialTheme } from "../styles/theme";
-import Modal from "@material-ui/core/Modal";
+import Modal from "./SimpleModal";
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -96,11 +94,12 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const [user, setUser] = useState<User>();
   const [, setSearchTermState] = useRecoilState(searchTerm);
   const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
-  const [isOpen, setOpen] = useState(false);
+
   useEffect(() => {
     usersService.getUser(auth.currentUser.uid).then((user) => {
       setUser(user);
@@ -119,9 +118,7 @@ export default function PrimarySearchAppBar() {
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTermState(e.target.value);
   };
-  const toggleModal = () => {
-    setOpen(!isOpen);
-  };
+
   return (
     <AppBar position="relative" className={classes.grow}>
       <Toolbar>
@@ -143,7 +140,7 @@ export default function PrimarySearchAppBar() {
               onChange={handleSearch}
             />
           </div>
-          <FilterListIcon className={classes.colorToWhite} />
+          {location.pathname === routes.EVENT_LIST_URL && <Modal />}
           <div className={classes.menuRight}>
             {user?.isAdmin && (
               <IconButton
@@ -164,11 +161,6 @@ export default function PrimarySearchAppBar() {
             >
               Sign Out
             </Button>
-            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
             <IconButton
               edge="end"
               aria-label="User account"

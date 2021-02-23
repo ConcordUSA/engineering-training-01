@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: "10px",
       "&:hover": {
         boxShadow: materialTheme.shadows[6],
+        cursor: "pointer",
       },
     },
     eventDetailsDiv: {
