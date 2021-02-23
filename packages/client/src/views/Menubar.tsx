@@ -21,7 +21,7 @@ import { Button } from "@material-ui/core";
 // import NotificationsIcon from "@material-ui/icons/Notifications";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { materialTheme } from "../styles/theme";
-
+import Modal from "@material-ui/core/Modal";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -100,7 +100,7 @@ export default function PrimarySearchAppBar() {
   const [user, setUser] = useState<User>();
   const [, setSearchTermState] = useRecoilState(searchTerm);
   const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
-
+  const [isOpen, setOpen] = useState(false);
   useEffect(() => {
     usersService.getUser(auth.currentUser.uid).then((user) => {
       setUser(user);
@@ -119,7 +119,9 @@ export default function PrimarySearchAppBar() {
   const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTermState(e.target.value);
   };
-
+  const toggleModal = () => {
+    setOpen(!isOpen);
+  };
   return (
     <AppBar position="relative" className={classes.grow}>
       <Toolbar>
