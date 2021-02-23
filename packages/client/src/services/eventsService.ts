@@ -43,22 +43,6 @@ export default class EventsService {
     return res;
   }
 
-  static dateFilter(
-    filterDate: any,
-    eventGroups: EventsPerCategory[]
-  ): EventsPerCategory[] {
-    let res = [];
-    eventGroups.forEach((group: EventsPerCategory) => {
-      group.items = group.items.filter((event: IEvent) => {
-        return filterDate;
-        // filterDate.() >= event.startTime.getTime &&
-        // filterDate.getTime <= event.endTime.getTime
-      });
-      if (group.items.length) res.push(group);
-    });
-    return res;
-  }
-
   static filter(
     filter: IFilter,
     eventGroups: EventsPerCategory[]
@@ -89,13 +73,6 @@ export default class EventsService {
       );
     }
 
-    // Filter events with dates that are on or after specified
-    if (filter?.startDate) {
-      filteredResult = EventsService.dateFilter(
-        filter.startDate,
-        filteredResult
-      );
-    }
     return filteredResult;
   }
 
