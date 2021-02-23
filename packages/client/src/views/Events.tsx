@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { capitalize } from "../models/event";
+import { capitalize, IEvent, displayEventDate } from "../models/event";
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Paper, Button, Container } from "@material-ui/core";
@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Events(props) {
+  const event: IEvent = props.event;
   const classes = useStyles();
   const history = useHistory();
   const [elevationState, setElevationState] = useState(1);
@@ -108,21 +109,17 @@ export default function Events(props) {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <Container
-          maxWidth="xs"
-          className={classes.container}
-          key={props.event.id}
-        >
+        <Container maxWidth="xs" className={classes.container} key={event.id}>
           <Paper
             className={classes.eventPaper}
             elevation={elevationState}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            onClick={() => onClick(props.event)}
+            onClick={() => onClick(event)}
           >
             <div className={classes.eventsImgDiv}>
               <img
-                src={props.event.image}
+                src={event.image}
                 className={classes.eventPhoto}
                 alt="Publicity for upcoming event"
               />
@@ -130,19 +127,15 @@ export default function Events(props) {
             <div className={classes.eventDetailsDiv}>
               <div>
                 <h1 className={classes.eventTitle}>
-                  {capitalize(props.event.topic)}
+                  {capitalize(event.topic)}
                 </h1>
                 <div className={classes.eventParaDiv}>
-                  <p className={classes.eventParagraph}>
-                    {props.event.description}
-                  </p>
+                  <p className={classes.eventParagraph}>{event.description}</p>
                 </div>
               </div>
               <div className={classes.eventDateDiv}>
                 <p className={classes.eventDate}>
-                  {new Date(
-                    props.event.startTime.seconds * 1000
-                  ).toDateString()}
+                  {displayEventDate(event.startTime)}
                 </p>
                 <Button variant="contained" className={classes.registerBtn}>
                   register

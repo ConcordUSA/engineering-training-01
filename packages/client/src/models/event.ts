@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export type Category = "it" | "marketing" | "finance" | "leadership";
 
 export const capitalize = (s) => {
@@ -57,7 +59,7 @@ export function formatCentsToCurrency(
 }
 
 export function displayEventDate(date) {
-  return new Date(date).toDateString();
+  return moment(date).format("MMM D h:mm a");
 }
 
 export function displayEventTime(time) {

@@ -67,7 +67,9 @@ export default function EventListView() {
     const interestedCategories = user?.interestedCategories
       ? user.interestedCategories
       : undefined;
-    eventService.getAllEvents(interestedCategories).then(setEvents);
+    eventService.getAllEvents(interestedCategories).then((events) => {
+      setEvents(events);
+    });
   }, [eventService, user]);
 
   // filter events based on search term in ui
