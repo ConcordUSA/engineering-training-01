@@ -100,8 +100,8 @@ export default class EventsService {
   }
 
   private serializeFromFirebaseToIEvent(data: any): IEvent {
-    const startTime = new Date(data?.startTime?.milliseconds);
-    const endTime = new Date(data?.endTime?.milliseconds);
+    const startTime = new Date(data?.startTime?.seconds * 1000);
+    const endTime = new Date(data?.endTime?.seconds * 1000);
     return { ...data, startTime, endTime };
   }
 
@@ -160,7 +160,6 @@ export default class EventsService {
     const eventsPerCategory = {};
     docsRefs.docs.forEach((doc) => {
       const event = this.serializeFromFirebaseToIEvent(doc.data());
-      // console.log(event);
       const { categories } = event;
       // build up the arrays of eventsPerCategory
       categories.forEach((category) => {
