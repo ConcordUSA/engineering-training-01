@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Category, IEvent, EventFactory } from "../models/event";
+import { Category, IEvent, EventFactory, IFilter } from "../models/event";
 import { User } from "../models/user";
 
 export interface EventsPerCategory {
@@ -22,7 +22,84 @@ export default class EventsService {
   private collection = "events";
   constructor(private db: firebase.firestore.Firestore) {}
 
-  public async createEvent(event: IEvent) {
+  static stringFilter(
+    search: string,
+    eventGroups: EventsPerCategory[],
+    queryField
+  ): EventsPerCategory[] {
+    let res: EventsPerCategory[] = [];
+    eventGroups.forEach((group: EventsPerCategory) => {
+      const regex = new RegExp(`^${search}`, "gi");
+      group.items = group.items.filter((event: IEvent) => {
+        let i = 0;
+        const keyWords = event[`${queryField}`].split(" ");
+        while (keyWords[i]) {
+          if (keyWords[i++].match(regex)) return true;
+        }
+        return false;
+      });
+      if (group.items.length) res.push(group);
+    });
+    return res;
+  }
+
+  static dateFilter(
+    filterDate: any,
+    eventGroups: EventsPerCategory[]
+  ): EventsPerCategory[] {
+    let res = [];
+    eventGroups.forEach((group: EventsPerCategory) => {
+      group.items = group.items.filter((event: IEvent) => {
+        return filterDate;
+        // filterDate.() >= event.startTime.getTime &&
+        // filterDate.getTime <= event.endTime.getTime
+      });
+      if (group.items.length) res.push(group);
+    });
+    return res;
+  }
+
+  static filter(
+    filter: IFilter,
+    eventGroups: EventsPerCategory[]
+  ): EventsPerCategory[] {
+    let filteredResult = [];
+    filter.catagories = filter?.catagories ? filter.catagories : allCatagories;
+
+    // Remove unwanted catagories
+    filteredResult = eventGroups.filter((group: EventsPerCategory) => {
+      return filter.catagories.includes(group.category);
+    });
+
+    // Filter events with topics that fuzzy match topic filter
+    if (filter?.topic) {
+      filteredResult = EventsService.stringFilter(
+        filter.topic,
+        filteredResult,
+        "topic"
+      );
+    }
+
+    // Filter events with topics that fuzzy match location filter
+    if (filter?.location) {
+      filteredResult = EventsService.stringFilter(
+        filter.location,
+        filteredResult,
+        "location"
+      );
+    }
+
+    // Filter events with dates that are on or after specified
+    if (filter?.startDate) {
+      filteredResult = EventsService.dateFilter(
+        filter.startDate,
+        filteredResult
+      );
+    }
+    return filteredResult;
+  }
+
+  public async createEvent(event: IEvent): Promise<string> {
     const newEvent = EventFactory(event);
     const doc = this.db.collection(this.collection).doc();
 
@@ -31,10 +108,10 @@ export default class EventsService {
     return id;
   }
 
-  public async getEvent(id: string) {
+  public async getEvent(id: string): Promise<IEvent> {
     const doc = await this.db.collection(this.collection).doc(id).get();
     const data = doc.data() as IEvent;
-    const event = EventFactory(data);
+    const event: IEvent = EventFactory(data);
 
     return event;
   }
@@ -43,7 +120,21 @@ export default class EventsService {
     return await this.db.collection(this.collection).doc(id).delete();
   }
 
-  public async getAllEvents(interestedCategories?: string[]) {
+  public async updateEvent(uid: string, data: Object): Promise<object> {
+    try {
+      await this.db
+        .collection(this.collection)
+        .doc(uid)
+        .set({ ...data }, { merge: true });
+      return { uid, message: "User successfully updated" };
+    } catch (error) {
+      return { error: error.message };
+    }
+  }
+
+  public async getAllEvents(
+    interestedCategories?: string[]
+  ): Promise<EventsPerCategory[]> {
     // if no interestedCategories are passed we default to allCatagories
     interestedCategories = interestedCategories
       ? interestedCategories
@@ -56,13 +147,14 @@ export default class EventsService {
 
     const docsRefs = await this.db
       .collection(this.collection)
-      .where("endTime", ">=", new Date())
+      .where("startTime", ">=", new Date())
       .get();
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
     const eventsPerCategory = {};
     docsRefs.docs.forEach((doc) => {
       const event = doc.data() as IEvent;
+      // console.log(event);
       const { categories } = event;
       // build up the arrays of eventsPerCategory
       categories.forEach((category) => {
@@ -81,22 +173,10 @@ export default class EventsService {
       };
       return item;
     });
-
     result = result.filter((item) => item !== undefined);
     return result;
   }
 
-  public async updateEvent(uid: string, data: Object) {
-    try {
-      await this.db
-        .collection(this.collection)
-        .doc(uid)
-        .set({ ...data }, { merge: true });
-      return { uid, message: "User successfully updated" };
-    } catch (error) {
-      return { error: error.message };
-    }
-  }
   public async registerForEvent(
     user: User,
     event: IEvent,
