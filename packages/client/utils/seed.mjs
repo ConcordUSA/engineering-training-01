@@ -4,9 +4,7 @@ import faker from "faker";
 import * as firebase from "@firebase/rules-unit-testing";
 import chalk from "chalk";
 
-const events = [];
 const args = process.argv.slice(2);
-
 const numberOfEvents = args[0] ?? 20;
 console.log(
   chalk`{magentaBright ${numberOfEvents}} {whiteBright Events will be seeded.}`
@@ -27,7 +25,8 @@ const generateEvents = (numberOfEvents) => {
       topic: faker.random.word() + " " + faker.random.word(),
       location: faker.address.city(),
       price: faker.random.number(),
-      startTime: faker.date.future(),
+      startTime: faker.date.soon(),
+      endTime: faker.date.future(),
       categories: randomCategories(),
       image: faker.image.imageUrl(400, 400, "business", true),
       description: faker.lorem.paragraph(),
