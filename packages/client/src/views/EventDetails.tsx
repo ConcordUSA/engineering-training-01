@@ -11,6 +11,8 @@ import {
   CardMedia,
   Typography,
   Box,
+  Dialog,
+  Paper,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {
@@ -48,6 +50,15 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       width: AppTheme.cardWidthSmall,
+    },
+    paperWrap: {
+      height: "300px",
+      width: "100%",
+      overflow: "hidden",
+      display: "flex",
+
+      justifyContent: "center",
+      alignItems: "center",
     },
     infoType: {
       fontSize: "1.2em",
@@ -111,6 +122,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "flex-end",
     },
+    imgTop: {
+      width: "80%",
+    },
   })
 );
 
@@ -134,8 +148,10 @@ export default function EventDetailsView() {
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
   const newEvent = EventFactory();
+  const [open, setOpen] = React.useState(false);
   const [eventState, setState] = useState(newEvent);
   const eventID = getEventIdFromURL();
+  const text = window.location.href;
   function getEventIdFromURL() {
     return window.location.pathname.replace(routes.EVENT_DETAILS_URL, "");
   }
@@ -149,16 +165,14 @@ export default function EventDetailsView() {
   const handleBack = () => {
     history.push(routes.EVENT_LIST_URL);
   };
+
   const onShareClick = () => {
-    const url = document.createElement("input"),
-      text = window.location.pathname;
-    document.body.appendChild(url);
-    url.value = text;
-    url.select();
-    document.execCommand("copy");
-    document.body.removeChild(url);
+    setOpen(true);
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className={classes.cardWrapper}>
       <Button onClick={handleBack} className={classes.backArrow}>
@@ -210,11 +224,7 @@ export default function EventDetailsView() {
             <Button variant="outlined" className={classes.secondaryBtn}>
               Edit
             </Button>
-            <CopyToClipboard
-              onCopy={this.onCopy}
-              options={{ message: "Whoa!" }}
-              text={window.location.href}
-            >
+            <CopyToClipboard options={{ message: "Whoa!" }} text={text}>
               <Button
                 variant="outlined"
                 className={classes.secondaryBtn}
@@ -223,7 +233,18 @@ export default function EventDetailsView() {
                 Share
               </Button>
             </CopyToClipboard>
-
+            <Dialog open={open} onClose={handleClose}>
+              <Paper>
+                <img
+                  className={classes.imgTop}
+                  src="/fstd-logo-colorized.svg"
+                  alt="four seasons total development logo"
+                />
+                <Typography paragraph className={classes.infoType}>
+                  A Link to this event has been copied to the Clipboard
+                </Typography>
+              </Paper>
+            </Dialog>
             <RegisterButton event={eventState} />
           </CardActions>
         </div>
