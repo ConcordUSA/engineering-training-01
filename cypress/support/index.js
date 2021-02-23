@@ -16,7 +16,6 @@ Cypress.Commands.add("clearAuth", () => {
 Cypress.Commands.add("signOut", () => {
   return new Cypress.Promise(async (resolve) => {
     const auth = getAuth();
-    console.log("SDFNSDJFn", auth.currentUser);
     await auth.signOut();
     resolve();
   });
@@ -39,6 +38,7 @@ Cypress.Commands.add("createUser", (email, password) => {
 });
 
 Cypress.Commands.add("verifyUserEmail", (email) => {
+  console.log(firebaseConfig.projectId);
   return new Cypress.Promise(async (resolve) => {
     const get = await axios.get(
       `http://localhost:9099/emulator/v1/projects/${firebaseConfig.projectId}/oobCodes`
@@ -56,7 +56,6 @@ Cypress.Commands.add("deleteAllUsers", () => {
     const resp = await axios.delete(
       `http://localhost:9099/emulator/v1/projects/${firebaseConfig.projectId}/accounts`
     );
-    console.log(resp);
     resolve();
   });
 });

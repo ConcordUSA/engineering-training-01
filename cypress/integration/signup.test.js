@@ -23,11 +23,15 @@ describe("Signup", () => {
     cy.reload(true);
   });
 
+  afterEach(() => {
+    // cy.signOut();
+  });
+
   it("should create a user", async () => {
     const user = generateUser();
-    cy.visit("/createAccount", { timeout: 100000 });
 
-    // user details form
+    // given
+    cy.visit("/createAccount", { timeout: 100000 });
     cy.get("#firstName").type(user.firstName);
     cy.get("#lastName").type(user.lastName);
     cy.get("#email").type(user.email);
@@ -36,17 +40,17 @@ describe("Signup", () => {
     cy.get("#personalPhone").type(user.personalPhone);
     cy.get("#password").type(user.password);
     cy.get("#passwordConfirm").type(user.password);
-    cy.get("#registerButton").click();
 
-    // test
+    // when
+    cy.get("#registerButton").click();
+    // then
     cy.location("pathname").should("equal", "/createAccount");
     cy.get("h1").should("contain", "Categories");
 
-    // interests form
+    // when
     cy.get("#financeCheckbox").click();
     cy.get("#submitBtn").click();
-
-    // test
+    // then
     cy.location("pathname").should("equal", "/events");
     cy.get("#sendEmailBtn").should("exist");
   });
@@ -55,8 +59,7 @@ describe("Signup", () => {
     const user = generateUser();
     cy.visit("/createAccount", { timeout: 100000 });
 
-    // user details form
-    // cy.get("#firstName").type(user.firstName);
+    // given
     cy.get("#lastName").type(user.lastName);
     cy.get("#email").type(user.email);
     cy.get("#company").type(user.company);
@@ -64,8 +67,11 @@ describe("Signup", () => {
     cy.get("#personalPhone").type(user.personalPhone);
     cy.get("#password").type(user.password);
     cy.get("#passwordConfirm").type(user.password);
+
+    // when
     cy.get("#registerButton").click();
 
+    // then
     cy.get("#messages").should("exist");
   });
 });
