@@ -99,6 +99,12 @@ export default class EventsService {
     return filteredResult;
   }
 
+  private serializeFromFirebaseToIEvent(data: any): IEvent {
+    const startTime = new Date(data?.startTime?.milliseconds);
+    const endTime = new Date(data?.endTime?.milliseconds);
+    return { ...data, startTime, endTime };
+  }
+
   public async createEvent(event: IEvent): Promise<string> {
     const newEvent = EventFactory(event);
     const doc = this.db.collection(this.collection).doc();
@@ -110,7 +116,7 @@ export default class EventsService {
 
   public async getEvent(id: string): Promise<IEvent> {
     const doc = await this.db.collection(this.collection).doc(id).get();
-    const data = doc.data() as IEvent;
+    const data = this.serializeFromFirebaseToIEvent(doc.data());
     const event: IEvent = EventFactory(data);
 
     return event;
@@ -153,7 +159,7 @@ export default class EventsService {
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
     const eventsPerCategory = {};
     docsRefs.docs.forEach((doc) => {
-      const event = doc.data() as IEvent;
+      const event = this.serializeFromFirebaseToIEvent(doc.data());
       // console.log(event);
       const { categories } = event;
       // build up the arrays of eventsPerCategory

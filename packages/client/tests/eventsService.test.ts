@@ -32,9 +32,26 @@ describe("EventsService", () => {
 
     // then
     const resp = await db.collection("events").doc(id).get();
+
     expect(id).toBeDefined();
     expect(resp.exists).toBe(true);
     expect(resp.data().id).toBe(id);
+  });
+
+  it("should get an event", async () => {
+    // given
+    const docRef = db.collection("events").doc();
+    const id = docRef.id;
+    const event: IEvent = EventFactory({ id });
+    await docRef.set(event);
+
+    // when
+    const resp = await service.getEvent(id);
+
+    // then
+    expect(resp.startTime instanceof Date).toBe(true);
+    expect(resp.endTime instanceof Date).toBe(true);
+    expect(resp.startTime.getMilliseconds() < resp.endTime.getMilliseconds());
   });
 
   it("should update an event", async () => {
