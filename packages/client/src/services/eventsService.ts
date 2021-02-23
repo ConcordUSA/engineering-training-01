@@ -56,7 +56,7 @@ export default class EventsService {
 
     const docsRefs = await this.db
       .collection(this.collection)
-      .where("startTime", ">", new Date())
+      .where("endTime", ">=", new Date())
       .get();
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
