@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import { Paper, Button, TextField } from "@material-ui/core";
+import { Paper, Button, TextField, colors } from "@material-ui/core";
 import AppTheme, { materialTheme } from "../styles/theme";
 import getConfig from "../config";
 import LockIcon from "@material-ui/icons/LockRounded";
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       height: "100vh",
       width: "100vw",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
     },
     paperWrap: {
       display: "flex",
@@ -68,17 +68,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      color: AppTheme.primaryText,
+      color: materialTheme.palette.common.white,
       width: "30%",
-      backgroundColor: AppTheme.primary,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
     lockIcn: {
       width: "50%",
       height: "50%",
-      color: materialTheme.palette.background.default,
+      color: colors.grey[500],
     },
   })
 );

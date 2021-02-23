@@ -4,7 +4,7 @@ import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
 import getConfig from "../config";
 import { Typography, Button, Paper } from "@material-ui/core";
-import AppTheme from "../styles/theme";
+import { materialTheme } from "../styles/theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       width: "100vw",
       height: "100vh",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
     },
     paperWrap: {
       display: "flex",

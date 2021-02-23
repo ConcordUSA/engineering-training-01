@@ -7,7 +7,7 @@ import EventsService, { EventsPerCategory } from "../services/eventsService";
 import { User } from "../models/user";
 import Events from "./Events";
 import Grid from "@material-ui/core/Grid";
-import AppTheme from "../styles/theme";
+import AppTheme, { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
 import { searchTerm } from "../store";
 import { colors } from "@material-ui/core";
@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       height: "100%",
       width: "100%",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
       backgroundSize: "cover",
     },
     gridDiv: {
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
       display: "flex",
       flexFlow: "row wrap",
       justifyContent: "left",

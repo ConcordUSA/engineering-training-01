@@ -23,7 +23,7 @@ import EventsService from "../services/eventsService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
 import { useMemo } from "react";
-import AppTheme from "../styles/theme";
+import AppTheme, { materialTheme } from "../styles/theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       height: "100vh",
       width: "100vw",
-      background: AppTheme.background,
+      background: materialTheme.palette.background.default,
     },
     cardWrapper: {
       position: "relative",
@@ -89,19 +89,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     registerBtn: {
       marginRight: "15px",
-      color: AppTheme.primaryText,
-      backgroundColor: AppTheme.primary,
+      color: materialTheme.palette.common.white,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
     secondaryBtn: {
       marginRight: "15px",
       backgroundColor: "#ffffff",
-      color: AppTheme.primary,
-      borderColor: AppTheme.primary,
+      color: materialTheme.palette.primary.main,
+      borderColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.background,
+        backgroundColor: materialTheme.palette.background.default,
       },
     },
     categoryDiv: {

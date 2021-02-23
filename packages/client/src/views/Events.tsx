@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     registerBtn: {
       marginRight: "15px",
-      color: materialTheme.palette.text.primary,
+      color: materialTheme.palette.common.white,
       backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
         backgroundColor: materialTheme.palette.primary.dark,

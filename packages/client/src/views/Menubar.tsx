@@ -19,6 +19,8 @@ import { searchTerm } from "../store/atoms";
 import UsersService from "../services/usersService";
 import { Button } from "@material-ui/core";
 // import NotificationsIcon from "@material-ui/icons/Notifications";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import { materialTheme } from "../styles/theme";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     display: "block",
     fontWeight: 600,
+    color: materialTheme.palette.common.white,
   },
   search: {
     position: "relative",
@@ -47,7 +50,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logoutBtn: {
-    display: "flex",
+    backgroundColor: materialTheme.palette.common.white,
+    color: materialTheme.palette.primary.main,
+    borderColor: materialTheme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: materialTheme.palette.background.default,
+    },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -57,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    color: materialTheme.palette.common.white,
   },
   inputRoot: {
     color: "inherit",
@@ -73,6 +82,14 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("md")]: {
       width: "20ch",
     },
+    color: materialTheme.palette.common.white,
+  },
+  menuRight: {
+    position: "absolute",
+    right: "24px",
+  },
+  colorToWhite: {
+    color: materialTheme.palette.common.white,
   },
 }));
 
@@ -109,7 +126,6 @@ export default function PrimarySearchAppBar() {
         <Typography className={classes.title} variant="h5" noWrap>
           Four Seasons
         </Typography>
-        <div className={classes.grow} />
         <div className={classes.searchDiv}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -125,7 +141,8 @@ export default function PrimarySearchAppBar() {
               onChange={handleSearch}
             />
           </div>
-          <div>
+          <FilterListIcon className={classes.colorToWhite} />
+          <div className={classes.menuRight}>
             {user?.isAdmin && (
               <IconButton
                 aria-label="Add Event"
@@ -136,11 +153,9 @@ export default function PrimarySearchAppBar() {
               </IconButton>
             )}
             <Button
-              key={classes.logoutBtn}
+              className={classes.logoutBtn}
               aria-label="Signout"
-              variant="contained"
-              size="small"
-              color="secondary"
+              variant="outlined"
               onClick={handleSignout}
               endIcon={<ExitToAppIcon />}
               id="signoutBtn"
@@ -157,6 +172,7 @@ export default function PrimarySearchAppBar() {
               aria-label="User account"
               aria-haspopup="true"
               color="inherit"
+              className={classes.colorToWhite}
             >
               <AccountCircle />
             </IconButton>

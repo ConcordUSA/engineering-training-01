@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Paper, Button, Container, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppTheme from "../../styles/theme";
+import { materialTheme } from "../../styles/theme";
 import { createUserForm } from "../../store";
 import { useRecoilState } from "recoil";
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       height: "100vh",
       width: "100vw",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
     },
     paperWrap: {
       display: "flex",
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       borderStyle: "solid",
       borderWidth: "2px",
-      borderColor: AppTheme.primary,
+      borderColor: materialTheme.palette.primary.main,
     },
     checkMark: {
       position: "absolute",
@@ -99,11 +99,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     submit: {
       // margin: theme.spacing(3, 0, 2),
-      color: AppTheme.primaryText,
+      color: materialTheme.palette.common.white,
       width: "20%",
-      backgroundColor: AppTheme.primary,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
   })

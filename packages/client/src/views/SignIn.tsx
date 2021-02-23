@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import AppTheme from "../styles/theme";
+import AppTheme, { materialTheme } from "../styles/theme";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import routes from "../constants/routes";
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       height: "100vh",
       maxWidth: "100vw",
-      backgroundColor: AppTheme.background,
+      backgroundColor: materialTheme.palette.background.default,
     },
     paper: {
       width: AppTheme.cardWidth,
@@ -51,11 +51,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
-      color: AppTheme.primaryText,
+      color: materialTheme.palette.common.white,
       width: "30%",
-      backgroundColor: AppTheme.primary,
+      backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
-        backgroundColor: AppTheme.secondary,
+        backgroundColor: materialTheme.palette.primary.dark,
       },
     },
     btnDiv: {
@@ -72,12 +72,15 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "5px",
       "& .MuiOutlinedInput-root": {
         "&.Mui-focused fieldset": {
-          borderColor: AppTheme.input,
+          borderColor: materialTheme.palette.secondary.main,
         },
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
+    },
+    checkBox: {
+      color: materialTheme.palette.secondary.main,
     },
   })
 );
@@ -202,7 +205,7 @@ export default function SigninView() {
                   <Checkbox
                     id="rememberCheckBox"
                     checked={rememberMe}
-                    color="primary"
+                    className={classes.checkBox}
                   />
                 }
                 label="Remember me"
