@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { IEvent, capitalize } from "../models/event";
+import { IEvent, capitalize, Category } from "../models/event";
 import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService, { EventsPerCategory } from "../services/eventsService";
@@ -45,21 +45,81 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const searchFilter = (search: string, events: EventsPerCategory[]) => {
+const dateFilter = (filterDate: any, eventGroups: EventsPerCategory[]) => {
+  let res = [];
+  eventGroups.forEach((group: EventsPerCategory) => {
+    group.items = group.items.filter((event: IEvent) => {
+      console.log("filterDate");
+      console.log("eventStartTime");
+      return filterDate;
+      // filterDate.() >= event.startTime.getTime &&
+      // filterDate.getTime <= event.endTime.getTime
+    });
+    if (group.items.length) res.push(group);
+  });
+  return res;
+};
+
+const stringFilter = (
+  search: string,
+  eventGroups: EventsPerCategory[],
+  queryField
+) => {
   let res: EventsPerCategory[] = [];
-  events.forEach((eventCategory: EventsPerCategory) => {
+  eventGroups.forEach((group: EventsPerCategory) => {
     const regex = new RegExp(`^${search}`, "gi");
-    eventCategory.items = eventCategory.items.filter((event: IEvent) => {
+    group.items = group.items.filter((event: IEvent) => {
       let i = 0;
-      const keyWords = event.topic.split(" ");
+      const keyWords = event[`${queryField}`].split(" ");
       while (keyWords[i]) {
         if (keyWords[i++].match(regex)) return true;
       }
       return false;
     });
-    if (eventCategory.items.length) res.push(eventCategory);
+    if (group.items.length) res.push(group);
   });
   return res;
+};
+
+export interface IFilter {
+  topic?: string;
+  startDate?: any;
+  catagories?: Category[];
+  location?: string;
+}
+const filterState: IFilter = {
+  topic: undefined,
+  startDate: new Date(),
+  catagories: ["it", "leadership"],
+  location: undefined,
+};
+
+const advanceFilter = (filter: IFilter, eventGroups: EventsPerCategory[]) => {
+  let filteredResult = [];
+  filter.catagories = filter?.catagories
+    ? filter.catagories
+    : ["it", "finance", "leadership", "marketing"];
+
+  // Remove unwanted catagories
+  filteredResult = eventGroups.filter((group: EventsPerCategory) => {
+    return filter.catagories.includes(group.category);
+  });
+
+  // Filter events with topics that fuzzy match topic filter
+  if (filter?.topic) {
+    filteredResult = stringFilter(filter.topic, filteredResult, "topic");
+  }
+
+  // Filter events with topics that fuzzy match location filter
+  if (filter?.location) {
+    filteredResult = stringFilter(filter.location, filteredResult, "location");
+  }
+
+  // Filter events with dates that are on or after specified
+  if (filter?.startDate) {
+    filteredResult = dateFilter(filter.startDate, filteredResult);
+  }
+  return filteredResult;
 };
 
 export default function EventListView() {
@@ -90,9 +150,11 @@ export default function EventListView() {
   // filter events based on search term in ui
   useEffect(() => {
     setFilteredEvents(
-      searchTermState ? searchFilter(searchTermState, events) : events
+      searchTermState ? stringFilter(searchTermState, events, "topic") : events
     );
   }, [events, searchTermState]);
+
+  console.log("Adv. Filter: ", advanceFilter(filterState, filteredEvents));
 
   return (
     <div className={classes.root}>
