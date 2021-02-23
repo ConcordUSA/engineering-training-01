@@ -37,7 +37,3 @@ export const messages = atom<Message[]>({
   key: "messages",
   default: [],
 });
-export const shareUrl = atom({
-  key: "shareUrl",
-  default: "",
-})

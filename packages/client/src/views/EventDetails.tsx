@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 import {
   Card,
   CardActions,
@@ -25,8 +27,7 @@ import routes from "../constants/routes";
 import { useMemo } from "react";
 import AppTheme, { materialTheme } from "../styles/theme";
 import RegisterButton from "./RegisterButton";
-import { shareUrl } from "../store/atoms";
-import { useRecoilState } from "recoil";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -135,7 +136,6 @@ export default function EventDetailsView() {
   const newEvent = EventFactory();
   const [eventState, setState] = useState(newEvent);
   const eventID = getEventIdFromURL();
-  const [, setShareUrl] = useRecoilState(shareUrl);
   function getEventIdFromURL() {
     return window.location.pathname.replace(routes.EVENT_DETAILS_URL, "");
   }
@@ -150,7 +150,13 @@ export default function EventDetailsView() {
     history.push(routes.EVENT_LIST_URL);
   };
   const onShareClick = () => {
-    setShareUrl(window.location.href);
+    const url = document.createElement("input"),
+      text = window.location.pathname;
+    document.body.appendChild(url);
+    url.value = text;
+    url.select();
+    document.execCommand("copy");
+    document.body.removeChild(url);
   };
 
   return (
@@ -204,13 +210,20 @@ export default function EventDetailsView() {
             <Button variant="outlined" className={classes.secondaryBtn}>
               Edit
             </Button>
-            <Button
-              variant="outlined"
-              className={classes.secondaryBtn}
-              onClick={onShareClick}
+            <CopyToClipboard
+              onCopy={this.onCopy}
+              options={{ message: "Whoa!" }}
+              text={window.location.href}
             >
-              Share
-            </Button>
+              <Button
+                variant="outlined"
+                className={classes.secondaryBtn}
+                onClick={onShareClick}
+              >
+                Share
+              </Button>
+            </CopyToClipboard>
+
             <RegisterButton event={eventState} />
           </CardActions>
         </div>

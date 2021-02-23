@@ -4,7 +4,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { useHistory } from "react-router-dom";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import { Paper, Button, TextField, colors } from "@material-ui/core";
-import AppTheme, { materialTheme } from "../styles/theme";
+import { materialTheme } from "../styles/theme";
 import getConfig from "../config";
 import LockIcon from "@material-ui/icons/LockRounded";
 import routes from "../constants/routes";
@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "72%",
       "& .MuiOutlinedInput-root": {
         "&.Mui-focused fieldset": {
-          borderColor: AppTheme.input,
+          borderColor: materialTheme.palette.secondary.main,
         },
       },
       "& label.Mui-focused": {
-        color: AppTheme.input,
+        color: materialTheme.palette.secondary.main,
       },
     },
     passwordResetText: {
