@@ -7,7 +7,7 @@ import EventsService, { EventsPerCategory } from "../services/eventsService";
 import { User } from "../models/user";
 import Events from "./Events";
 import Grid from "@material-ui/core/Grid";
-import AppTheme, { materialTheme } from "../styles/theme";
+import { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
 import { searchTerm } from "../store";
 import { colors } from "@material-ui/core";
