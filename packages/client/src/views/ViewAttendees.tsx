@@ -1,12 +1,10 @@
-import React, { useState, useMemo, useContext, useEffect } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Modal } from "@material-ui/core";
 import AppTheme, { materialTheme } from "../styles/theme";
-import { UserFactory } from "../models/user";
 import EventsService from "../services/eventsService";
 import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import { IEvent } from "../models/event";
 import { User } from "../models/user";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -56,7 +54,6 @@ export default function ViewAttendees(props) {
   const [eventAttendees, setEventAttendees] = useState<User[]>([]);
   const [user, setUser] = useState<User>();
   const [open, setOpen] = useState(false);
-  const [userArray, setUserArray] = useState([]);
 
   async function handleViewAttendees() {
     const attendees = await eventService.getAttendees(props.event);
@@ -68,12 +65,6 @@ export default function ViewAttendees(props) {
 
   function handleClose() {
     setOpen(false);
-  }
-
-  useEffect(() => {}, [eventService, props, open]);
-
-  function rand() {
-    return Math.round(Math.random() * 20) - 10;
   }
 
   return (
