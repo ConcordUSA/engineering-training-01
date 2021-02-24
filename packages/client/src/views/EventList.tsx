@@ -11,7 +11,7 @@ import { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
 import { searchTerm } from "../store";
 import { colors } from "@material-ui/core";
-
+import { eventListFilter } from "../store/atoms";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -51,6 +51,7 @@ export default function EventListView() {
   const [events, setEvents] = useState<EventsPerCategory[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventsPerCategory[]>([]);
   const [searchTermState] = useRecoilState(searchTerm);
+  const [filterState] = useRecoilState(eventListFilter);
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const userService = useMemo(() => new UsersService(db, auth), [db, auth]);
   const eventService = useMemo(() => new EventsService(db), [db]);
@@ -64,9 +65,7 @@ export default function EventListView() {
 
   // get events from service
   useEffect(() => {
-    const interestedCategories = user?.interestedCategories
-      ? user.interestedCategories
-      : undefined;
+    const interestedCategories = user?.interestedCategories;
     eventService.getAllEvents(interestedCategories).then((events) => {
       setEvents(events);
     });
@@ -74,12 +73,15 @@ export default function EventListView() {
 
   // filter events based on search term in ui
   useEffect(() => {
-    setFilteredEvents(
-      searchTermState
-        ? EventsService.stringFilter(searchTermState, events, "topic")
-        : events
-    );
-  }, [events, searchTermState]);
+    let res: EventsPerCategory[] = [];
+
+    if (searchTermState) {
+      res = EventsService.stringFilter(searchTermState, events, "topic");
+    }
+    res = events;
+    setFilteredEvents(res);
+    if (filterState) setFilteredEvents(EventsService.filter(filterState, res));
+  }, [events, searchTermState, filterState]);
 
   return (
     <div className={classes.root}>

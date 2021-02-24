@@ -37,3 +37,7 @@ export const messages = atom<Message[]>({
   key: "messages",
   default: [],
 });
+export const eventListFilter = atom({
+  key: "eventListFilter",
+  default: undefined,
+})
