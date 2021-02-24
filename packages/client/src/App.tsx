@@ -53,6 +53,7 @@ export default function App() {
                 path={routes.PASSWORD_RESET_URL}
                 component={PasswordResetView}
               ></Route>
+              <Route component={SignInView}></Route>
             </Switch>
           )}
 

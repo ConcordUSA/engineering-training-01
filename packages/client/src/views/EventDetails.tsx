@@ -12,7 +12,6 @@ import {
   Typography,
   Box,
   Dialog,
-  Paper,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {
@@ -57,7 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       overflow: "hidden",
       display: "flex",
-
       justifyContent: "center",
       alignItems: "center",
     },
@@ -96,14 +94,17 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 0,
       bottom: 0,
     },
+    eventCentered: {
+      textAlign: "center",
+    },
     btnDiv: {
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "center",
-      marginBottom: "10px",
+      marginBottom: theme.spacing(1),
     },
     registerBtn: {
-      marginRight: "15px",
+      marginRight: theme.spacing(1),
       color: materialTheme.palette.common.white,
       backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
@@ -111,8 +112,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     secondaryBtn: {
-      marginRight: "15px",
-      backgroundColor: "#ffffff",
+      marginRight: theme.spacing(1),
+      backgroundColor: materialTheme.palette.common.white,
       color: materialTheme.palette.primary.main,
       borderColor: materialTheme.palette.primary.main,
       "&:hover": {
@@ -235,17 +236,32 @@ export default function EventDetailsView() {
                 Share
               </Button>
             </CopyToClipboard>
-            <Dialog open={open} onClose={handleClose}>
-              <Paper>
-                <img
-                  className={classes.imgTop}
-                  src="/fstd-logo-colorized.svg"
-                  alt="four seasons total development logo"
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="300px"
+                  image={eventState.image}
                 />
-                <Typography paragraph className={classes.infoType}>
-                  A Link to this event has been copied to the Clipboard
-                </Typography>
-              </Paper>
+                <CardContent>
+                  <div className={classes.eventCentered}>
+                    <Typography variant="h3">
+                      {capitalize(eventState.topic)}
+                    </Typography>
+                  </div>
+                  <Typography paragraph className={classes.infoType}>
+                    A Link to this event has been copied to the Clipboard
+                  </Typography>
+                </CardContent>
+              </Card>
             </Dialog>
             <RegisterButton event={eventState} />
           </CardActions>
