@@ -29,6 +29,7 @@ import routes from "../constants/routes";
 import { useMemo } from "react";
 import AppTheme, { materialTheme } from "../styles/theme";
 import RegisterButton from "./RegisterButton";
+import ViewAttendees from "./ViewAttendees";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -221,6 +222,7 @@ export default function EventDetailsView() {
         </CardContent>
         <div className={classes.btnDiv}>
           <CardActions>
+            <ViewAttendees event={eventState} />
             <Button variant="outlined" className={classes.secondaryBtn}>
               Edit
             </Button>
