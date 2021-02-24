@@ -60,7 +60,7 @@ export default function EventListView() {
     userService.getUser(auth.currentUser?.uid).then((user: User) => {
       setUser({ ...user });
     });
-  }, [userService, auth.currentUser, searchTermState]);
+  }, [userService, auth.currentUser]);
 
   // get events from service
   useEffect(() => {
