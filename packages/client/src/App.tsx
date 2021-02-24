@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useMemo } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   defaultDependencies,
@@ -8,19 +8,20 @@ import {
 import PasswordResetView from "./views/PasswordReset";
 import EmailVerificationView from "./views/EmailVerification";
 import { useRecoilState } from "recoil";
-import { signedIn, emailVerified } from "./store";
+import { signedIn, emailVerified, user } from "./store";
 import routes from "./constants/routes";
 import SignInView from "./views/SignIn";
 import CreateAccountView from "./views/CreateAccount";
 import Menubar from "./views/Menubar";
 import AuthenticatedViews from "./views/AuthenticatedViews";
+import UsersService from './services/usersService'
 
 export default function App() {
-  const { auth }: AppDependencies = useContext(AppDependenciesContext);
+  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
+  const usersService = useMemo(() => {return new UsersService(db,auth)},[db,auth])
   const [signedInState, setSignedInState] = useRecoilState(signedIn);
-  const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(
-    emailVerified
-  );
+  const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(emailVerified);
+  const [userState, setUserState] = useRecoilState(user);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -29,8 +30,10 @@ export default function App() {
 
       const isEmailVerified = user?.emailVerified ? true : false;
       setEmailVerifiedState(isEmailVerified);
+
+      if (isSignedIn) usersService.getUser(user.uid).then(setUserState)
     });
-  }, [auth, setSignedInState, setEmailVerifiedState]);
+  }, [auth, setSignedInState, setEmailVerifiedState, usersService]);
 
   return (
     <div>

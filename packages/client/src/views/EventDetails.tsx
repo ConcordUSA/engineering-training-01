@@ -29,6 +29,8 @@ import { useMemo } from "react";
 import AppTheme, { materialTheme } from "../styles/theme";
 import RegisterButton from "./RegisterButton";
 import ViewAttendees from "./ViewAttendees";
+import { user } from "../store";
+import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -149,6 +151,7 @@ export default function EventDetailsView() {
   const history = useHistory();
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
+  const [userState] = useRecoilState(user);
   const newEvent = EventFactory();
   const [open, setOpen] = React.useState(false);
   const [eventState, setState] = useState(newEvent);
@@ -224,9 +227,10 @@ export default function EventDetailsView() {
         <div className={classes.btnDiv}>
           <CardActions>
             <ViewAttendees event={eventState} />
+            {userState?.isAdmin && (
             <Button variant="outlined" className={classes.secondaryBtn}>
               Edit
-            </Button>
+            </Button>)}
             <CopyToClipboard options={{ message: "Whoa!" }} text={text}>
               <Button
                 variant="outlined"
