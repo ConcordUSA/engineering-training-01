@@ -194,10 +194,9 @@ export default class EventsService {
       .collection("attendees")
       .get();
 
-    const attendees = [];
-    docsRefs.docs.forEach((doc) => {
-      attendees.push(doc.id);
+    return docsRefs.docs.map((doc) => {
+      // ideally...we serialize here
+      return doc.data() as User;
     });
-    return attendees;
   }
 }
