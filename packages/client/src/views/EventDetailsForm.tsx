@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function CreateEventView() {
+export default function EventDetailsFormView() {
   const classes = useStyles();
   const newEvent = EventFactory();
   const history = useHistory();
