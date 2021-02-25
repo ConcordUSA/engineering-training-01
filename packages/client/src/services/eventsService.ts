@@ -49,7 +49,7 @@ export default class EventsService {
   ): EventsPerCategory[] {
     let filteredResult: EventsPerCategory[] = eventGroups;
 
-    console.log("BEFORE ALL", eventGroups);
+
     if (filter.catagories && filter.catagories.length) {
     // Remove unwanted catagories
       filteredResult = eventGroups.filter((group: EventsPerCategory) => {
@@ -57,7 +57,6 @@ export default class EventsService {
       });
     }
 
-    console.log("AFTER CATAGORY", filteredResult);
 
     // Filter events with topics that fuzzy match topic filter
     if (filter?.topic && filter.topic.length) {
@@ -67,7 +66,7 @@ export default class EventsService {
         "topic"
       );
     }
-        console.log("AFTER TOPIC", filteredResult);
+
 
     // Filter events with topics that fuzzy match location filter
     if (filter?.location && filter.location.length) {
@@ -77,7 +76,7 @@ export default class EventsService {
         "location"
       );
     }
-    console.log("AFTER LOCATION", filteredResult);
+
 
     return filteredResult;
   }
