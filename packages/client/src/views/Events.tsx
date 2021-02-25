@@ -104,7 +104,7 @@ export default function Events(props) {
 
   const onClick = (e): any => {
     setSelectedEventState(e);
-    history.push(routes.EVENT_DETAILS_URL + e.id);
+    history.push(`${routes.EVENT_LIST_URL}/${e.id}`);
   };
 
   return (
