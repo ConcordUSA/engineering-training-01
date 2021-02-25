@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { IEvent, capitalize } from "../models/event";
-import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService, { EventsPerCategory } from "../services/eventsService";
-import { User } from "../models/user";
 import Events from "./Events";
 import Grid from "@material-ui/core/Grid";
 import { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
 import { searchTerm } from "../store";
 import { colors, FormControlLabel, Switch } from "@material-ui/core";
-import { eventListFilter } from "../store/atoms";
+import { eventListFilter, user } from "../store/atoms";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,60 +47,49 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function EventListView() {
   const classes = useStyles();
-  const [user, setUser] = useState<User>();
-  const [, setEvents] = useState<EventsPerCategory[]>([]);
+  const [events, setEvents] = useState<EventsPerCategory[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventsPerCategory[]>([]);
-  const [searchTermState] = useRecoilState(searchTerm);
   const [filterState] = useRecoilState(eventListFilter);
-  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
-  const userService = useMemo(() => new UsersService(db, auth), [db, auth]);
+  const [searchTermState] = useRecoilState(searchTerm);
+  const [userState] = useRecoilState(user);
+  const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
   const [pastEvents, setPastEvents] = useState(false);
 
-  // get user from service
-  useEffect(() => {
-    userService.getUser(auth.currentUser?.uid).then((user: User) => {
-      setUser({ ...user });
-    });
-  }, [userService, auth.currentUser]);
-
   // get events from service
   useEffect(() => {
-    const interestedCategories = user?.interestedCategories;
-    eventService
-      .getAllEvents(interestedCategories, pastEvents)
-      .then((events) => {
-        setEvents(events);
-      });
-  }, [eventService, user, pastEvents]);
+    // make sure user exists first
+    if (userState) {
+      eventService
+        .getAllEvents(userState?.interestedCategories, pastEvents)
+        .then((resp) => {
+          setEvents(resp);
+        });
+    }
+  }, [eventService, userState, pastEvents]);
 
   // filter events based on search term or filter in ui
   useEffect(() => {
-    eventService.getAllEvents(user?.interestedCategories).then((allEvents) => {
-      let res = [];
-      if (searchTermState) {
-        res = EventsService.stringFilter(searchTermState, allEvents, "topic");
-        setFilteredEvents(res);
-        console.log(
-          "filterState searchterm",
-          filterState,
-          "allEvents",
-          allEvents
-        );
-      } else if (filterState) {
-        res = EventsService.filter(filterState, allEvents);
-        setFilteredEvents(res);
-        console.log("filterState TRUE", filterState, "allEvents", allEvents);
-      } else {
-        setFilteredEvents(allEvents);
-        console.log("in else block Filter state", "allEvents");
-      }
-    });
-  }, [searchTermState, filterState, eventService, user]);
+    if (searchTermState) {
+      const filtered = EventsService.stringFilter(
+        searchTermState,
+        events,
+        "topic"
+      );
+      setFilteredEvents(filtered);
+    }
+    if (filterState) {
+      const filtered = EventsService.filter(filterState, events);
+      setFilteredEvents(filtered);
+    }
+    if (!searchTermState && !filterState) {
+      setFilteredEvents(events);
+    }
+  }, [searchTermState, filterState, events]);
 
   const handleSwitch = () => {
     setPastEvents(!pastEvents);
-    const interestedCategories = user?.interestedCategories;
+    const interestedCategories = userState?.interestedCategories;
     eventService
       .getAllEvents(interestedCategories, pastEvents)
       .then((events) => {
@@ -112,7 +99,7 @@ export default function EventListView() {
 
   return (
     <div className={classes.root}>
-      {user?.isAdmin && (
+      {userState?.isAdmin && (
         <div className={classes.gridDiv}>
           <FormControlLabel
             control={

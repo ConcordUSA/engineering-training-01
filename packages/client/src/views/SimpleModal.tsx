@@ -36,6 +36,11 @@ const useStyles = makeStyles((theme: Theme) =>
       color: materialTheme.palette.common.white,
       cursor: "pointer",
     },
+    filtered: {
+      color: materialTheme.palette.common.white,
+      backgroundColor: materialTheme.palette.secondary.main,
+      cursor: "pointer",
+    },
 
     checkBox: {
       "&.Mui-checked": {
@@ -49,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     checkBoxDiv: {
-      margin: theme.spacing(1, 2, 0, 0),
+      margin: theme.spacing(1, 2, 6, 0),
       justifyContent: "space-between",
       "&.MuiFormGroup-root": {
         display: "flex",
@@ -80,6 +85,18 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
+    },
+    reset: {
+      // margin: theme.spacing(3, 0, 2),
+      color: materialTheme.palette.common.white,
+      width: "20%",
+      backgroundColor: materialTheme.palette.primary.main,
+      "&:hover": {
+        backgroundColor: materialTheme.palette.primary.dark,
+      },
+      position: "absolute",
+      bottom: theme.spacing(2),
+      left: theme.spacing(2),
     },
     dialogHeader: {
       width: "100%",
@@ -115,7 +132,16 @@ export default function SimpleModal() {
   };
   const handleReset = () => {
     resetFilter();
-    console.log("filterStat after reset", filterState);
+    setState({
+      topic: "",
+      location: "",
+    });
+    setCheckBoxState({
+      leadership: false,
+      marketing: false,
+      informationTechnology: false,
+      finance: false,
+    });
   };
   const handleCheck = (event) => {
     setCheckBoxState({
@@ -146,16 +172,6 @@ export default function SimpleModal() {
       location: state.location,
     } as IFilter);
     handleClose();
-    setState({
-      topic: "",
-      location: "",
-    });
-    setCheckBoxState({
-      leadership: false,
-      marketing: false,
-      informationTechnology: false,
-      finance: false,
-    });
   };
 
   const body = (
@@ -238,7 +254,11 @@ export default function SimpleModal() {
       >
         Apply
       </Button>
-      <Button variant="outlined" onClick={handleReset}>
+      <Button
+        variant="outlined"
+        onClick={handleReset}
+        className={classes.reset}
+      >
         Reset
       </Button>
     </div>
@@ -246,7 +266,10 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <FilterListIcon className={classes.filter} onClick={handleOpen} />
+      <FilterListIcon
+        className={filterState ? classes.filtered : classes.filter}
+        onClick={handleOpen}
+      />
 
       <Modal
         open={open}
