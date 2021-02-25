@@ -48,7 +48,3 @@ export const user = atom<User>({
   default: undefined,
 });
 
-export const filterReset = atom({
-  key: "filterReset",
-  default: false
-})
