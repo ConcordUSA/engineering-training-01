@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EventListView() {
   const classes = useStyles();
   const [user, setUser] = useState<User>();
-  const [events, setEvents] = useState<EventsPerCategory[]>([]);
+  const [, setEvents] = useState<EventsPerCategory[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventsPerCategory[]>([]);
   const [searchTermState] = useRecoilState(searchTerm);
   const [filterState] = useRecoilState(eventListFilter);
@@ -76,17 +76,29 @@ export default function EventListView() {
       });
   }, [eventService, user, pastEvents]);
 
-  // filter events based on search term in ui
+  // filter events based on search term or filter in ui
   useEffect(() => {
-    let res: EventsPerCategory[] = [];
-
-    if (searchTermState) {
-      res = EventsService.stringFilter(searchTermState, events, "topic");
-    }
-    res = events;
-    setFilteredEvents(res);
-    if (filterState) setFilteredEvents(EventsService.filter(filterState, res));
-  }, [events, searchTermState, filterState]);
+    eventService.getAllEvents(user?.interestedCategories).then((allEvents) => {
+      let res = [];
+      if (searchTermState) {
+        res = EventsService.stringFilter(searchTermState, allEvents, "topic");
+        setFilteredEvents(res);
+        console.log(
+          "filterState searchterm",
+          filterState,
+          "allEvents",
+          allEvents
+        );
+      } else if (filterState) {
+        res = EventsService.filter(filterState, allEvents);
+        setFilteredEvents(res);
+        console.log("filterState TRUE", filterState, "allEvents", allEvents);
+      } else {
+        setFilteredEvents(allEvents);
+        console.log("in else block Filter state", "allEvents");
+      }
+    });
+  }, [searchTermState, filterState, eventService, user]);
 
   const handleSwitch = () => {
     setPastEvents(!pastEvents);
