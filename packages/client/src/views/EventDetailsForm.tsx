@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "left",
       width: "85%",
       paddingTop: "1.5em",
+      paddingBottom: "1.5em",
     },
     halfInput: {
       width: "45%",
@@ -114,27 +115,21 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     btnDiv: {
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
     },
     cancel: {
-      // margin: theme.spacing(3, 0, 2),
-      color: materialTheme.palette.common.white,
-      backgroundColor: materialTheme.palette.secondary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.secondary.dark,
-      },
+      marginLeft: "1em",
     },
     submit: {
-      // margin: theme.spacing(3, 0, 2),
       color: materialTheme.palette.common.white,
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
+      marginLeft: "1em",
     },
     eventDescription: {
       marginTop: "20px",
       marginBottom: 0,
+    },
+    spacer: {
+      flexGrow: 1,
     },
   })
 );
@@ -146,20 +141,24 @@ export default function EventDetailsFormView() {
   const { eventId } = useParams<{ eventId: string }>();
   const [state, setState] = useState(newEvent);
   const { db }: AppDependencies = useContext(AppDependenciesContext);
-  const eventsService = useMemo(() => {return new EventsService(db)},[db]);
+  const eventsService = useMemo(() => {
+    return new EventsService(db);
+  }, [db]);
   const imageHelperText =
     "Please submit a url that ends with a .jpg, .jpeg, or .png file extension.";
   const [imageState, setImageState] = useState({
     error: false,
     helperText: "",
   });
-
-  const [checkboxState, setCheckBoxState] = React.useState({
+  const defaultCheckboxState = {
     leadership: false,
     marketing: false,
     informationTechnology: false,
     finance: false,
-  });
+  };
+  const [checkboxState, setCheckBoxState] = React.useState(
+    defaultCheckboxState
+  );
 
   // If this is coming from `/events/:eventId/edit`, then go get the event details
   useEffect(() => {
@@ -173,11 +172,16 @@ export default function EventDetailsFormView() {
         });
         setState(event);
       });
+
+      return () => {
+        setState(newEvent);
+        setCheckBoxState(defaultCheckboxState);
+      };
     }
   }, [eventsService, eventId]);
 
   const handleBack = () => {
-    history.goBack()
+    history.goBack();
   };
 
   const handleCheck = (event) => {
@@ -266,15 +270,14 @@ export default function EventDetailsFormView() {
       return;
     }
     try {
-      if (eventId){
-        await eventsService.updateEvent(eventId,event);
+      if (eventId) {
+        await eventsService.updateEvent(eventId, event);
         console.log("successfully updated an event");
-      }
-      else{
+      } else {
         await eventsService.createEvent(event);
         console.log("successfully created an event");
       }
-        
+
       history.push(routes.EVENT_LIST_URL);
     } catch (error) {
       console.log("error", error); //TODO: Handle system messages
@@ -282,10 +285,6 @@ export default function EventDetailsFormView() {
   };
 
   const formatPrice = (price) => {
-    //price is int
-    //formatted price is $int/100
-    //switch case based on length of price string
-
     const priceString = "" + price;
     const priceLength = priceString.length;
     let formattedPrice;
@@ -336,7 +335,6 @@ export default function EventDetailsFormView() {
                 <DateTimePicker
                   id="startTime"
                   label="Start time"
-                  defaultValue={new Date()}
                   value={state.startTime}
                   onChange={handleStartDateChange}
                   disablePast
@@ -347,7 +345,6 @@ export default function EventDetailsFormView() {
                   id="endTime"
                   label="End time"
                   className={classes.halfInput}
-                  defaultValue={new Date()}
                   value={state.endTime}
                   onChange={handleEndDateChange}
                   disablePast
@@ -444,8 +441,14 @@ export default function EventDetailsFormView() {
               <Button onClick={handleBack}>
                 <ArrowBackIcon />
               </Button>
+              <div className={classes.spacer}></div>
               {eventId && (
-                <Button className={classes.cancel} onClick={handleBack} variant="contained">
+                <Button
+                  className={classes.cancel}
+                  onClick={handleBack}
+                  variant="outlined"
+                  color="primary"
+                >
                   Cancel
                 </Button>
               )}
