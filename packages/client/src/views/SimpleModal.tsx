@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import { Category, IFilter } from "../models/event";
@@ -14,8 +14,12 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
-import { useRecoilState } from "recoil";
-import { eventListFilter } from "../store";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { eventListFilter, filterReset } from "../store";
+import EventsService, { EventsPerCategory } from "../services/eventsService";
+import UsersService from "../services/usersService";
+import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { User } from "../models/user";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -96,17 +100,28 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SimpleModal() {
   const classes = useStyles();
+  const [user, setUser] = useState<User>();
+  const resetFilter = useResetRecoilState(eventListFilter);
+  const [, setFilterReset] = useRecoilState(filterReset);
   const [filterState, setFilterState] = useRecoilState(eventListFilter);
   const [state, setState] = React.useState({ topic: "", location: "" });
   const [open, setOpen] = React.useState(false);
-
+  const [, setEvents] = useState<EventsPerCategory[]>([]);
+  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
+  const eventService = useMemo(() => new EventsService(db), [db]);
+  const userService = useMemo(() => new UsersService(db, auth), [db, auth]);
   const [checkboxState, setCheckBoxState] = React.useState({
     leadership: false,
     marketing: false,
     informationTechnology: false,
     finance: false,
   });
-
+  // get user from service
+  useEffect(() => {
+    userService.getUser(auth.currentUser?.uid).then((user: User) => {
+      setUser({ ...user });
+    });
+  }, [userService, auth.currentUser]);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -114,7 +129,15 @@ export default function SimpleModal() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleReset = () => {
+    resetFilter();
+    console.log("filterStat after reset", filterState);
+    // setFilterReset(true);
+    // const interestedCategories = user?.interestedCategories;
+    // eventService.getAllEvents(interestedCategories).then((events) => {
+    //   setEvents(events);
+    // });
+  };
   const handleCheck = (event) => {
     setCheckBoxState({
       ...checkboxState,
@@ -143,7 +166,7 @@ export default function SimpleModal() {
       topic: state.topic,
       location: state.location,
     } as IFilter);
-    setOpen(false);
+    handleClose();
     setState({
       topic: "",
       location: "",
@@ -164,6 +187,7 @@ export default function SimpleModal() {
       <TextField
         id="topic"
         label="Topic"
+        autoFocus
         className={classes.halfInput}
         value={state.topic}
         onChange={handleChange}
@@ -234,6 +258,144 @@ export default function SimpleModal() {
         onClick={handleSubmit}
       >
         Apply
+      </Button>
+      <Button variant="outlined" onClick={handleReset}>
+        Reset
+            }
+            label="Finance"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                className={classes.checkBox}
+                checked={checkboxState.informationTechnology}
+                onChange={handleCheck}
+                name="informationTechnology"
+              />
+            }
+            label="Information Technology"
+          />
+        </FormGroup>
+      </FormControl>
+      <Button
+        type="submit"
+        id="submitBtn"
+        variant="contained"
+        className={classes.submit}
+        onClick={handleSubmit}
+      >
+        Apply
+      </Button>
+      <Button variant="outlined" onClick={handleReset}>
+        Reset
+            }
+            label="Finance"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                className={classes.checkBox}
+                checked={checkboxState.informationTechnology}
+                onChange={handleCheck}
+                name="informationTechnology"
+              />
+            }
+            label="Information Technology"
+          />
+        </FormGroup>
+      </FormControl>
+      <Button
+        type="submit"
+        id="submitBtn"
+        variant="contained"
+        className={classes.submit}
+        onClick={handleSubmit}
+      >
+        Apply
+      </Button>
+      <Button variant="outlined" onClick={handleReset}>
+        Reset
+            }
+            label="Finance"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                className={classes.checkBox}
+                checked={checkboxState.informationTechnology}
+                onChange={handleCheck}
+                name="informationTechnology"
+              />
+            }
+            label="Information Technology"
+          />
+        </FormGroup>
+      </FormControl>
+      <Button
+        type="submit"
+        id="submitBtn"
+        variant="contained"
+        className={classes.submit}
+        onClick={handleSubmit}
+      >
+        Apply
+      </Button>
+      <Button variant="outlined" onClick={handleReset}>
+        Reset
+            }
+            label="Finance"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                className={classes.checkBox}
+                checked={checkboxState.informationTechnology}
+                onChange={handleCheck}
+                name="informationTechnology"
+              />
+            }
+            label="Information Technology"
+          />
+        </FormGroup>
+      </FormControl>
+      <Button
+        type="submit"
+        id="submitBtn"
+        variant="contained"
+        className={classes.submit}
+        onClick={handleSubmit}
+      >
+        Apply
+      </Button>
+      <Button variant="outlined" onClick={handleReset}>
+        Reset
+            }
+            label="Finance"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                className={classes.checkBox}
+                checked={checkboxState.informationTechnology}
+                onChange={handleCheck}
+                name="informationTechnology"
+              />
+            }
+            label="Information Technology"
+          />
+        </FormGroup>
+      </FormControl>
+      <Button
+        type="submit"
+        id="submitBtn"
+        variant="contained"
+        className={classes.submit}
+        onClick={handleSubmit}
+      >
+        Apply
+      </Button>
+      <Button variant="outlined" onClick={handleReset}>
+        Reset
       </Button>
     </div>
   );
