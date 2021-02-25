@@ -19,7 +19,6 @@ import UsersService from "../services/usersService";
 import { Button } from "@material-ui/core";
 import { materialTheme } from "../styles/theme";
 import Modal from "./SimpleModal";
-import { eventListFilter } from "../store/atoms";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -99,7 +98,6 @@ export default function PrimarySearchAppBar() {
   const location = useLocation();
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const [user, setUser] = useState<User>();
-  const [filterState] = useRecoilState(eventListFilter);
   const [, setSearchTermState] = useRecoilState(searchTerm);
   const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
 
