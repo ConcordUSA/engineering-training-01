@@ -121,7 +121,8 @@ export default class EventsService {
   }
 
   public async getAllEvents(
-    interestedCategories?: string[]
+    interestedCategories?: string[], 
+    getPastEvents?: boolean
   ): Promise<EventsPerCategory[]> {
     // if no interestedCategories are passed we default to allCatagories
     interestedCategories = interestedCategories
@@ -133,10 +134,18 @@ export default class EventsService {
       interestedCategories.concat(allCatagories)
     );
 
-    const docsRefs = await this.db
-      .collection(this.collection)
-      .where("startTime", ">=", new Date())
-      .get();
+    let docsRefs = undefined;
+    if (!getPastEvents) {
+      docsRefs = await this.db
+        .collection(this.collection)
+        .where("startTime", ">=", new Date())
+        .get();
+    } else {
+      docsRefs = await this.db
+        .collection(this.collection)
+        .where("startTime", "<=", new Date())
+        .get();
+   }
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
     const eventsPerCategory = {};
