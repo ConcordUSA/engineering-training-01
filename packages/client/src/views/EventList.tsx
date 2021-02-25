@@ -10,8 +10,9 @@ import Grid from "@material-ui/core/Grid";
 import { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
 import { searchTerm } from "../store";
-import { colors } from "@material-ui/core";
+import { colors, FormControlLabel, Switch } from "@material-ui/core";
 import { eventListFilter } from "../store/atoms";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: "8px",
       color: colors.grey[500],
       fontWeight: 500,
+      marginTop: "0px",
     },
     emptyState: {
       textAlign: "center",
@@ -55,6 +57,7 @@ export default function EventListView() {
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const userService = useMemo(() => new UsersService(db, auth), [db, auth]);
   const eventService = useMemo(() => new EventsService(db), [db]);
+  const [pastEvents, setPastEvents] = useState(false);
 
   // get user from service
   useEffect(() => {
@@ -66,10 +69,12 @@ export default function EventListView() {
   // get events from service
   useEffect(() => {
     const interestedCategories = user?.interestedCategories;
-    eventService.getAllEvents(interestedCategories).then((events) => {
-      setEvents(events);
-    });
-  }, [eventService, user]);
+    eventService
+      .getAllEvents(interestedCategories, pastEvents)
+      .then((events) => {
+        setEvents(events);
+      });
+  }, [eventService, user, pastEvents]);
 
   // filter events based on search term in ui
   useEffect(() => {
@@ -83,8 +88,32 @@ export default function EventListView() {
     if (filterState) setFilteredEvents(EventsService.filter(filterState, res));
   }, [events, searchTermState, filterState]);
 
+  const handleSwitch = () => {
+    setPastEvents(!pastEvents);
+    const interestedCategories = user?.interestedCategories;
+    eventService
+      .getAllEvents(interestedCategories, pastEvents)
+      .then((events) => {
+        setEvents(events);
+      });
+  };
+
   return (
     <div className={classes.root}>
+      {user?.isAdmin && (
+        <div className={classes.gridDiv}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={pastEvents}
+                onChange={handleSwitch}
+                color="primary"
+              />
+            }
+            label="View past events"
+          ></FormControlLabel>
+        </div>
+      )}
       {!filteredEvents.length && (
         <div className={classes.emptyState}>No Events</div>
       )}

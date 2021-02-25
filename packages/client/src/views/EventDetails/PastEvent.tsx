@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import { useMemo } from "react";
-import UsersService from "../services/usersService";
-import { User } from "../models/user";
+import UsersService from "../../services/usersService";
+import { User } from "../../models/user";
 import EventDetailsComponent from "./EventDetailsComponent";
 
 export default function EventDetailsView(props) {
