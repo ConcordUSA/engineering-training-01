@@ -21,7 +21,7 @@ export default function App() {
   const usersService = useMemo(() => {return new UsersService(db,auth)},[db,auth])
   const [signedInState, setSignedInState] = useRecoilState(signedIn);
   const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(emailVerified);
-  const [userState, setUserState] = useRecoilState(user);
+  const [, setUserState] = useRecoilState(user);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -33,7 +33,7 @@ export default function App() {
 
       if (isSignedIn) usersService.getUser(user.uid).then(setUserState)
     });
-  }, [auth, setSignedInState, setEmailVerifiedState, usersService]);
+  }, [auth, setSignedInState, setEmailVerifiedState, usersService, setUserState]);
 
   return (
     <div>
