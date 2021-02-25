@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useContext, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import { materialTheme } from "../styles/theme";
-import { UserFactory } from "../models/user";
-import EventsService from "../services/eventsService";
-import UsersService from "../services/usersService";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { materialTheme } from "./../../styles/theme";
+import { UserFactory } from "../../models/user";
+import EventsService from "../../services/eventsService";
+import UsersService from "../../services/usersService";
+import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +33,7 @@ export default function RegisterButton(props) {
   });
   const eventID = props.event.id;
 
-  function handleRegister() {
+  function handleRegister(e) {
     eventService.registerForEvent(
       usersState,
       props.event,
@@ -43,6 +43,7 @@ export default function RegisterButton(props) {
     setRegisteredState({
       isRegistered: !registeredState.isRegistered,
     });
+    e.stopPropagation();
   }
 
   function editEventsAttending(eventsArray: string[]) {

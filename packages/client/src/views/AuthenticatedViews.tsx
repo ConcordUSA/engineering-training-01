@@ -2,7 +2,7 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Route, Switch } from "react-router-dom";
 import routes from "../constants/routes";
-import EventDetailsView from "./EventDetails";
+import EventDetailsView from "./EventDetails/EventDetails";
 import EventDetailsFormView from "./EventDetailsForm";
 import EventListView from "./EventList";
 

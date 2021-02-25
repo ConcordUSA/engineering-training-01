@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
-import { EventFactory } from "../models/event";
-import EventsService from "../services/eventsService";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
+import { EventFactory } from "../../models/event";
+import EventsService from "../../services/eventsService";
+import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import { useMemo } from "react";
-import AppTheme, { materialTheme } from "../styles/theme";
+import AppTheme, { materialTheme } from "../../styles/theme";
 import EventDetailsComponent from "./EventDetailsComponent";
 import PastEvent from "./PastEvent";
 

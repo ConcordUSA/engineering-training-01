@@ -20,9 +20,9 @@ import {
   displayEventTime,
   Category,
   capitalize,
-} from "../models/event";
-import routes from "../constants/routes";
-import AppTheme, { materialTheme } from "../styles/theme";
+} from "../../models/event";
+import routes from "../../constants/routes";
+import AppTheme, { materialTheme } from "../../styles/theme";
 import RegisterButton from "./RegisterButton";
 import ViewAttendees from "./ViewAttendees";
 

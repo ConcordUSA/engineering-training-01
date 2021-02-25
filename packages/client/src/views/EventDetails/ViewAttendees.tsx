@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Modal, List } from "@material-ui/core";
-import AppTheme from "../styles/theme";
-import EventsService from "../services/eventsService";
-import UsersService from "../services/usersService";
-import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import { User } from "../models/user";
+import AppTheme from "../../styles/theme";
+import EventsService from "../../services/eventsService";
+import UsersService from "../../services/usersService";
+import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
+import { User } from "../../models/user";
 import ListItemComponent from "./ListItemComponent";
 
 const useStyles = makeStyles((theme: Theme) =>

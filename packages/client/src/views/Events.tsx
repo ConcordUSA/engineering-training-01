@@ -3,10 +3,11 @@ import { useRecoilState } from "recoil";
 import { capitalize, IEvent, displayEventDate } from "../models/event";
 import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Paper, Button, Container } from "@material-ui/core";
+import { Paper, Container } from "@material-ui/core";
 import { materialTheme } from "../styles/theme";
 import routes from "../constants/routes";
 import { selectedEvent } from "../store";
+import RegisterButton from "./EventDetails/RegisterButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -138,9 +139,7 @@ export default function Events(props) {
                 <p className={classes.eventDate}>
                   {displayEventDate(event.startTime)}
                 </p>
-                <Button variant="contained" className={classes.registerBtn}>
-                  register
-                </Button>
+                <RegisterButton event={props.event} />
               </div>
             </div>
           </Paper>
