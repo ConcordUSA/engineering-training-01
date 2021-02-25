@@ -150,12 +150,14 @@ export default function EventDetailsFormView() {
     error: false,
     helperText: "",
   });
-  const defaultCheckboxState = {
-    leadership: false,
-    marketing: false,
-    informationTechnology: false,
-    finance: false,
-  };
+  const defaultCheckboxState = useMemo(() => {
+    return {
+      leadership: false,
+      marketing: false,
+      informationTechnology: false,
+      finance: false,
+    };
+  }, []);
   const [checkboxState, setCheckBoxState] = React.useState(
     defaultCheckboxState
   );
@@ -178,7 +180,7 @@ export default function EventDetailsFormView() {
         setCheckBoxState(defaultCheckboxState);
       };
     }
-  }, [eventsService, eventId]);
+  }, [eventsService, eventId, defaultCheckboxState, newEvent]);
 
   const handleBack = () => {
     history.goBack();
