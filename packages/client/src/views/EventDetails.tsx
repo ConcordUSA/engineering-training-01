@@ -35,16 +35,16 @@ import { useRecoilState } from "recoil";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
-      flexWrap: "wrap",
+      // display: "flex",
+      // flexWrap: "wrap",
       justifyContent: "center",
       alignItems: "center",
-      height: "100vh",
-      width: "100vw",
+      // width: "100vw",
       background: materialTheme.palette.background.default,
     },
     cardWrapper: {
       position: "relative",
+      marginTop: "3em",
     },
     backArrow: {
       position: "absolute",
@@ -108,19 +108,10 @@ const useStyles = makeStyles((theme: Theme) =>
     registerBtn: {
       marginRight: theme.spacing(1),
       color: materialTheme.palette.common.white,
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
     },
     secondaryBtn: {
       marginRight: theme.spacing(1),
       backgroundColor: materialTheme.palette.common.white,
-      color: materialTheme.palette.primary.main,
-      borderColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.background.default,
-      },
     },
     categoryDiv: {
       display: "flex",
@@ -175,7 +166,7 @@ export default function EventDetailsView() {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleEdit = () => {
     history.push(`${routes.EVENT_LIST_URL}/${eventId}/edit`);
   };
@@ -229,7 +220,12 @@ export default function EventDetailsView() {
           <CardActions>
             <ViewAttendees event={eventState} />
             {userState?.isAdmin && (
-              <Button variant="outlined" className={classes.secondaryBtn} onClick={handleEdit}>
+              <Button
+                variant="outlined"
+                className={classes.secondaryBtn}
+                onClick={handleEdit}
+                color="primary"
+              >
                 Edit
               </Button>
             )}
@@ -238,6 +234,7 @@ export default function EventDetailsView() {
                 variant="outlined"
                 className={classes.secondaryBtn}
                 onClick={onShareClick}
+                color="primary"
               >
                 Share
               </Button>

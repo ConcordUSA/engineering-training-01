@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     fontWeight: 600,
     color: materialTheme.palette.common.white,
+    cursor: "pointer",
   },
   search: {
     position: "relative",
@@ -119,12 +120,18 @@ export default function PrimarySearchAppBar() {
     setSearchTermState(e.target.value);
   };
 
+  const handleNavHome = () => {
+    history.push(routes.HOME_URL);
+  };
+
   return (
     <AppBar position="relative" className={classes.grow}>
       <Toolbar>
-        <Typography className={classes.title} variant="h5" noWrap>
-          Four Seasons
-        </Typography>
+        <div onClick={handleNavHome}>
+          <Typography className={classes.title} variant="h5" noWrap>
+            Four Seasons
+          </Typography>
+        </div>
         <div className={classes.searchDiv}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -145,7 +152,7 @@ export default function PrimarySearchAppBar() {
             {user?.isAdmin && (
               <IconButton
                 aria-label="Add Event"
-                color="inherit"
+                className={classes.colorToWhite}
                 onClick={handleCreateEvent}
               >
                 <AddIcon />

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useContext } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Modal, List } from "@material-ui/core";
-import AppTheme, { materialTheme } from "../styles/theme";
+import AppTheme from "../styles/theme";
 import EventsService from "../services/eventsService";
 import UsersService from "../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
@@ -18,10 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
     registerBtn: {
       marginRight: "15px",
       color: AppTheme.primaryText,
-      backgroundColor: AppTheme.primary,
-      "&:hover": {
-        backgroundColor: AppTheme.secondary,
-      },
     },
     paper: {
       width: "40%",
@@ -35,11 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
     secondaryBtn: {
       marginRight: "15px",
       backgroundColor: "#ffffff",
-      color: materialTheme.palette.primary.main,
-      borderColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.background.default,
-      },
     },
     indented: {
       marginLeft: "25px",
@@ -75,6 +66,7 @@ export default function ViewAttendees(props) {
           variant="outlined"
           className={classes.secondaryBtn}
           onClick={handleViewAttendees}
+          color="primary"
         >
           View Guests
         </Button>

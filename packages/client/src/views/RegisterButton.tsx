@@ -17,10 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
     registerBtn: {
       marginRight: "15px",
       color: materialTheme.palette.common.white,
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
     },
   })
 );
@@ -87,6 +83,7 @@ export default function RegisterButton(props) {
           variant="contained"
           className={classes.registerBtn}
           onClick={handleRegister}
+          color="primary"
         >
           {registerButtonDisplayText()}
         </Button>

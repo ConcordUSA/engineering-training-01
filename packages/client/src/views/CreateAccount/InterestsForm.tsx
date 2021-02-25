@@ -164,7 +164,7 @@ export default function InterestsFormView(props) {
       ? classes.selected
       : classes.interestsPaper;
     return (
-      <div className={classes.interestsWrapper}>
+      <div className={classes.interestsWrapper} key={data.key}>
         {state[data.key] && (
           <img
             src="./Vector.svg"
