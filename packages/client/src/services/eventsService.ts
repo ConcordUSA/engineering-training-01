@@ -25,20 +25,23 @@ export default class EventsService {
   static stringFilter(
     search: string,
     eventGroups: EventsPerCategory[],
-    queryField
+    queryField: string
   ): EventsPerCategory[] {
     let res: EventsPerCategory[] = [];
     eventGroups.forEach((group: EventsPerCategory) => {
       const regex = new RegExp(`^${search}`, "gi");
-      group.items = group.items.filter((event: IEvent) => {
+      //const newGroup = { ...group };
+      const newGroup = JSON.parse(JSON.stringify({...group}))
+      newGroup.items = newGroup.items.filter((event: IEvent) => {
         let i = 0;
-        const keyWords = event[`${queryField}`].split(" ");
+        let keyWords = event[`${queryField}`].split(" ");
+        keyWords.push(event[`${queryField}`]);
         while (keyWords[i]) {
           if (keyWords[i++].match(regex)) return true;
         }
         return false;
       });
-      if (group.items.length) res.push(group);
+      if (newGroup.items.length) res.push(newGroup);
     });
     return res;
   }
@@ -49,14 +52,12 @@ export default class EventsService {
   ): EventsPerCategory[] {
     let filteredResult: EventsPerCategory[] = eventGroups;
 
-
     if (filter.catagories && filter.catagories.length) {
-    // Remove unwanted catagories
+      // Remove unwanted catagories
       filteredResult = eventGroups.filter((group: EventsPerCategory) => {
         return filter.catagories.includes(group.category);
       });
     }
-
 
     // Filter events with topics that fuzzy match topic filter
     if (filter?.topic && filter.topic.length) {
@@ -67,7 +68,6 @@ export default class EventsService {
       );
     }
 
-
     // Filter events with topics that fuzzy match location filter
     if (filter?.location && filter.location.length) {
       filteredResult = EventsService.stringFilter(
@@ -76,7 +76,6 @@ export default class EventsService {
         "location"
       );
     }
-
 
     return filteredResult;
   }
