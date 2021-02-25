@@ -176,6 +176,7 @@ export default class EventsService {
     event: IEvent,
     isRegistered: boolean
   ) {
+    const eventToUse = await this.getEvent(event.id);
     if (!isRegistered) {
       const doc = this.db
         .collection(this.collection)
@@ -183,6 +184,15 @@ export default class EventsService {
         .collection("attendees")
         .doc(user.uid);
       await doc.set(user);
+
+      //ADDING TOT TOTAL REVENUE WHEN REGISTERED
+      console.log("total revenue before adding", eventToUse.totalRevenue);
+      const totalRevenue = eventToUse.totalRevenue + Number(eventToUse.price);
+      this.db.collection(this.collection).doc(eventToUse.id).update({
+        totalRevenue: totalRevenue,
+      });
+      console.log("Total Revenue after addition", totalRevenue);
+
       return;
     }
     this.db
@@ -197,6 +207,14 @@ export default class EventsService {
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
+
+    //SUBTRACTING FROM TOTAL REVENUE WHEN UNREGISTERED
+    console.log("total revenue before subtraction", eventToUse.totalRevenue);
+    const totalRevenue = eventToUse.totalRevenue - Number(eventToUse.price);
+    this.db.collection(this.collection).doc(eventToUse.id).update({
+      totalRevenue: totalRevenue,
+    });
+    console.log("Total Revenue after subtraction", totalRevenue);
   }
 
   public async getAttendees(event: IEvent) {
@@ -211,4 +229,15 @@ export default class EventsService {
       return doc.data() as User;
     });
   }
+
+  // private async calcTotalRevenue(event: IEvent) {
+  //   const totalRevenue = this.collection
+  //   this.db
+  //     .collection(this.collection)
+  //     .doc(event.id)
+  //     .update({
+  //       totalRevenue: 2
+  //     });
+  //     console.log("Total Revenue Updated", totalRevenue)
+  // }
 }

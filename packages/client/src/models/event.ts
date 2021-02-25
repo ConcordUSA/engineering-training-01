@@ -18,6 +18,7 @@ export interface IEvent {
   status?: string;
   image?: string | undefined;
   description: string;
+  totalRevenue?: number;
 }
 
 export interface IFilter {
@@ -40,6 +41,7 @@ export function EventFactory(event?: Partial<IEvent>): IEvent {
     price: 0,
     image: "",
     description: "",
+    totalRevenue: 0,
   };
 
   return { ...defaults, ...event };
