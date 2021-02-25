@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import {
@@ -149,23 +149,20 @@ function getBackground(category: Category) {
 export default function EventDetailsView() {
   const classes = useStyles();
   const history = useHistory();
+  const { eventId } = useParams<{ eventId: string }>();
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
   const [userState] = useRecoilState(user);
   const newEvent = EventFactory();
   const [open, setOpen] = React.useState(false);
   const [eventState, setState] = useState(newEvent);
-  const eventID = getEventIdFromURL();
   const text = window.location.href;
-  function getEventIdFromURL() {
-    return window.location.pathname.replace(routes.EVENT_DETAILS_URL, "");
-  }
 
   useEffect(() => {
-    eventService.getEvent(eventID).then((event) => {
+    eventService.getEvent(eventId).then((event) => {
       setState(event);
     });
-  }, [eventService, eventID]);
+  }, [eventService, eventId]);
 
   const handleBack = () => {
     history.push(routes.EVENT_LIST_URL);
@@ -177,6 +174,10 @@ export default function EventDetailsView() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  
+  const handleEdit = () => {
+    history.push(`${routes.EVENT_LIST_URL}/${eventId}/edit`);
   };
   return (
     <div className={classes.cardWrapper}>
@@ -228,9 +229,10 @@ export default function EventDetailsView() {
           <CardActions>
             <ViewAttendees event={eventState} />
             {userState?.isAdmin && (
-            <Button variant="outlined" className={classes.secondaryBtn}>
-              Edit
-            </Button>)}
+              <Button variant="outlined" className={classes.secondaryBtn} onClick={handleEdit}>
+                Edit
+              </Button>
+            )}
             <CopyToClipboard options={{ message: "Whoa!" }} text={text}>
               <Button
                 variant="outlined"

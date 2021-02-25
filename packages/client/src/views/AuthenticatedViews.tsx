@@ -31,9 +31,16 @@ export default function App() {
           component={CreateEventView}
         />
         <Route
+          exact
           path={routes.EVENT_DETAILS_URL}
           component={EventDetailsView}
         ></Route>
+        <Route
+          exact
+          path={routes.EVENT_DETAILS_EDIT_URL}
+          component={CreateEventView}
+        ></Route>
+        <Route component={EventListView} />
       </Switch>
     </div>
   );

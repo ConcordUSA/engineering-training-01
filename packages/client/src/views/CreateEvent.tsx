@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext, useEffect, useMemo } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { TextField, Button, Paper } from "@material-ui/core";
 import { EventFactory, IEvent, Category } from "../models/event";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -116,10 +116,17 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "space-between",
     },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
+    cancel: {
+      // margin: theme.spacing(3, 0, 2),
       color: materialTheme.palette.common.white,
-      width: "30%",
+      backgroundColor: materialTheme.palette.secondary.main,
+      "&:hover": {
+        backgroundColor: materialTheme.palette.secondary.dark,
+      },
+    },
+    submit: {
+      // margin: theme.spacing(3, 0, 2),
+      color: materialTheme.palette.common.white,
       backgroundColor: materialTheme.palette.primary.main,
       "&:hover": {
         backgroundColor: materialTheme.palette.primary.dark,
@@ -136,9 +143,10 @@ export default function CreateEventView() {
   const classes = useStyles();
   const newEvent = EventFactory();
   const history = useHistory();
+  const { eventId } = useParams<{ eventId: string }>();
   const [state, setState] = useState(newEvent);
   const { db }: AppDependencies = useContext(AppDependenciesContext);
-  const eventsService = new EventsService(db);
+  const eventsService = useMemo(() => {return new EventsService(db)},[db]);
   const imageHelperText =
     "Please submit a url that ends with a .jpg, .jpeg, or .png file extension.";
   const [imageState, setImageState] = useState({
@@ -153,8 +161,23 @@ export default function CreateEventView() {
     finance: false,
   });
 
+  // If this is coming from `/events/:eventId/edit`, then go get the event details
+  useEffect(() => {
+    if (eventId) {
+      eventsService.getEvent(eventId).then((event) => {
+        setCheckBoxState({
+          leadership: event.categories.includes("leadership"),
+          marketing: event.categories.includes("marketing"),
+          informationTechnology: event.categories.includes("it"),
+          finance: event.categories.includes("finance"),
+        });
+        setState(event);
+      });
+    }
+  }, [eventsService, eventId]);
+
   const handleBack = () => {
-    history.push(routes.HOME_URL);
+    history.goBack()
   };
 
   const handleCheck = (event) => {
@@ -243,8 +266,15 @@ export default function CreateEventView() {
       return;
     }
     try {
-      await eventsService.createEvent(event);
-      console.log("successfully created an event");
+      if (eventId){
+        await eventsService.updateEvent(eventId,event);
+        console.log("successfully updated an event");
+      }
+      else{
+        await eventsService.createEvent(event);
+        console.log("successfully created an event");
+      }
+        
       history.push(routes.EVENT_LIST_URL);
     } catch (error) {
       console.log("error", error); //TODO: Handle system messages
@@ -284,7 +314,9 @@ export default function CreateEventView() {
       <Paper elevation={3} className={classes.paperWrap}>
         <div className={classes.form}>
           <div className={classes.formInner}>
-            <h1 className={classes.title}>Create Event</h1>
+            <h1 className={classes.title}>
+              {eventId ? `Edit Event` : `Create Event`}
+            </h1>
             <TextField
               id="topic"
               label="Topic"
@@ -412,6 +444,11 @@ export default function CreateEventView() {
               <Button onClick={handleBack}>
                 <ArrowBackIcon />
               </Button>
+              {eventId && (
+                <Button className={classes.cancel} onClick={handleBack} variant="contained">
+                  Cancel
+                </Button>
+              )}
               <Button
                 id="createEventButton"
                 onClick={handleCreate}
@@ -419,7 +456,7 @@ export default function CreateEventView() {
                 variant="contained"
                 color="primary"
               >
-                Create Event
+                {eventId ? `Save` : `Create Event`}
               </Button>
             </div>
           </div>
