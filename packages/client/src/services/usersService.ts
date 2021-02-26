@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import { User } from "../models/user";
+import { IEvent } from "../models/event";
 
 export default class UsersService {
   private collection = "users";
@@ -56,4 +57,27 @@ export default class UsersService {
       return { error: error.message };
     }
   }
+
+  public async registerForEvent(user: User, event: IEvent, isRegistered:boolean) {
+    let newAttendingList;
+    if (!isRegistered) {
+      newAttendingList = user.eventsAttending.concat(event.id)
+    } else {
+      newAttendingList = removeItem(user.eventsAttending, event.id)
+    }
+    this.updateUser(user.uid, {...user, eventsAttending: newAttendingList});
+
+    function removeItem(arr, rm) {
+      const retArr = []
+      arr.forEach((id) => {
+        if (!(id === rm)) {
+          retArr.push(id)
+        }
+      })
+      return retArr;
+    }
+    
+    return {...user, eventsAttending: newAttendingList};
+  }
 }
+
