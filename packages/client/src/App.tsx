@@ -27,8 +27,13 @@ export default function App() {
     emailVerified
   );
   const [, setUserState] = useRecoilState(user);
-  const [shareUrl, setShareUrl] = useState("");
+
   useEffect(() => {
+    let currentURL = window.location.href;
+    if (currentURL.includes("?share=true")) {
+      let shareURL = currentURL.replace("?share=true", "");
+      localStorage.setItem("shareURL", shareURL);
+    }
     auth.onAuthStateChanged((user) => {
       const isSignedIn = user ? true : false;
       setSignedInState(isSignedIn);
@@ -37,6 +42,14 @@ export default function App() {
       setEmailVerifiedState(isEmailVerified);
 
       if (isSignedIn) usersService.getUser(user.uid).then(setUserState);
+      // if user is logged in & email is verfied & there is something in localstorage
+      // send them there
+      // delete what is in localstorage
+      if (isSignedIn && isEmailVerified && localStorage.getItem("shareURL")) {
+        let shareURL = localStorage.getItem("shareURL");
+        window.location.replace(shareURL);
+        localStorage.clear();
+      }
     });
   }, [
     auth,

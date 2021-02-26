@@ -147,7 +147,7 @@ export default function EventDetailsComponent(props) {
   const { eventId } = useParams<{ eventId: string }>();
   const [open, setOpen] = React.useState(false);
   const [userState] = useRecoilState(user);
-  const text = window.location.href;
+  const text = `${window.location.href}?share=true`;
   let eventCompleted;
   props.event.startTime < new Date()
     ? (eventCompleted = true)
@@ -227,7 +227,7 @@ export default function EventDetailsComponent(props) {
                 Edit
               </Button>
             )}
-            <CopyToClipboard options={{ message: "Whoa!" }} text={text}>
+            <CopyToClipboard text={text}>
               <Button
                 variant="outlined"
                 className={classes.secondaryBtn}
