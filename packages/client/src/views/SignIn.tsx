@@ -53,10 +53,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(3, 0, 2),
       color: materialTheme.palette.common.white,
       width: "30%",
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
     },
     btnDiv: {
       width: "100%",
@@ -219,6 +215,7 @@ export default function SigninView() {
                 className={classes.submit}
                 onClick={handleSignin}
                 id="loginBtn"
+                color="primary"
               >
                 Sign In
               </Button>

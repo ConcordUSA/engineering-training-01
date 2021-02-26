@@ -75,25 +75,14 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: "auto",
     },
     submit: {
-      // margin: theme.spacing(3, 0, 2),
       color: materialTheme.palette.common.white,
-      width: "20%",
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
       position: "absolute",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
     reset: {
-      // margin: theme.spacing(3, 0, 2),
-      color: materialTheme.palette.common.white,
-      width: "20%",
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
+      color: materialTheme.palette.primary.main,
+      borderColor: materialTheme.palette.primary.main,
       position: "absolute",
       bottom: theme.spacing(2),
       left: theme.spacing(2),
@@ -251,6 +240,7 @@ export default function SimpleModal() {
         variant="contained"
         className={classes.submit}
         onClick={handleSubmit}
+        color="primary"
       >
         Apply
       </Button>
@@ -258,6 +248,7 @@ export default function SimpleModal() {
         variant="outlined"
         onClick={handleReset}
         className={classes.reset}
+        color="inherit"
       >
         Reset
       </Button>
