@@ -47,12 +47,9 @@ export default function App() {
   ]);
 
   useEffect(() => {
-    let path = window.location.href;
-    if (path === "http://localhost:3000/events") {
-      setShareUrl(window.location.href);
-    }
+    user && setShareUrl(window.location.href);
     localStorage.setItem("shareUrl", shareUrl);
-  });
+  }, [shareUrl]);
   return (
     <div>
       <AppDependenciesContext.Provider value={defaultDependencies}>
