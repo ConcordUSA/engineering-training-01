@@ -42,9 +42,7 @@ export default function App() {
       setEmailVerifiedState(isEmailVerified);
 
       if (isSignedIn) usersService.getUser(user.uid).then(setUserState);
-      // if user is logged in & email is verfied & there is something in localstorage
-      // send them there
-      // delete what is in localstorage
+
       if (isSignedIn && isEmailVerified && localStorage.getItem("shareURL")) {
         let shareURL = localStorage.getItem("shareURL");
         window.location.replace(shareURL);
