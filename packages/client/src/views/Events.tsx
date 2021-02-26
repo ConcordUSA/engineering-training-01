@@ -139,7 +139,7 @@ export default function Events(props) {
                 <p className={classes.eventDate}>
                   {displayEventDate(event.startTime)}
                 </p>
-                <RegisterButton event={props.event} />
+                <RegisterButton event={event} />
               </div>
             </div>
           </Paper>

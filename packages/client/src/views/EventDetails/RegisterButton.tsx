@@ -2,10 +2,11 @@ import React, { useState, useMemo, useContext, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { materialTheme } from "./../../styles/theme";
-import { UserFactory } from "../../models/user";
 import EventsService from "../../services/eventsService";
 import UsersService from "../../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
+import { useRecoilState } from "recoil";
+import { user } from "../../store";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,52 +24,30 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function RegisterButton(props) {
   const classes = useStyles();
-  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
+  const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
   const usersService = useMemo(() => new UsersService(db), [db]);
-  const newUser = UserFactory();
-  const [usersState, setUsersState] = useState(newUser);
-  const [registeredState, setRegisteredState] = useState({
-    isRegistered: false,
-  });
+  const [userState, setUserState] = useRecoilState(user);
   const eventID = props.event.id;
+  const [registeredState, setRegisteredState] = useState(
+    userState.eventsAttending.includes(eventID)
+  );
 
-  function handleRegister(e) {
-    eventService.registerForEvent(
-      usersState,
-      props.event,
-      registeredState.isRegistered
-    );
-    editEventsAttending(usersState.eventsAttending);
-    setRegisteredState({
-      isRegistered: !registeredState.isRegistered,
-    });
+  async function handleRegister(e) {
     e.stopPropagation();
-  }
-
-  function editEventsAttending(eventsArray: string[]) {
-    if (!registeredState.isRegistered) {
-      eventsArray.push(eventID);
-    } else {
-      const indexToRemove = eventsArray.indexOf(eventID);
-      eventsArray.splice(indexToRemove, 1);
-    }
-    setUsersState({
-      ...usersState,
-      eventsAttending: eventsArray,
-    });
-    usersService.updateUser(usersState.uid, { eventsAttending: eventsArray });
+    eventService.registerForEvent(userState, props.event, registeredState);
+    const newState = await usersService.registerForEvent(
+      userState,
+      props.event,
+      registeredState
+    );
+    setUserState(newState);
+    setRegisteredState(!registeredState);
   }
 
   useEffect(() => {
-    const uid = auth.currentUser.uid;
-    usersService.getUser(uid).then((user) => {
-      if (user.eventsAttending.includes(eventID)) {
-        setRegisteredState({ isRegistered: true });
-      }
-      setUsersState(user);
-    });
-  }, [eventService, eventID, auth.currentUser.uid, usersService]);
+    setRegisteredState(userState.eventsAttending.includes(eventID));
+  }, [userState, eventID]);
 
   return (
     <React.Fragment>
@@ -79,7 +58,7 @@ export default function RegisterButton(props) {
           onClick={handleRegister}
           color="primary"
         >
-          {registeredState.isRegistered ? "Unregister" : "Register"}
+          {registeredState ? "Unregister" : "Register"}
         </Button>
       </div>
     </React.Fragment>
