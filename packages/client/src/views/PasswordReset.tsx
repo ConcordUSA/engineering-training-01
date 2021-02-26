@@ -70,10 +70,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(3, 0, 2),
       color: materialTheme.palette.common.white,
       width: "30%",
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
     },
     lockIcn: {
       width: "50%",
@@ -140,6 +136,7 @@ export default function PasswordResetView() {
               onClick={handleForgotPassword}
               className={classes.submit}
               variant="contained"
+              color="primary"
             >
               Send email
             </Button>

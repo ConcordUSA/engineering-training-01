@@ -12,11 +12,8 @@ import PastEvent from "./PastEvent";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // display: "flex",
-      // flexWrap: "wrap",
       justifyContent: "center",
       alignItems: "center",
-      // width: "100vw",
       background: materialTheme.palette.background.default,
     },
     cardWrapper: {

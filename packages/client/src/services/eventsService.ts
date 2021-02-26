@@ -30,8 +30,7 @@ export default class EventsService {
     let res: EventsPerCategory[] = [];
     eventGroups.forEach((group: EventsPerCategory) => {
       const regex = new RegExp(`^${search}`, "gi");
-      //const newGroup = { ...group };
-      const newGroup = JSON.parse(JSON.stringify({...group}))
+      const newGroup = { ...group };
       newGroup.items = newGroup.items.filter((event: IEvent) => {
         let i = 0;
         let keyWords = event[`${queryField}`].split(" ");

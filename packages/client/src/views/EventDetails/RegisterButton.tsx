@@ -60,13 +60,6 @@ export default function RegisterButton(props) {
     usersService.updateUser(usersState.uid, { eventsAttending: eventsArray });
   }
 
-  function registerButtonDisplayText() {
-    if (registeredState.isRegistered) {
-      return "Unregister";
-    }
-    return "Register";
-  }
-
   useEffect(() => {
     const uid = auth.currentUser.uid;
     usersService.getUser(uid).then((user) => {
@@ -86,7 +79,7 @@ export default function RegisterButton(props) {
           onClick={handleRegister}
           color="primary"
         >
-          {registerButtonDisplayText()}
+          {registeredState.isRegistered ? "Unregister" : "Register"}
         </Button>
       </div>
     </React.Fragment>

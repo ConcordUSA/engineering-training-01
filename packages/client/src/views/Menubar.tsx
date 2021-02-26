@@ -18,7 +18,7 @@ import { searchTerm } from "../store/atoms";
 import UsersService from "../services/usersService";
 import { Button } from "@material-ui/core";
 import { materialTheme } from "../styles/theme";
-import Modal from "./SimpleModal";
+import Filter from "../components/Filter";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -147,7 +147,7 @@ export default function PrimarySearchAppBar() {
               onChange={handleSearch}
             />
           </div>
-          {location.pathname === routes.EVENT_LIST_URL && <Modal />}
+          {location.pathname === routes.EVENT_LIST_URL && <Filter />}
           <div className={classes.menuRight}>
             {user?.isAdmin && (
               <IconButton
