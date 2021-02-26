@@ -14,13 +14,18 @@ import SignInView from "./views/SignIn";
 import CreateAccountView from "./views/CreateAccount";
 import Menubar from "./views/Menubar";
 import AuthenticatedViews from "./views/AuthenticatedViews";
-import UsersService from './services/usersService'
+import UsersService from "./services/usersService";
+import { SnackbarProvider } from "notistack";
 
 export default function App() {
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
-  const usersService = useMemo(() => {return new UsersService(db,auth)},[db,auth])
+  const usersService = useMemo(() => {
+    return new UsersService(db, auth);
+  }, [db, auth]);
   const [signedInState, setSignedInState] = useRecoilState(signedIn);
-  const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(emailVerified);
+  const [emailVerifiedState, setEmailVerifiedState] = useRecoilState(
+    emailVerified
+  );
   const [, setUserState] = useRecoilState(user);
 
   useEffect(() => {
@@ -31,43 +36,54 @@ export default function App() {
       const isEmailVerified = user?.emailVerified ? true : false;
       setEmailVerifiedState(isEmailVerified);
 
-      if (isSignedIn) usersService.getUser(user.uid).then(setUserState)
+      if (isSignedIn) usersService.getUser(user.uid).then(setUserState);
     });
-  }, [auth, setSignedInState, setEmailVerifiedState, usersService, setUserState]);
+  }, [
+    auth,
+    setSignedInState,
+    setEmailVerifiedState,
+    usersService,
+    setUserState,
+  ]);
 
   return (
     <div>
       <AppDependenciesContext.Provider value={defaultDependencies}>
-        <Router>
-          {!signedInState && (
-            <Switch>
-              <Route
-                exact
-                path={routes.HOME_URL}
-                component={SignInView}
-              ></Route>
-              <Route
-                exact
-                path={routes.CREATE_ACCOUNT_URL}
-                component={CreateAccountView}
-              ></Route>
-              <Route
-                exact
-                path={routes.PASSWORD_RESET_URL}
-                component={PasswordResetView}
-              ></Route>
-              <Route component={SignInView}></Route>
-            </Switch>
-          )}
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Router>
+            {!signedInState && (
+              <Switch>
+                <Route
+                  exact
+                  path={routes.HOME_URL}
+                  component={SignInView}
+                ></Route>
+                <Route
+                  exact
+                  path={routes.CREATE_ACCOUNT_URL}
+                  component={CreateAccountView}
+                ></Route>
+                <Route
+                  exact
+                  path={routes.PASSWORD_RESET_URL}
+                  component={PasswordResetView}
+                ></Route>
+                <Route component={SignInView}></Route>
+              </Switch>
+            )}
 
-          {signedInState && !emailVerifiedState && <EmailVerificationView />}
-          {signedInState && emailVerifiedState && (
-            <div>
-              <Menubar />
-              <AuthenticatedViews />
-            </div>
-          )}
-        </Router>
+            {signedInState && !emailVerifiedState && <EmailVerificationView />}
+            {signedInState && emailVerifiedState && (
+              <div>
+                <Menubar />
+                <AuthenticatedViews />
+              </div>
+            )}
+          </Router>
+        </SnackbarProvider>
       </AppDependenciesContext.Provider>
     </div>
   );

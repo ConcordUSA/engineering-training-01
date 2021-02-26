@@ -5,6 +5,7 @@ import routes from "../constants/routes";
 import getConfig from "../config";
 import { Typography, Button, Paper } from "@material-ui/core";
 import { materialTheme } from "../styles/theme";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,6 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function EmailVerificationView() {
   const classes = useStyles();
   const config = getConfig();
+  const { enqueueSnackbar } = useSnackbar();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
 
   const handleSend = useCallback(() => {
@@ -91,12 +93,12 @@ export default function EmailVerificationView() {
           url: config.appUrl + routes.EVENT_LIST_URL,
         })
         .then(() => {
-          console.log("email verification sent");
+          enqueueSnackbar("Email verification sent");
         })
         .catch(() => {
-          console.log("user not logged in.");
+          enqueueSnackbar("User is not logged in", { variant: "warning" });
         });
-  }, [auth, config.appUrl]);
+  }, [auth, config.appUrl, enqueueSnackbar]);
 
   useEffect(() => {
     handleSend();

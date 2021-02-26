@@ -15,6 +15,7 @@ import { materialTheme } from "../styles/theme";
 import Checkbox from "@material-ui/core/Checkbox";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -138,6 +139,7 @@ export default function EventDetailsFormView() {
   const classes = useStyles();
   const newEvent = useMemo(() => EventFactory(), []);
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const { eventId } = useParams<{ eventId: string }>();
   const [state, setState] = useState(newEvent);
   const { db }: AppDependencies = useContext(AppDependenciesContext);
@@ -268,21 +270,21 @@ export default function EventDetailsFormView() {
     };
     //make categories required
     if (event.categories.length === 0) {
-      alert("select at least one category");
+      enqueueSnackbar("Select at least one category", { variant: "error" });
       return;
     }
     try {
       if (eventId) {
         await eventsService.updateEvent(eventId, event);
-        console.log("successfully updated an event");
+        enqueueSnackbar("Event updated");
       } else {
         await eventsService.createEvent(event);
-        console.log("successfully created an event");
+        enqueueSnackbar("Event created");
       }
 
       history.push(routes.EVENT_LIST_URL);
     } catch (error) {
-      console.log("error", error); //TODO: Handle system messages
+      enqueueSnackbar(error, { variant: "error" });
     }
   };
 

@@ -11,8 +11,7 @@ import { isValidEmail, isValidPhone, User } from "../../models/user";
 import routes from "../../constants/routes";
 import { createUserForm } from "../../store";
 import { useRecoilState } from "recoil";
-import { Message } from "../../models/message";
-import Messages from "../../components/messages";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -106,6 +105,7 @@ export default function UserDetailsFormView(props) {
   const [user] = useRecoilState(createUserForm);
   const classes = useStyles();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const [state, setState] = useState({
     email: { input: user.email, invalid: false, helperText: "" },
     password: "",
@@ -121,7 +121,6 @@ export default function UserDetailsFormView(props) {
     },
     showPassword: false,
   });
-  const [messages, setMessages] = useState<Message[]>([]);
 
   function updateObject(id: any, value: string) {
     switch (id) {
@@ -150,26 +149,37 @@ export default function UserDetailsFormView(props) {
   //TODO confirmation after submit button clicked - or some UI
 
   const validateForm = () => {
-    setMessages([]); // reset
-    const messageList: Message[] = [];
     // handle email checker
     if (state.password !== state.passwordConfirm) {
-      // TODO: Properly handle this error - present something in the UI
-      messageList.push({ text: "passwords don't match" });
+      enqueueSnackbar("Passwords don't match", { variant: "error" });
     }
-    //check each required field for input
-    //return if missing
 
-    if (!state.firstName) messageList.push({ text: "First Name is required." });
-    if (!state.lastName) messageList.push({ text: "Last Name is required." });
-    if (!state.email.input) messageList.push({ text: "Email is required." });
-    if (!state.password) messageList.push({ text: "Password is required." });
-    if (!state.company) messageList.push({ text: "Company is required." });
-    if (!state.companyPhone.input)
-      messageList.push({ text: "Company phone is required." });
+    if (!state.firstName) {
+      enqueueSnackbar("First Name is required.", { variant: "warning" });
+      return false;
+    }
+    if (!state.lastName) {
+      enqueueSnackbar("Last Name is required.", { variant: "warning" });
+      return false;
+    }
+    if (!state.email.input) {
+      enqueueSnackbar("Email is required.", { variant: "warning" });
+      return false;
+    }
+    if (!state.password) {
+      enqueueSnackbar("Password is required.", { variant: "warning" });
+      return false;
+    }
+    if (!state.company) {
+      enqueueSnackbar("Company is required.", { variant: "warning" });
+      return false;
+    }
+    if (!state.companyPhone.input) {
+      enqueueSnackbar("Company phone is required.", { variant: "warning" });
+      return false;
+    }
 
-    setMessages(messageList);
-    return messageList.length < 1;
+    return true;
   };
 
   const handleNext = () => {
@@ -206,7 +216,6 @@ export default function UserDetailsFormView(props) {
       <Paper elevation={3} className={classes.paperWrap}>
         <div className={classes.form}>
           <h1 className={classes.signUpHeader}>Sign Up</h1>
-          <Messages messages={messages} />
           <TextField
             autoFocus
             id="firstName"

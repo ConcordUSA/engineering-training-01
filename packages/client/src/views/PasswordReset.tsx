@@ -8,6 +8,7 @@ import { materialTheme } from "../styles/theme";
 import getConfig from "../config";
 import LockIcon from "@material-ui/icons/LockRounded";
 import routes from "../constants/routes";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -80,6 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function PasswordResetView() {
   const classes = useStyles();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
   const { auth }: AppDependencies = useContext(AppDependenciesContext);
   const [emailState, setEmailState] = useState("");
   const config = getConfig();
@@ -92,8 +94,7 @@ export default function PasswordResetView() {
         handleCodeInApp: true,
       })
       .then(() => {
-        //TODO: Handle this global message
-        console.log("email sent");
+        enqueueSnackbar("Password reset email sent");
       });
   };
 

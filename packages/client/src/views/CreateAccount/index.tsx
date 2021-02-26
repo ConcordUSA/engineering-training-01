@@ -7,11 +7,13 @@ import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import routes from "../../constants/routes";
 import { createUserForm } from "../../store";
 import { useRecoilState } from "recoil";
+import { useSnackbar } from "notistack";
 
 export default function CreateAccountView() {
   const history = useHistory();
   const [view, setView] = useState("details");
   const [user, setUser] = useRecoilState(createUserForm);
+  const { enqueueSnackbar } = useSnackbar();
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const usersService = new UsersService(db, auth);
 
@@ -19,17 +21,14 @@ export default function CreateAccountView() {
   // we want this to handle the actual sending / creation of the account
   const handleRegister = async (data) => {
     const { error, message } = await usersService.createUser(data);
-    console.log("adams note", error, message);
     if (error) {
-      // TODO: handle this message
       setView("details");
       const message = error.message ? error.message : error;
-      console.log(message);
+      enqueueSnackbar(message, { variant: "error" });
       return;
     }
 
-    // TODO: handle this message
-    if (message) console.log(message);
+    if (message) enqueueSnackbar(message);
 
     history.push(routes.EVENT_LIST_URL);
   };
