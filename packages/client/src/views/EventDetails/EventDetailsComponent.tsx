@@ -11,7 +11,6 @@ import {
   Typography,
   Box,
   Dialog,
-  Paper,
 } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {
@@ -236,17 +235,32 @@ export default function EventDetailsComponent(props) {
                 Share
               </Button>
             </CopyToClipboard>
-            <Dialog open={open} onClose={handleClose}>
-              <Paper>
-                <img
-                  className={classes.imgTop}
-                  src="/fstd-logo-colorized.svg"
-                  alt="four seasons total development logo"
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Card>
+                <CardMedia
+                  component="img"
+                  height="300px"
+                  image={props.event.image}
                 />
-                <Typography paragraph className={classes.infoType}>
-                  A Link to this event has been copied to the Clipboard
-                </Typography>
-              </Paper>
+                <CardContent>
+                  <div>
+                    <Typography variant="h3">
+                      {capitalize(props.event.topic)}
+                    </Typography>
+                  </div>
+                  <Typography paragraph className={classes.infoType}>
+                    A Link to this event has been copied to the Clipboard
+                  </Typography>
+                </CardContent>
+              </Card>
             </Dialog>
             {!eventCompleted && <RegisterButton event={props.event} />}
           </CardActions>
