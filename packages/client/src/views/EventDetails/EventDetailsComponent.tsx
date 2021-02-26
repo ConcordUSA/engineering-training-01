@@ -209,6 +209,12 @@ export default function EventDetailsComponent(props) {
             <Typography paragraph className={classes.infoType}>
               <b>Cost:</b> {formatCentsToCurrency(props.event.price)}
             </Typography>
+            {userState?.isAdmin && (
+            <Typography paragraph className={classes.infoType}>
+                <b> Total Revenue:</b>{" "}
+                {formatCentsToCurrency(props.event.totalRevenue)}
+              </Typography>
+            )}
             <Typography paragraph className={classes.infoType}>
               <b>Status:</b> {props.event.status}
             </Typography>
