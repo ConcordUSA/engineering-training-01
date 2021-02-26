@@ -57,10 +57,6 @@ export default function App() {
     setUserState,
   ]);
 
-  useEffect(() => {
-    user && setShareUrl(window.location.href);
-    localStorage.setItem("shareUrl", shareUrl);
-  }, [shareUrl]);
   return (
     <div>
       <AppDependenciesContext.Provider value={defaultDependencies}>
