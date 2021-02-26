@@ -119,7 +119,7 @@ export default class EventsService {
   }
 
   public async getAllEvents(
-    interestedCategories?: string[], 
+    interestedCategories?: string[],
     getPastEvents?: boolean
   ): Promise<EventsPerCategory[]> {
     // if no interestedCategories are passed we default to allCatagories
@@ -143,7 +143,7 @@ export default class EventsService {
         .collection(this.collection)
         .where("startTime", "<=", new Date())
         .get();
-   }
+    }
 
     // put a record of an event in each corresponding array item (can be in multiple depending on categories selected)
     const eventsPerCategory = {};
@@ -229,15 +229,4 @@ export default class EventsService {
       return doc.data() as User;
     });
   }
-
-  // private async calcTotalRevenue(event: IEvent) {
-  //   const totalRevenue = this.collection
-  //   this.db
-  //     .collection(this.collection)
-  //     .doc(event.id)
-  //     .update({
-  //       totalRevenue: 2
-  //     });
-  //     console.log("Total Revenue Updated", totalRevenue)
-  // }
 }
