@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect, useMemo } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { TextField, Button, Paper } from "@material-ui/core";
 import { EventFactory, IEvent, Category } from "../models/event";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import CancelIcon from "@material-ui/icons/Cancel";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService from "../services/eventsService";
 import routes from "../constants/routes";
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paperWrap: {
       display: "flex",
       flexWrap: "wrap",
-      width: "900px",
+      width: "700px",
       overflow: "hidden",
     },
     form: {
@@ -136,7 +136,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function EventDetailsFormView() {
   const classes = useStyles();
-  const newEvent = EventFactory();
+  const newEvent = useMemo(() => EventFactory(), []);
   const history = useHistory();
   const { eventId } = useParams<{ eventId: string }>();
   const [state, setState] = useState(newEvent);
@@ -144,8 +144,6 @@ export default function EventDetailsFormView() {
   const eventsService = useMemo(() => {
     return new EventsService(db);
   }, [db]);
-  const imageHelperText =
-    "Please submit a url that ends with a .jpg, .jpeg, or .png file extension.";
   const [imageState, setImageState] = useState({
     error: false,
     helperText: "",
@@ -161,6 +159,8 @@ export default function EventDetailsFormView() {
   const [checkboxState, setCheckBoxState] = React.useState(
     defaultCheckboxState
   );
+  const imageHelperText =
+    "Please submit a url that ends with a .jpg, .jpeg, or .png file extension.";
 
   // If this is coming from `/events/:eventId/edit`, then go get the event details
   useEffect(() => {
@@ -440,20 +440,16 @@ export default function EventDetailsFormView() {
               </FormGroup>
             </FormControl>
             <div className={classes.btnDiv}>
-              <Button onClick={handleBack}>
-                <ArrowBackIcon />
-              </Button>
               <div className={classes.spacer}></div>
-              {eventId && (
-                <Button
-                  className={classes.cancel}
-                  onClick={handleBack}
-                  variant="outlined"
-                  color="primary"
-                >
-                  Cancel
-                </Button>
-              )}
+              <Button
+                className={classes.cancel}
+                onClick={handleBack}
+                variant="outlined"
+                color="primary"
+                startIcon={<CancelIcon />}
+              >
+                Cancel
+              </Button>
               <Button
                 id="createEventButton"
                 onClick={handleCreate}
@@ -464,17 +460,6 @@ export default function EventDetailsFormView() {
                 {eventId ? `Save` : `Create Event`}
               </Button>
             </div>
-          </div>
-        </div>
-        <div className={classes.banner}>
-          <div>
-            <img
-              src="/fstd-icns.png"
-              alt="Flower Sun Leaf Snowflake, Four Seasons Logo"
-            />
-          </div>
-          <div>
-            <img src="./fstd-text.png" alt="Four Seasons Total Development" />
           </div>
         </div>
       </Paper>
