@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useMemo } from "react";
+import React, { useEffect, useContext, useMemo, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   defaultDependencies,
@@ -27,7 +27,7 @@ export default function App() {
     emailVerified
   );
   const [, setUserState] = useRecoilState(user);
-
+  const [shareUrl, setShareUrl] = useState("");
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       const isSignedIn = user ? true : false;
@@ -46,6 +46,13 @@ export default function App() {
     setUserState,
   ]);
 
+  useEffect(() => {
+    let path = window.location.href;
+    if (path === "http://localhost:3000/events") {
+      setShareUrl(window.location.href);
+    }
+    localStorage.setItem("shareUrl", shareUrl);
+  });
   return (
     <div>
       <AppDependenciesContext.Provider value={defaultDependencies}>

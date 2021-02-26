@@ -138,7 +138,7 @@ export default function SigninView() {
       <Paper className={classes.paper} onKeyPress={handleKeyPress}>
         <Container maxWidth="sm" component="main" className={classes.topDiv}>
           <img
-            src="fstd-logo-colorized.svg"
+            src="/fstd-logo-colorized.svg"
             alt="Four Seasons Total Development Logo, flower, sun, leaf, snowflake"
             className={classes.logo}
           />
