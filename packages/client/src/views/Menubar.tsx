@@ -19,8 +19,9 @@ import UsersService from "../services/usersService";
 import { Button } from "@material-ui/core";
 import { materialTheme } from "../styles/theme";
 import Filter from "../components/Filter";
+import { Theme } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   grow: {
     flexGrow: 1,
   },
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: "relative",
+    cursor: "pointer",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
@@ -48,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
     },
   },
+  // userIcon: {
+  //   cursor: "pointer",
+  //   boxShadow: theme.spacing(1),
+  // },
   logoutBtn: {
     backgroundColor: materialTheme.palette.common.white,
     color: materialTheme.palette.primary.main,

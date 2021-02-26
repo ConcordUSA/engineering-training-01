@@ -57,7 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: "1em",
     },
     btnCreateEvent: {
+      color: "#fff",
       margin: "10px auto",
+      marginLeft: "1em",
     },
     btnBack: {},
     btnDiv: {
@@ -101,6 +103,10 @@ export default function EmailVerificationView() {
     handleSend();
   }, [handleSend]);
 
+  const handleSignout = async () => {
+    return await auth.signOut();
+  };
+
   return (
     <div className={classes.root}>
       <Paper elevation={3} className={classes.paperWrap}>
@@ -112,6 +118,14 @@ export default function EmailVerificationView() {
               been sent to your email with instructions.
             </Typography>
             <div className={classes.buttonContainer}>
+              <Button
+                id="logoutBtn"
+                variant="outlined"
+                color="secondary"
+                onClick={handleSignout}
+              >
+                Signout
+              </Button>
               <Button
                 id="sendEmailBtn"
                 className={classes.btnCreateEvent}

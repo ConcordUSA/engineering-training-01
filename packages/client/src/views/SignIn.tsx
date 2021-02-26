@@ -25,8 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
-      maxWidth: "100vw",
-      backgroundColor: materialTheme.palette.background.default,
     },
     paper: {
       width: AppTheme.cardWidth,
@@ -129,9 +127,15 @@ export default function SigninView() {
     setRememberMe(!rememberMe);
   };
 
+  const handleKeyPress = async (event) => {
+    if (event.key === "Enter") {
+      await handleSignin();
+    }
+  };
+
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} onKeyPress={handleKeyPress}>
         <Container maxWidth="sm" component="main" className={classes.topDiv}>
           <img
             src="fstd-logo-colorized.svg"

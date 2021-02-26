@@ -17,8 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
-      width: "100vw",
-      backgroundColor: materialTheme.palette.background.default,
     },
     paperWrap: {
       display: "flex",
