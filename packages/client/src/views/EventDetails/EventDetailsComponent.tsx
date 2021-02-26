@@ -1,6 +1,6 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   Card,
@@ -25,6 +25,8 @@ import routes from "../../constants/routes";
 import AppTheme, { materialTheme } from "../../styles/theme";
 import RegisterButton from "./RegisterButton";
 import ViewAttendees from "./ViewAttendees";
+import { user } from "../../store";
+import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -142,7 +144,9 @@ function getBackground(category: Category) {
 export default function EventDetailsComponent(props) {
   const classes = useStyles();
   const history = useHistory();
+  const { eventId } = useParams<{ eventId: string }>();
   const [open, setOpen] = React.useState(false);
+  const [userState] = useRecoilState(user);
   const text = window.location.href;
   let eventCompleted;
   props.event.startTime < new Date()
@@ -159,6 +163,10 @@ export default function EventDetailsComponent(props) {
 
   const handleBack = () => {
     history.push(routes.EVENT_LIST_URL);
+  };
+
+  const handleEdit = () => {
+    history.push(`${routes.EVENT_LIST_URL}/${eventId}/edit`);
   };
 
   return (
@@ -210,8 +218,12 @@ export default function EventDetailsComponent(props) {
         <div className={classes.btnDiv}>
           <CardActions>
             <ViewAttendees event={props.event} />
-            {!eventCompleted && (
-              <Button variant="outlined" className={classes.secondaryBtn}>
+            {!eventCompleted && userState?.isAdmin && (
+              <Button
+                variant="outlined"
+                className={classes.secondaryBtn}
+                onClick={handleEdit}
+              >
                 Edit
               </Button>
             )}
