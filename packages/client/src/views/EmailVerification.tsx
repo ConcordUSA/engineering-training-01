@@ -92,7 +92,6 @@ export default function EmailVerificationView() {
         })
         .then(() => {
           console.log("email verification sent");
-          alert("email verification sent");
         })
         .catch(() => {
           console.log("user not logged in.");

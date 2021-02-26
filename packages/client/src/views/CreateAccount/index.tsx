@@ -24,12 +24,12 @@ export default function CreateAccountView() {
       // TODO: handle this message
       setView("details");
       const message = error.message ? error.message : error;
-      alert(message);
+      console.log(message);
       return;
     }
 
     // TODO: handle this message
-    if (message) alert(message);
+    if (message) console.log(message);
 
     history.push(routes.EVENT_LIST_URL);
   };
