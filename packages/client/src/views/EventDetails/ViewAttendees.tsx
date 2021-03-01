@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
     secondaryBtn: {
       marginRight: "15px",
       backgroundColor: "#ffffff",
+      borderColor: theme.palette.primary.main,
     },
     indented: {
       marginLeft: "25px",

@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: "15px",
       color: materialTheme.palette.common.white,
     },
+    registeredBtn: {
+      marginRight: "15px",
+      borderColor: materialTheme.palette.primary.main,
+    },
   })
 );
 
@@ -29,37 +33,49 @@ export default function RegisterButton(props) {
   const usersService = useMemo(() => new UsersService(db), [db]);
   const [userState, setUserState] = useRecoilState(user);
   const eventID = props.event.id;
-  const [registeredState, setRegisteredState] = useState(
+  const [isRegistered, setisRegistered] = useState(
     userState.eventsAttending.includes(eventID)
   );
 
   async function handleRegister(e) {
     e.stopPropagation();
-    eventService.registerForEvent(userState, props.event, registeredState);
+    eventService.registerForEvent(userState, props.event, isRegistered);
     const newState = await usersService.registerForEvent(
       userState,
       props.event,
-      registeredState
+      isRegistered
     );
     setUserState(newState);
-    setRegisteredState(!registeredState);
+    setisRegistered(!isRegistered);
   }
 
   useEffect(() => {
-    setRegisteredState(userState.eventsAttending.includes(eventID));
+    setisRegistered(userState.eventsAttending.includes(eventID));
   }, [userState, eventID]);
 
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <Button
-          variant="contained"
-          className={classes.registerBtn}
-          onClick={handleRegister}
-          color="primary"
-        >
-          {registeredState ? "Unregister" : "Register"}
-        </Button>
+        {!isRegistered && (
+          <Button
+            variant="contained"
+            className={classes.registerBtn}
+            onClick={handleRegister}
+            color="primary"
+          >
+            Register
+          </Button>
+        )}
+        {isRegistered && (
+          <Button
+            variant="outlined"
+            className={classes.registeredBtn}
+            onClick={handleRegister}
+            color="primary"
+          >
+            Unregister
+          </Button>
+        )}
       </div>
     </React.Fragment>
   );
