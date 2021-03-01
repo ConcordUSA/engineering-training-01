@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme: Theme) =>
     indented: {
       marginLeft: "25px",
     },
+    modal_body: {
+      height: "50vh",
+      overflowY: "auto",
+    },
   })
 );
 
@@ -74,7 +78,7 @@ export default function ViewAttendees(props) {
         <Modal open={open} onClose={handleClose}>
           <div className={classes.paper}>
             <h2 id="simple-modal-title">Registered Guests</h2>
-            <List>
+            <List className={classes.modal_body}>
               {eventAttendees.map((attendee) => {
                 return (
                   <ListItemComponent
