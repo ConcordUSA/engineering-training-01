@@ -29,15 +29,6 @@ import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-      width: "100vw",
-      background: materialTheme.palette.background.default,
-    },
     cardWrapper: {
       position: "relative",
     },
@@ -210,7 +201,7 @@ export default function EventDetailsComponent(props) {
               <b>Cost:</b> {formatCentsToCurrency(props.event.price)}
             </Typography>
             {userState?.isAdmin && (
-            <Typography paragraph className={classes.infoType}>
+              <Typography paragraph className={classes.infoType}>
                 <b> Total Revenue:</b>{" "}
                 {formatCentsToCurrency(props.event.totalRevenue)}
               </Typography>

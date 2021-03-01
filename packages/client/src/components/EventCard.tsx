@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       // maxWidth: 345,
+      "& .MuiCardActionArea-focusHighlight": {
+        backgroundColor: theme.palette.background.paper,
+      },
     },
     media: {
       height: 140,
