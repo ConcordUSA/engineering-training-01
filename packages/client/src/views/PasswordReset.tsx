@@ -93,8 +93,10 @@ export default function PasswordResetView() {
         url: config.appUrl + routes.HOME_URL,
         handleCodeInApp: true,
       })
-      .then(() => {
-        enqueueSnackbar("Password reset email sent");
+      .finally(() => {
+        enqueueSnackbar(
+          "A password reset email has been sent if the supplied address matches a user in our system"
+        );
       });
   };
 
