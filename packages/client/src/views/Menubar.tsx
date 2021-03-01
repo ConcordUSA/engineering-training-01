@@ -13,13 +13,18 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useHistory, useLocation } from "react-router-dom";
 import routes from "../constants/routes";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
-import { User } from "../models/user";
-import { searchTerm } from "../store/atoms";
-import UsersService from "../services/usersService";
-import { Button } from "@material-ui/core";
+import { pastEvents, searchTerm, user } from "../store/atoms";
+import {
+  Button,
+  FormControlLabel,
+  Slide,
+  Switch,
+  useScrollTrigger,
+} from "@material-ui/core";
 import { materialTheme } from "../styles/theme";
 import Filter from "../components/Filter";
 import { Theme } from "@material-ui/core/styles";
+import EventsService, { EventsPerCategory } from "../services/eventsService";
 
 const useStyles = makeStyles((theme: Theme) => ({
   grow: {
@@ -102,16 +107,22 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
-  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
-  const [user, setUser] = useState<User>();
+  const [, setEvents] = useState<EventsPerCategory[]>([]);
+  const [userState] = useRecoilState(user);
   const [, setSearchTermState] = useRecoilState(searchTerm);
-  const usersService = useMemo(() => new UsersService(db, auth), [db, auth]);
-
+  const [pastEventState, setPastEvents] = useRecoilState(pastEvents);
+  const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
+  const eventService = useMemo(() => new EventsService(db), [db]);
   useEffect(() => {
-    usersService.getUser(auth.currentUser.uid).then((user) => {
-      setUser(user);
-    });
-  }, [usersService, auth]);
+    // make sure user exists first
+    if (userState) {
+      eventService
+        .getAllEvents(userState?.interestedCategories, pastEventState)
+        .then((resp) => {
+          setEvents(resp);
+        });
+    }
+  }, [eventService, userState, pastEventState]);
 
   const handleCreateEvent = () => {
     history.push(routes.CREATE_EVENT_URL);
@@ -129,63 +140,103 @@ export default function PrimarySearchAppBar() {
   const handleNavHome = () => {
     history.push(routes.HOME_URL);
   };
+  const handleSwitch = () => {
+    setPastEvents(!pastEventState);
+    const interestedCategories = userState?.interestedCategories;
+    eventService
+      .getAllEvents(interestedCategories, pastEventState)
+      .then((events) => {
+        setEvents(events);
+      });
+  };
+  const HideOnScroll = (props) => {
+    const { children } = props;
+    const trigger = useScrollTrigger();
+    return (
+      <Slide appear={false} direction="down" in={!trigger}>
+        {children}
+      </Slide>
+    );
+  };
 
   return (
-    <AppBar position="relative" className={classes.grow}>
-      <Toolbar>
-        <div onClick={handleNavHome}>
-          <Typography className={classes.title} variant="h5" noWrap>
-            Four Seasons
-          </Typography>
-        </div>
-        <div className={classes.searchDiv}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.grow,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onChange={handleSearch}
-            />
+    <HideOnScroll>
+      <AppBar className={classes.grow}>
+        <Toolbar>
+          <div onClick={handleNavHome}>
+            <Typography className={classes.title} variant="h5" noWrap>
+              Four Seasons
+            </Typography>
           </div>
-          {location.pathname === routes.EVENT_LIST_URL && <Filter />}
-          <div className={classes.menuRight}>
-            {user?.isAdmin && (
-              <IconButton
-                aria-label="Add Event"
-                className={classes.colorToWhite}
-                onClick={handleCreateEvent}
-              >
-                <AddIcon />
-              </IconButton>
+
+          <div className={classes.searchDiv}>
+            {location.pathname === routes.EVENT_LIST_URL && (
+              <>
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.grow,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                    onChange={handleSearch}
+                  />
+                </div>
+                <Filter />
+              </>
             )}
-            <Button
-              className={classes.logoutBtn}
-              aria-label="Signout"
-              variant="outlined"
-              onClick={handleSignout}
-              endIcon={<ExitToAppIcon />}
-              id="signoutBtn"
-            >
-              Sign Out
-            </Button>
-            <IconButton
-              edge="end"
-              aria-label="User account"
-              aria-haspopup="true"
-              color="inherit"
-              className={classes.colorToWhite}
-            >
-              <AccountCircle />
-            </IconButton>
+            <div className={classes.menuRight}>
+              {userState?.isAdmin &&
+                location.pathname === routes.EVENT_LIST_URL && (
+                  <FormControlLabel
+                    className={classes.colorToWhite}
+                    control={
+                      <Switch
+                        checked={pastEventState}
+                        onChange={handleSwitch}
+                        color="secondary"
+                      />
+                    }
+                    label="Past Events"
+                  ></FormControlLabel>
+                )}
+              {userState?.isAdmin && (
+                <IconButton
+                  aria-label="Add Event"
+                  className={classes.colorToWhite}
+                  onClick={handleCreateEvent}
+                >
+                  <AddIcon />
+                </IconButton>
+              )}
+
+              <Button
+                className={classes.logoutBtn}
+                aria-label="Signout"
+                variant="outlined"
+                onClick={handleSignout}
+                endIcon={<ExitToAppIcon />}
+                id="signoutBtn"
+              >
+                Sign Out
+              </Button>
+              <IconButton
+                edge="end"
+                aria-label="User account"
+                aria-haspopup="true"
+                color="inherit"
+                className={classes.colorToWhite}
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
           </div>
-        </div>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+      </AppBar>
+    </HideOnScroll>
   );
 }

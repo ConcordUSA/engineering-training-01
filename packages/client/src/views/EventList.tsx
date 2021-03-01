@@ -8,8 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
 import { searchTerm } from "../store";
-import { colors, FormControlLabel, Switch } from "@material-ui/core";
-import { eventListFilter, user } from "../store/atoms";
+import { colors } from "@material-ui/core";
+import { eventListFilter, pastEvents, user } from "../store/atoms";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,19 +54,19 @@ export default function EventListView() {
   const [userState] = useRecoilState(user);
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
-  const [pastEvents, setPastEvents] = useState(false);
+  const [pastEventState] = useRecoilState(pastEvents);
 
   // get events from service
   useEffect(() => {
     // make sure user exists first
     if (userState) {
       eventService
-        .getAllEvents(userState?.interestedCategories, pastEvents)
+        .getAllEvents(userState?.interestedCategories, pastEventState)
         .then((resp) => {
           setEvents(resp);
         });
     }
-  }, [eventService, userState, pastEvents]);
+  }, [eventService, userState, pastEventState]);
 
   // filter events based on search term or filter in ui
   useEffect(() => {
@@ -87,32 +87,8 @@ export default function EventListView() {
     }
   }, [searchTermState, filterState, events]);
 
-  const handleSwitch = () => {
-    setPastEvents(!pastEvents);
-    const interestedCategories = userState?.interestedCategories;
-    eventService
-      .getAllEvents(interestedCategories, pastEvents)
-      .then((events) => {
-        setEvents(events);
-      });
-  };
-
   return (
     <div className={classes.root}>
-      {userState?.isAdmin && (
-        <div className={classes.gridDiv}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={pastEvents}
-                onChange={handleSwitch}
-                color="primary"
-              />
-            }
-            label="View past events"
-          ></FormControlLabel>
-        </div>
-      )}
       {!filteredEvents.length && (
         <div className={classes.emptyState}>No Events</div>
       )}
