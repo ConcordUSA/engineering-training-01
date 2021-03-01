@@ -26,6 +26,7 @@ import RegisterButton from "./RegisterButton";
 import ViewAttendees from "./ViewAttendees";
 import { user } from "../../store";
 import { useRecoilState } from "recoil";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -138,13 +139,14 @@ export default function EventDetailsComponent(props) {
   const [open, setOpen] = React.useState(false);
   const [userState] = useRecoilState(user);
   const text = `${window.location.href}?share=true`;
+  const { enqueueSnackbar } = useSnackbar();
   let eventCompleted;
   props.event.startTime < new Date()
     ? (eventCompleted = true)
     : (eventCompleted = false);
 
   const onShareClick = () => {
-    setOpen(true);
+    enqueueSnackbar("Event Copied, Ready to Share");
   };
 
   const handleClose = () => {
