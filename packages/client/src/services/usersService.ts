@@ -63,11 +63,13 @@ export default class UsersService {
     if (!isRegistered) {
       newAttendingList = user.eventsAttending.concat(event.id)
     } else {
-      newAttendingList = removeItem(user.eventsAttending, event.id)
+      newAttendingList = this.removeItem(user.eventsAttending, event.id)
     }
     this.updateUser(user.uid, {...user, eventsAttending: newAttendingList});
+    return {...user, eventsAttending: newAttendingList};
+  }
 
-    function removeItem(arr, rm) {
+  public removeItem(arr, rm) {
       const retArr = []
       arr.forEach((id) => {
         if (!(id === rm)) {
@@ -76,8 +78,6 @@ export default class UsersService {
       })
       return retArr;
     }
-    
-    return {...user, eventsAttending: newAttendingList};
-  }
+
 }
 
