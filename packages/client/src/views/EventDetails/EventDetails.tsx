@@ -11,14 +11,12 @@ import PastEvent from "./PastEvent";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
+    cardWrapper: {
+      position: "relative",
+      paddingTop: "5em",
       justifyContent: "center",
       alignItems: "center",
       background: materialTheme.palette.background.default,
-    },
-    cardWrapper: {
-      position: "relative",
-      marginTop: "3em",
     },
   })
 );
