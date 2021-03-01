@@ -6,8 +6,12 @@ import chalk from "chalk";
 
 const args = process.argv.slice(2);
 const numberOfEvents = args[0] ?? 20;
+const numberOfPastEvents = Math.floor(numberOfEvents/2)
 console.log(
   chalk`{magentaBright ${numberOfEvents}} {whiteBright Events will be seeded.}`
+);
+console.log(
+  chalk`{magentaBright ${numberOfPastEvents}} {whiteBright Past events will be seeded.}`
 );
 
 const generateEvents = (numberOfEvents) => {
@@ -35,6 +39,34 @@ const generateEvents = (numberOfEvents) => {
   }
 };
 
+const generatePastEvents = (numberOfEvents) => {
+  firebase.useEmulators({ firestore: { host: "localhost", port: 8080 } });
+
+  const projectId = "et-2021a-dev";
+  const admin = firebase.initializeAdminApp({ projectId });
+  const db = admin.firestore();
+
+  for (let step = 0; step < numberOfEvents; step++) {
+    const docRef = db.collection("events").doc();
+
+    const event = {
+      id: docRef.id,
+      topic: faker.random.word() + " " + faker.random.word(),
+      location: faker.address.city(),
+      price: faker.random.number(),
+      startTime: faker.date.past(),
+      endTime: faker.date.recent(),
+      categories: randomCategories(),
+      image: faker.image.imageUrl(400, 400, "business", true),
+      description: faker.lorem.paragraph(),
+    };
+    docRef.set(event);
+  }
+};
+
+
+
+
 //this function used to help randomly generate category data
 const randomCategories = () => {
   const fullList = ["marketing", "leadership", "finance", "it"];
@@ -51,4 +83,5 @@ function getRandomInt(min, max) {
 }
 
 generateEvents(numberOfEvents);
+generatePastEvents(numberOfPastEvents)
 console.log(chalk`{greenBright Seeding Successful!}`);

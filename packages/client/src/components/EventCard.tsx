@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { IEvent, displayEventDate } from "../models/event";
 import { useHistory } from "react-router-dom";
@@ -43,6 +43,7 @@ export default function EventCard(props) {
   const history = useHistory();
   const [elevationState, setElevationState] = useState(1);
   const [futureState, setFutureState] = useState(true);
+  const onMouseEnter = () => {
     setElevationState(10);
   };
   const onMouseLeave = () => {
@@ -54,6 +55,7 @@ export default function EventCard(props) {
     setSelectedEventState(e);
     history.push(`${routes.EVENT_LIST_URL}/${e.id}`);
   };
+
   useEffect(() => {
     const future = props.event.startTime > new Date() ? true : false;
     setFutureState(future);
