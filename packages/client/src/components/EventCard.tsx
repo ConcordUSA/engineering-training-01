@@ -42,7 +42,7 @@ export default function EventCard(props) {
   const classes = useStyles();
   const history = useHistory();
   const [elevationState, setElevationState] = useState(1);
-  const onMouseEnter = () => {
+  const [futureState, setFutureState] = useState(true);
     setElevationState(10);
   };
   const onMouseLeave = () => {
@@ -54,6 +54,10 @@ export default function EventCard(props) {
     setSelectedEventState(e);
     history.push(`${routes.EVENT_LIST_URL}/${e.id}`);
   };
+  useEffect(() => {
+    const future = props.event.startTime > new Date() ? true : false;
+    setFutureState(future);
+  }, [props.event.startTime]);
 
   return (
     <Card
@@ -89,7 +93,7 @@ export default function EventCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions className={classes.cardActions}>
-        <RegisterButton event={event}></RegisterButton>
+        {futureState && <RegisterButton event={event} />}
       </CardActions>
     </Card>
   );

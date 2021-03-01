@@ -255,8 +255,10 @@ export default function EventDetailsFormView() {
   };
 
   const handleCreate = async () => {
-    if (imageState.error) {
-      return;
+    if (imageState.error) return;
+    let image = state.image;
+    if (!state.image) {
+      image = "/fstd-text.png";
     }
     //gather all categories in an array as checked
     const categories: Category[] = [];
@@ -275,10 +277,10 @@ export default function EventDetailsFormView() {
     }
     try {
       if (eventId) {
-        await eventsService.updateEvent(eventId, event);
+        await eventsService.updateEvent(eventId, { ...event, image });
         enqueueSnackbar("Event updated");
       } else {
-        await eventsService.createEvent(event);
+        await eventsService.createEvent({ ...event, image });
         enqueueSnackbar("Event created");
       }
 
