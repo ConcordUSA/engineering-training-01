@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { IEvent, capitalize } from "../models/event";
 import { AppDependencies, AppDependenciesContext } from "../appDependencies";
 import EventsService, { EventsPerCategory } from "../services/eventsService";
-import Events from "./Events";
+import EventCard from "../components/EventCard";
 import Grid from "@material-ui/core/Grid";
 import { materialTheme } from "../styles/theme";
 import { useRecoilState } from "recoil";
@@ -15,18 +15,14 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       height: "100%",
-      width: "100%",
+      maxWidth: "1400px",
       backgroundColor: materialTheme.palette.background.default,
       backgroundSize: "cover",
+      paddingTop: "5em",
     },
     gridDiv: {
-      backgroundColor: materialTheme.palette.background.default,
-      display: "flex",
-      flexFlow: "row wrap",
-      justifyContent: "left",
-      alignContent: "flex-start",
       paddingTop: "1rem",
-      paddingLeft: "2em",
+      padding: "1rem 2em",
     },
     categoryHeader: {
       fontSize: "2.2em",
@@ -104,9 +100,12 @@ export default function EventListView() {
             direction="row"
             justify="flex-start"
             alignItems="flex-start"
+            spacing={3}
           >
             {categoryList?.items?.map((event: IEvent | any) => (
-              <Events event={event} key={event.topic} />
+              <Grid item xs={12} sm={6} md={4} lg={4} key={event.topic}>
+                <EventCard event={event} />
+              </Grid>
             ))}
           </Grid>
         </div>
