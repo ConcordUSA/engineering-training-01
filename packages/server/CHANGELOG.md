@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.3](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.2...v0.3.0-alpha.3) (2021-03-01)
+
+
+### Bug Fixes
+
+* **package:** regenerated package-lock ([a6183cf](https://github.com/ConcordUSA/engineering-training-2021a/commit/a6183cf2eb69fa71d486881e6cfb994092d35d19))
+
+
+
+
+
 # [0.3.0-alpha.0](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.2.2...v0.3.0-alpha.0) (2021-02-15)
 
 
