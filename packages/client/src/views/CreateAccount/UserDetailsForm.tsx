@@ -151,7 +151,7 @@ export default function UserDetailsFormView(props) {
   const validateForm = () => {
     // handle email checker
     if (state.password !== state.passwordConfirm) {
-      enqueueSnackbar("Passwords don't match", { variant: "error" });
+      enqueueSnackbar("Passwords don't match", { variant: "warning" });
     }
 
     if (!state.firstName) {
