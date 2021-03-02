@@ -10,9 +10,7 @@ import {
   CardMedia,
   Typography,
   Box,
-  Dialog,
 } from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {
   formatCentsToCurrency,
   displayEventDate,
@@ -21,7 +19,7 @@ import {
   capitalize,
 } from "../../models/event";
 import routes from "../../constants/routes";
-import AppTheme, { materialTheme } from "../../styles/theme";
+import AppTheme from "../../styles/theme";
 import RegisterButton from "./RegisterButton";
 import ViewAttendees from "./ViewAttendees";
 import { user } from "../../store";
@@ -36,26 +34,18 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
-      width: "100vw",
-      background: materialTheme.palette.background.default,
+      background: theme.palette.background.default,
     },
-    b: {
-      color: theme.palette.text.secondary,
-    },
+
     cardWrapper: {
       position: "relative",
-    },
-    backArrow: {
-      position: "absolute",
-      left: "-10%",
     },
     card: {
       maxWidth: AppTheme.cardWidthSmall,
     },
-    infoType: {
-      fontSize: "1.2em",
-      marginTop: "10px",
-      color: theme.palette.text.primary,
+    p: {
+      display: "inline-block",
+      margin: "8px 6px 0px 0px",
     },
     eventData: {
       marginTop: "20px",
@@ -120,7 +110,6 @@ export default function EventDetailsComponent(props) {
   const classes = useStyles();
   const history = useHistory();
   const { eventId } = useParams<{ eventId: string }>();
-  const [open, setOpen] = React.useState(false);
   const [userState] = useRecoilState(user);
   const text = `${window.location.href}?share=true`;
   const { enqueueSnackbar } = useSnackbar();
@@ -133,23 +122,12 @@ export default function EventDetailsComponent(props) {
     enqueueSnackbar("Event Copied, Ready to Share");
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleBack = () => {
-    history.push(routes.EVENT_LIST_URL);
-  };
-
   const handleEdit = () => {
     history.push(`${routes.EVENT_LIST_URL}/${eventId}/edit`);
   };
 
   return (
-    <div className={classes.cardWrapper}>
-      <Button onClick={handleBack} className={classes.backArrow}>
-        <ArrowBackIcon />
-      </Button>
+    <div className={classes.root}>
       <Card className={classes.card}>
         <CardMedia component="img" height="300px" image={props.event.image} />
         <CardContent>
@@ -181,78 +159,71 @@ export default function EventDetailsComponent(props) {
           </Typography>
 
           <div className={classes.eventData}>
-            <Typography paragraph className={classes.infoType}>
-              <b className={classes.b}>Location:</b> {props.event.location}
+            <Typography variant="h6" color="textSecondary">
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                className={classes.p}
+              >
+                Location:
+              </Typography>
+              {props.event.location}
             </Typography>
-            <Typography paragraph className={classes.infoType}>
-              <b className={classes.b}>Time:</b>{" "}
+            <Typography variant="h6" color="textSecondary">
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                className={classes.p}
+              >
+                Time:
+              </Typography>
               {displayEventTime(props.event.startTime)}
             </Typography>
-            <Typography paragraph className={classes.infoType}>
-              <b className={classes.b}>Cost:</b>
+            <Typography variant="h6" color="textSecondary">
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                className={classes.p}
+              >
+                Cost:
+              </Typography>
               {` ${formatCentsToCurrency(props.event.price)}`}
             </Typography>
             {userState?.isAdmin && (
-              <Typography paragraph className={classes.infoType}>
+              <Typography>
                 <b> Total Revenue:</b>{" "}
                 {formatCentsToCurrency(props.event.totalRevenue)}
               </Typography>
             )}
+
+            <div className={classes.btnDiv}>
+              <CardActions>
+                <ViewAttendees event={props.event} />
+                {!eventCompleted && userState?.isAdmin && (
+                  <Button
+                    variant="outlined"
+                    className={classes.secondaryBtn}
+                    onClick={handleEdit}
+                    color="primary"
+                  >
+                    Edit
+                  </Button>
+                )}
+                <CopyToClipboard text={text}>
+                  <Button
+                    variant="outlined"
+                    className={classes.secondaryBtn}
+                    onClick={onShareClick}
+                    color="primary"
+                  >
+                    Share
+                  </Button>
+                </CopyToClipboard>
+                {!eventCompleted && <RegisterButton event={props.event} />}
+              </CardActions>
+            </div>
           </div>
         </CardContent>
-        <div className={classes.btnDiv}>
-          <CardActions>
-            <ViewAttendees event={props.event} />
-            {!eventCompleted && userState?.isAdmin && (
-              <Button
-                variant="outlined"
-                className={classes.secondaryBtn}
-                onClick={handleEdit}
-                color="primary"
-              >
-                Edit
-              </Button>
-            )}
-            <CopyToClipboard text={text}>
-              <Button
-                variant="outlined"
-                className={classes.secondaryBtn}
-                onClick={onShareClick}
-                color="primary"
-              >
-                Share
-              </Button>
-            </CopyToClipboard>
-            {!eventCompleted && <RegisterButton event={props.event} />}
-          </CardActions>
-        </div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Card>
-            <CardMedia
-              component="img"
-              height="300px"
-              image={props.event.image}
-            />
-            <CardContent>
-              <div>
-                <Typography variant="h3">
-                  {capitalize(props.event.topic)}
-                </Typography>
-              </div>
-              <Typography paragraph className={classes.infoType}>
-                A Link to this event has been copied to the Clipboard
-              </Typography>
-            </CardContent>
-          </Card>
-        </Dialog>
       </Card>
     </div>
   );
