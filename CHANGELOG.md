@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.4](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.3...v0.3.0-alpha.4) (2021-03-02)
+
+
+### Bug Fixes
+
+* prevents user from selecting start time in past ([9a14410](https://github.com/ConcordUSA/engineering-training-2021a/commit/9a144105a21b3adb5c6882ff532d44e1f063df9c))
+* search bar typing and card sizing in single column ([5a8fd37](https://github.com/ConcordUSA/engineering-training-2021a/commit/5a8fd37bde680ea33bd3d272044da6450f3ca829))
+* Updates to event cards text formatting ([713976d](https://github.com/ConcordUSA/engineering-training-2021a/commit/713976d52f67860ca25080e16785eea7348a9b9c))
+
+
+### Features
+
+* **event:** change time format on event details ([8b01f53](https://github.com/ConcordUSA/engineering-training-2021a/commit/8b01f53b82a3f860e82f101a3f69b6c16ad68b83))
+* **ui:** slight tweak to event card. ([18f82b7](https://github.com/ConcordUSA/engineering-training-2021a/commit/18f82b75f6ff86f01d31c5469bb06364a32a4d42))
+
+
+
+
+
 # [0.3.0-alpha.3](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.2...v0.3.0-alpha.3) (2021-03-01)
 
 

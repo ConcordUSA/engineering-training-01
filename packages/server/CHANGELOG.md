@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.4](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.3...v0.3.0-alpha.4) (2021-03-02)
+
+
+### Features
+
+* **event:** change time format on event details ([8b01f53](https://github.com/ConcordUSA/engineering-training-2021a/commit/8b01f53b82a3f860e82f101a3f69b6c16ad68b83))
+
+
+
+
+
 # [0.3.0-alpha.3](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.2...v0.3.0-alpha.3) (2021-03-01)
 
 
