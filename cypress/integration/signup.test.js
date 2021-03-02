@@ -55,10 +55,10 @@ describe("Signup", () => {
     cy.get("#sendEmailBtn").should("exist");
   });
 
-  it("should fail creating a user if fields are missing", async () => {
+  it("should fail creating a user if fields are missing", () => {
     const user = generateUser();
-    cy.visit("/createAccount", { timeout: 100000 });
-
+    cy.visit("/createAccount", { timeout: 100000 })
+    
     // given
     cy.get("#lastName").type(user.lastName);
     cy.get("#email").type(user.email);
@@ -67,11 +67,11 @@ describe("Signup", () => {
     cy.get("#personalPhone").type(user.personalPhone);
     cy.get("#password").type(user.password);
     cy.get("#passwordConfirm").type(user.password);
-
+    
     // when
     cy.get("#registerButton").click();
-
+    
     // then
-    cy.get("#messages").should("exist");
+    cy.contains("Name is required").should("exist")
   });
 });

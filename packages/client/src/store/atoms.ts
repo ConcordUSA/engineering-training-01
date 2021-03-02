@@ -1,7 +1,6 @@
 import { atom } from "recoil";
 import { EventFactory } from "../models/event";
 import { User, UserFactory } from "../models/user";
-import { Message } from "../models/message";
 
 export const signedIn = atom({
   key: "signedIn",
@@ -33,11 +32,6 @@ export const searchTerm = atom({
   default: "",
 });
 
-export const messages = atom<Message[]>({
-  key: "messages",
-  default: [],
-});
-
 export const eventListFilter = atom({
   key: "eventListFilter",
   default: undefined,
@@ -49,6 +43,5 @@ export const user = atom<User>({
 });
 export const pastEvents = atom({
   key: "pastEvents",
-  default: false
-})
-
+  default: false,
+});
