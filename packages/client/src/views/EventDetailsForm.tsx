@@ -213,12 +213,20 @@ export default function EventDetailsFormView() {
 
   const handleStartDateChange = (d: Date) => {
     let newEndTime = state.endTime;
-    if (d > newEndTime) {
+    let newStartTime = d;
+    if (newStartTime > newEndTime) {
       newEndTime = d;
+    }
+    let now = new Date();
+    if (newStartTime < now) {
+      newStartTime = now;
+      enqueueSnackbar("Start time cannot be in the past.", {
+        variant: "warning",
+      });
     }
     setState({
       ...state,
-      startTime: d,
+      startTime: newStartTime,
       endTime: newEndTime,
     });
   };
