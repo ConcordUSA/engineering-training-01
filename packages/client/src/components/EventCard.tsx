@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       // maxWidth: 345,
+      "&:hover": {
+        backgroundColor: theme.palette.grey[100],
+      },
       "& .MuiCardActionArea-focusHighlight": {
         backgroundColor: theme.palette.background.paper,
       },
@@ -44,7 +47,7 @@ export default function EventCard(props) {
   const [elevationState, setElevationState] = useState(1);
   const [futureState, setFutureState] = useState(true);
   const onMouseEnter = () => {
-    setElevationState(10);
+    setElevationState(6);
   };
   const onMouseLeave = () => {
     setElevationState(1);
