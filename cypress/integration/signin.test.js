@@ -40,7 +40,7 @@ describe("Signin", () => {
           cy.get("#email").type(email);
           cy.get("#password").type("somethingincorrect");
           cy.get("#loginBtn").click();
-          cy.get("#messages").should("exist");
+          cy.contains("The password is invalid").should("exist")
           cy.location("pathname").should("equal", "/");
         });
       });
