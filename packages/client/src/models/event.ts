@@ -64,5 +64,5 @@ export function displayEventDate(date) {
 }
 
 export function displayEventTime(time) {
-  return new Date(time).toTimeString();
+  return moment(time).format("LLLL");
 }
