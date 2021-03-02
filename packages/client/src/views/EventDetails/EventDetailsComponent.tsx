@@ -29,6 +29,18 @@ import { useRecoilState } from "recoil";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      width: "100vw",
+      background: materialTheme.palette.background.default,
+    },
+    b: {
+      color: theme.palette.text.secondary,
+    },
     cardWrapper: {
       position: "relative",
     },
@@ -51,6 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
     infoType: {
       fontSize: "1.2em",
       marginTop: "10px",
+      color: theme.palette.text.primary,
     },
     eventData: {
       marginTop: "20px",
@@ -192,13 +205,15 @@ export default function EventDetailsComponent(props) {
 
           <div className={classes.eventData}>
             <Typography paragraph className={classes.infoType}>
-              <b>Address:</b> {props.event.location}
+              <b className={classes.b}>Location:</b> {props.event.location}
             </Typography>
             <Typography paragraph className={classes.infoType}>
-              <b>Time:</b> {displayEventTime(props.event.startTime)}
+              <b className={classes.b}>Time:</b>{" "}
+              {displayEventTime(props.event.startTime)}
             </Typography>
             <Typography paragraph className={classes.infoType}>
-              <b>Cost:</b> {formatCentsToCurrency(props.event.price)}
+              <b className={classes.b}>Cost:</b>
+              {` ${formatCentsToCurrency(props.event.price)}`}
             </Typography>
             {userState?.isAdmin && (
               <Typography paragraph className={classes.infoType}>
@@ -207,7 +222,7 @@ export default function EventDetailsComponent(props) {
               </Typography>
             )}
             <Typography paragraph className={classes.infoType}>
-              <b>Status:</b> {props.event.status}
+              <b className={classes.b}>Status:</b> {props.event.status}
             </Typography>
           </div>
         </CardContent>
