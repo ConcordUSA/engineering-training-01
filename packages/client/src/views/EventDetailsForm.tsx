@@ -414,7 +414,7 @@ export default function EventDetailsFormView() {
                       name="leadership"
                     />
                   }
-                  label="leadership"
+                  label="Leadership"
                 />
                 <FormControlLabel
                   control={
@@ -425,7 +425,7 @@ export default function EventDetailsFormView() {
                       name="marketing"
                     />
                   }
-                  label="marketing"
+                  label="Marketing"
                 />
                 <FormControlLabel
                   control={
@@ -436,7 +436,7 @@ export default function EventDetailsFormView() {
                       name="finance"
                     />
                   }
-                  label="finance"
+                  label="Finance"
                 />
                 <FormControlLabel
                   control={
@@ -447,7 +447,7 @@ export default function EventDetailsFormView() {
                       name="technology"
                     />
                   }
-                  label="technology"
+                  label="Technology"
                 />
               </FormGroup>
             </FormControl>
