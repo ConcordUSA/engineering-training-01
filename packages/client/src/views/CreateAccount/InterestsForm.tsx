@@ -112,7 +112,7 @@ export default function InterestsFormView(props) {
   const [user] = useRecoilState(createUserForm);
   const [state, setState] = useState<{ [k: string]: any }>({
     finance: user.interestedCategories?.includes("finance"),
-    it: user.interestedCategories?.includes("it"),
+    technology: user.interestedCategories?.includes("technology"),
     leadership: user.interestedCategories?.includes("leadership"),
     marketing: user.interestedCategories?.includes("marketing"),
   });
@@ -123,12 +123,14 @@ export default function InterestsFormView(props) {
       ...state,
       [key]: !state[key],
     });
+    console.log(state);
   };
 
   const handleSubmit = async () => {
     const interestedCategories = [];
     Object.keys(state).forEach((category) => {
       if (state[category]) interestedCategories.push(category);
+      console.log(interestedCategories);
     });
 
     onSubmit({ action: "createUser", data: { interestedCategories } });
@@ -142,8 +144,8 @@ export default function InterestsFormView(props) {
     },
     {
       imgSrc: "./it-icn.svg",
-      key: "it",
-      text: "IT",
+      key: "technology",
+      text: "Technology",
     },
     {
       imgSrc: "./leadership.svg",

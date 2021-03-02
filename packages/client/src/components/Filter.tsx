@@ -106,10 +106,11 @@ export default function SimpleModal() {
   const [filterState, setFilterState] = useRecoilState(eventListFilter);
   const [state, setState] = React.useState({ topic: "", location: "" });
   const [open, setOpen] = React.useState(false);
+
   const [checkboxState, setCheckBoxState] = React.useState({
     leadership: false,
     marketing: false,
-    informationTechnology: false,
+    technology: false,
     finance: false,
   });
   const handleOpen = () => {
@@ -128,7 +129,7 @@ export default function SimpleModal() {
     setCheckBoxState({
       leadership: false,
       marketing: false,
-      informationTechnology: false,
+      technology: false,
       finance: false,
     });
   };
@@ -153,7 +154,7 @@ export default function SimpleModal() {
     if (checkboxState.leadership) categories.push("leadership");
     if (checkboxState.marketing) categories.push("marketing");
     if (checkboxState.finance) categories.push("finance");
-    if (checkboxState.informationTechnology) categories.push("it");
+    if (checkboxState.technology) categories.push("technology");
     setFilterState({
       ...filterState,
       catagories: categories,
@@ -225,12 +226,12 @@ export default function SimpleModal() {
             control={
               <Checkbox
                 className={classes.checkBox}
-                checked={checkboxState.informationTechnology}
+                checked={checkboxState.technology}
                 onChange={handleCheck}
-                name="informationTechnology"
+                name="technology"
               />
             }
-            label="Information Technology"
+            label="Technology"
           />
         </FormGroup>
       </FormControl>

@@ -154,7 +154,7 @@ export default function EventDetailsFormView() {
     return {
       leadership: false,
       marketing: false,
-      informationTechnology: false,
+      technology: false,
       finance: false,
     };
   }, []);
@@ -171,7 +171,7 @@ export default function EventDetailsFormView() {
         setCheckBoxState({
           leadership: event.categories.includes("leadership"),
           marketing: event.categories.includes("marketing"),
-          informationTechnology: event.categories.includes("it"),
+          technology: event.categories.includes("technology"),
           finance: event.categories.includes("finance"),
         });
         setState(event);
@@ -273,7 +273,7 @@ export default function EventDetailsFormView() {
     if (checkboxState.leadership) categories.push("leadership");
     if (checkboxState.marketing) categories.push("marketing");
     if (checkboxState.finance) categories.push("finance");
-    if (checkboxState.informationTechnology) categories.push("it");
+    if (checkboxState.technology) categories.push("technology");
     const event: IEvent = {
       ...state,
       categories,
@@ -442,12 +442,12 @@ export default function EventDetailsFormView() {
                   control={
                     <Checkbox
                       className={classes.checkBox}
-                      checked={checkboxState.informationTechnology}
+                      checked={checkboxState.technology}
                       onChange={handleCheck}
-                      name="informationTechnology"
+                      name="technology"
                     />
                   }
-                  label="Information Technology"
+                  label="Technology"
                 />
               </FormGroup>
             </FormControl>

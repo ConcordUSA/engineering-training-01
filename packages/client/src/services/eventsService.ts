@@ -8,7 +8,7 @@ export interface EventsPerCategory {
   category: Category;
   items: IEvent[];
 }
-const allCatagories: Category[] = ["it", "marketing", "finance", "leadership"];
+const allCatagories: Category[] = ["technology", "marketing", "finance", "leadership"];
 
 const getUniqueArray = (arr) => {
   let uniqueArray = [];
