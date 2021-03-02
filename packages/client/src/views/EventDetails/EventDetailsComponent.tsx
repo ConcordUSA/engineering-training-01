@@ -50,16 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
       left: "-10%",
     },
     card: {
-      width: AppTheme.cardWidthSmall,
-    },
-    paperWrap: {
-      height: "300px",
-      width: "100%",
-      overflow: "hidden",
-      display: "flex",
-
-      justifyContent: "center",
-      alignItems: "center",
+      maxWidth: AppTheme.cardWidthSmall,
     },
     infoType: {
       fontSize: "1.2em",
@@ -77,48 +68,29 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "white",
       display: "inline-block",
       float: "right",
-      margin: "1px",
+      margin: "3px",
       textTransform: "capitalize",
     },
     eventDescription: {
-      marginTop: "10px",
+      paddingTop: theme.spacing(2),
     },
-    eventTitle: {
-      fontSize: "20pt",
-      fontWeight: "bold",
-      marginBottom: "10px",
-    },
+
     eventHeader: {
       display: "flex",
-      position: "relative",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: theme.spacing(1),
     },
-    eventDate: {
-      position: "absolute",
-      right: 0,
-      bottom: 0,
-    },
+
     btnDiv: {
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "center",
-      marginBottom: "10px",
-    },
-    registerBtn: {
-      marginRight: "15px",
-      color: materialTheme.palette.common.white,
-      backgroundColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.primary.dark,
-      },
     },
     secondaryBtn: {
-      marginRight: "15px",
-      backgroundColor: "#ffffff",
-      color: materialTheme.palette.primary.main,
-      borderColor: materialTheme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: materialTheme.palette.background.default,
-      },
+      marginRight: theme.spacing(2),
+      backgroundColor: theme.palette.common.white,
+      borderColor: theme.palette.primary.main,
     },
     categoryDiv: {
       display: "flex",
@@ -127,7 +99,6 @@ const useStyles = makeStyles((theme: Theme) =>
     imgTop: {
       width: "80%",
     },
-    noWrap: {},
   })
 );
 
@@ -183,10 +154,10 @@ export default function EventDetailsComponent(props) {
         <CardMedia component="img" height="300px" image={props.event.image} />
         <CardContent>
           <div className={classes.eventHeader}>
-            <Typography paragraph className={classes.eventTitle}>
+            <Typography variant="h4">
               {capitalize(props.event.topic)}
             </Typography>
-            <Typography paragraph className={classes.eventDate}>
+            <Typography variant="body1">
               {displayEventDate(props.event.startTime)}
             </Typography>
           </div>
@@ -201,7 +172,11 @@ export default function EventDetailsComponent(props) {
               </Box>
             ))}
           </div>
-          <Typography className={classes.eventDescription}>
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            className={classes.eventDescription}
+          >
             {props.event.description}
           </Typography>
 
@@ -223,9 +198,6 @@ export default function EventDetailsComponent(props) {
                 {formatCentsToCurrency(props.event.totalRevenue)}
               </Typography>
             )}
-            <Typography paragraph className={classes.infoType}>
-              <b className={classes.b}>Status:</b> {props.event.status}
-            </Typography>
           </div>
         </CardContent>
         <div className={classes.btnDiv}>
@@ -236,6 +208,7 @@ export default function EventDetailsComponent(props) {
                 variant="outlined"
                 className={classes.secondaryBtn}
                 onClick={handleEdit}
+                color="primary"
               >
                 Edit
               </Button>
@@ -245,40 +218,41 @@ export default function EventDetailsComponent(props) {
                 variant="outlined"
                 className={classes.secondaryBtn}
                 onClick={onShareClick}
+                color="primary"
               >
                 Share
               </Button>
             </CopyToClipboard>
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Card>
-                <CardMedia
-                  component="img"
-                  height="300px"
-                  image={props.event.image}
-                />
-                <CardContent>
-                  <div>
-                    <Typography variant="h3">
-                      {capitalize(props.event.topic)}
-                    </Typography>
-                  </div>
-                  <Typography paragraph className={classes.infoType}>
-                    A Link to this event has been copied to the Clipboard
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Dialog>
             {!eventCompleted && <RegisterButton event={props.event} />}
           </CardActions>
         </div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Card>
+            <CardMedia
+              component="img"
+              height="300px"
+              image={props.event.image}
+            />
+            <CardContent>
+              <div>
+                <Typography variant="h3">
+                  {capitalize(props.event.topic)}
+                </Typography>
+              </div>
+              <Typography paragraph className={classes.infoType}>
+                A Link to this event has been copied to the Clipboard
+              </Typography>
+            </CardContent>
+          </Card>
+        </Dialog>
       </Card>
     </div>
   );
