@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     categoryHeader: {
       fontSize: "2.2em",
-      paddingLeft: "8px",
       color: colors.grey[500],
       fontWeight: 500,
       marginTop: "0px",
