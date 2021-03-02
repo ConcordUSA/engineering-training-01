@@ -135,20 +135,30 @@ export default function EventDetailsComponent(props) {
             <Typography variant="h4">
               {capitalize(props.event.topic)}
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body1" color="textSecondary">
               {displayEventDate(props.event.startTime)}
             </Typography>
           </div>
           <div className={classes.categoryDiv}>
-            {props.event.categories.map((category) => (
-              <Box
-                bgcolor={getBackground(category)}
-                className={classes.interestTag}
-                key={category}
-              >
-                {category}
-              </Box>
-            ))}
+            {props.event.categories.map((category) =>
+              category === "it" ? (
+                <Box
+                  bgcolor={getBackground(category)}
+                  className={classes.interestTag}
+                  key={category}
+                >
+                  IT
+                </Box>
+              ) : (
+                <Box
+                  bgcolor={getBackground(category)}
+                  className={classes.interestTag}
+                  key={category}
+                >
+                  {category}
+                </Box>
+              )
+            )}
           </div>
           <Typography
             variant="body1"

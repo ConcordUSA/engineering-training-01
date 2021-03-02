@@ -91,11 +91,14 @@ export default function EventListView() {
       )}
       {filteredEvents?.map((categoryList: EventsPerCategory) => (
         <div className={classes.gridDiv} key={categoryList.category}>
-          {categoryList.items.length > 0 && (
-            <h1 className={classes.categoryHeader}>
-              {capitalize(categoryList.category)}
-            </h1>
-          )}
+          {categoryList.items.length > 0 &&
+            (categoryList.category === "it" ? (
+              <h1 className={classes.categoryHeader}>Information Technology</h1>
+            ) : (
+              <h1 className={classes.categoryHeader}>
+                {capitalize(categoryList.category)}
+              </h1>
+            ))}
           <Grid
             container
             direction="row"
