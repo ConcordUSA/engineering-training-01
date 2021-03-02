@@ -447,7 +447,7 @@ export default function EventDetailsFormView() {
                       name="technology"
                     />
                   }
-                  label="Technology"
+                  label="technology"
                 />
               </FormGroup>
             </FormControl>
