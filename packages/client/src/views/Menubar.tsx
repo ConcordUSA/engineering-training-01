@@ -109,7 +109,7 @@ export default function PrimarySearchAppBar() {
   const location = useLocation();
   const [, setEvents] = useState<EventsPerCategory[]>([]);
   const [userState] = useRecoilState(user);
-  const [, setSearchTermState] = useRecoilState(searchTerm);
+  const [searchTermState, setSearchTermState] = useRecoilState(searchTerm);
   const [pastEventState, setPastEvents] = useRecoilState(pastEvents);
   const { db, auth }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
@@ -177,13 +177,15 @@ export default function PrimarySearchAppBar() {
                     <SearchIcon />
                   </div>
                   <InputBase
-                    placeholder="Search…"
+                    id="search"
+                    placeholder="Search..."
                     classes={{
                       root: classes.grow,
                       input: classes.inputInput,
                     }}
                     inputProps={{ "aria-label": "search" }}
                     onChange={handleSearch}
+                    value={searchTermState}
                   />
                 </div>
                 <Filter />

@@ -14,6 +14,7 @@ import { eventListFilter, pastEvents, user } from "../store/atoms";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      flexGrow: 1,
       height: "100%",
       maxWidth: "1400px",
       backgroundColor: materialTheme.palette.background.default,
@@ -73,6 +74,7 @@ export default function EventListView() {
         "topic"
       );
       setFilteredEvents(filtered);
+      document.getElementById("search").focus();
     }
     if (filterState) {
       const filtered = EventsService.filter(filterState, events);
