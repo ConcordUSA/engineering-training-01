@@ -57,7 +57,7 @@ describe("EventsService", () => {
   it("should update an event", async () => {
     // given
     let event: IEvent = EventFactory({
-      categories: ["it", "marketing"],
+      categories: ["technology", "marketing"],
     });
     const id = await service.createEvent(event);
     const preUpdateEvent: IEvent = (await (
@@ -114,7 +114,7 @@ describe("EventsService", () => {
     const events = [
       { categories: ["marketing"], startTime: faker.date.future() },
       { categories: ["marketing"], startTime: faker.date.future() },
-      { categories: ["it"], startTime: faker.date.future() },
+      { categories: ["technology"], startTime: faker.date.future() },
     ];
     await Promise.all(
       events.map((event) => db.collection("events").add(event))
@@ -127,7 +127,7 @@ describe("EventsService", () => {
     const marketing = docs.find((item) => item.category === "marketing");
     expect(marketing).toBeDefined();
     expect(marketing.items.length).toBe(2);
-    const it = docs.find((item) => item.category === "it");
+    const it = docs.find((item) => item.category === "technology");
     expect(it).toBeDefined();
     expect(it.items.length).toBe(1);
   });
@@ -140,14 +140,14 @@ describe("EventsService", () => {
       const events: Partial<IEvent>[] = [
         {
           topic: "IT 101",
-          categories: ["it"],
+          categories: ["technology"],
           startTime: faker.date.soon(),
           endTime: faker.date.future(),
           location: "North",
         },
         {
           topic: "Leading Tech",
-          categories: ["leadership", "it"],
+          categories: ["leadership", "technology"],
           startTime: faker.date.soon(),
           endTime: faker.date.future(),
           location: "South",
@@ -179,7 +179,7 @@ describe("EventsService", () => {
       // when
       const filter: IFilter = {
         topic: undefined,
-        catagories: ["it", "leadership"],
+        catagories: ["technology", "leadership"],
         location: undefined,
       };
       // When
@@ -193,7 +193,7 @@ describe("EventsService", () => {
     it("should filter out undesired catagories", async () => {
       const filter: IFilter = {
         topic: undefined,
-        catagories: ["it", "marketing"],
+        catagories: ["technology", "marketing"],
         location: undefined,
       };
 
@@ -201,8 +201,8 @@ describe("EventsService", () => {
 
       expect(res).toBeDefined();
       expect(res.length).toEqual(2);
-      expect(res.find((e) => e.category === "it").items.length).toBeTruthy();
-      expect(res.find((e) => e.category === "it").items.length).toEqual(2);
+      expect(res.find((e) => e.category === "technology").items.length).toBeTruthy();
+      expect(res.find((e) => e.category === "technology").items.length).toEqual(2);
       expect(
         res.find((e) => e.category === "marketing").items.length
       ).toBeTruthy();
@@ -222,7 +222,7 @@ describe("EventsService", () => {
       // then
       expect(res).toBeDefined();
       expect(res.length).toEqual(2);
-      expect(res.find((e) => e.category === "it").items.length).toBeTruthy();
+      expect(res.find((e) => e.category === "technology").items.length).toBeTruthy();
       expect(
         res.find((e) => e.category === "finance").items.length
       ).toBeTruthy();
@@ -238,7 +238,7 @@ describe("EventsService", () => {
 
       expect(res).toBeDefined();
       expect(res.length).toEqual(2);
-      expect(res.find((e) => e.category === "it").items.length).toBeTruthy();
+      expect(res.find((e) => e.category === "technology").items.length).toBeTruthy();
       expect(
         res.find((e) => e.category === "marketing").items.length
       ).toBeTruthy();
