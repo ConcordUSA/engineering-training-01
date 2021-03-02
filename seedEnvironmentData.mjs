@@ -37,14 +37,14 @@ const generateEvents = (numberOfEvents) => {
 
   for (let step = 0; step < numberOfEvents; step++) {
     const docRef = db.collection("events").doc();
-
+    const isFuture = Math.random() > 0.5;
     const event = {
       id: docRef.id,
       topic: faker.random.word() + " " + faker.random.word(),
       location: faker.address.city(),
       price: faker.random.number(),
-      startTime: faker.date.soon(),
-      endTime: faker.date.future(),
+      startTime: isFuture ? faker.date.soon() : faker.date.past(),
+      endTime: isFuture ? faker.date.future() : faker.date.recent(),
       categories: randomCategories(),
       image: faker.image.imageUrl(400, 400, "business", true),
       description: faker.lorem.paragraph(),
@@ -57,7 +57,7 @@ const generateEvents = (numberOfEvents) => {
 
 //this function used to help randomly generate category data
 const randomCategories = () => {
-  const fullList = ["marketing", "leadership", "finance", "it"];
+  const fullList = ["marketing", "leadership", "finance", "technology"];
   const shuffled = fullList.sort(function () {
     return 0.5 - Math.random();
   });
