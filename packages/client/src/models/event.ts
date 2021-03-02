@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export type Category = "it" | "marketing" | "finance" | "leadership";
+export type Category = "technology" | "marketing" | "finance" | "leadership";
 
 export const capitalize = (s) => {
   if (typeof s !== "string") return "";

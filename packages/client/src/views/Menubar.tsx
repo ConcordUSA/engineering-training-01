@@ -170,7 +170,8 @@ export default function PrimarySearchAppBar() {
           </div>
 
           <div className={classes.searchDiv}>
-            {location.pathname === routes.EVENT_LIST_URL && (
+            {(location.pathname === routes.EVENT_LIST_URL ||
+              location.pathname === routes.HOME_URL) && (
               <>
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>
@@ -193,7 +194,8 @@ export default function PrimarySearchAppBar() {
             )}
             <div className={classes.menuRight}>
               {userState?.isAdmin &&
-                location.pathname === routes.EVENT_LIST_URL && (
+                (location.pathname === routes.EVENT_LIST_URL ||
+                  location.pathname === routes.HOME_URL) && (
                   <FormControlLabel
                     className={classes.colorToWhite}
                     control={

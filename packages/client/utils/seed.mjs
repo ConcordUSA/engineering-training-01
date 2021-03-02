@@ -69,7 +69,7 @@ const generatePastEvents = (numberOfEvents) => {
 
 //this function used to help randomly generate category data
 const randomCategories = () => {
-  const fullList = ["marketing", "leadership", "finance", "it"];
+  const fullList = ["marketing", "leadership", "finance", "technology"];
   const shuffled = fullList.sort(function () {
     return 0.5 - Math.random();
   });

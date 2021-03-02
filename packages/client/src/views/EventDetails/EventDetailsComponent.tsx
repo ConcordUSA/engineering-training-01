@@ -100,8 +100,7 @@ function getBackground(category: Category) {
       return "red";
     case "leadership":
       return "orange";
-    //technology or IT???
-    case "it":
+    case "technology":
       return "blue";
   }
 }
