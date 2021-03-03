@@ -266,7 +266,7 @@ export default function EventDetailsFormView() {
     if (imageState.error) return;
     let image = state.image;
     if (!state.image) {
-      image = "/fstd-text.png";
+      image = "/default.jpg";
     }
     //gather all categories in an array as checked
     const categories: Category[] = [];
