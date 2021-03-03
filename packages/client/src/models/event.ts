@@ -3,11 +3,12 @@ import moment from "moment";
 export type Category = "technology" | "marketing" | "finance" | "leadership";
 
 export const capitalize = (s) => {
-  const words = s.split(" ")
+  if (!s) return "";
+  const words = s.split(" ");
   for (let i = 0; i < words.length; i++) {
-    words[i] = words[i][0].toUpperCase() + words[i].slice(1)
+    words[i] = words[i][0].toUpperCase() + words[i].slice(1);
   }
-  return words.join(" ")
+  return words.join(" ");
 };
 
 export interface IEvent {

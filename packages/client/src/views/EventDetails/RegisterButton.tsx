@@ -39,7 +39,7 @@ export default function RegisterButton(props) {
 
   async function handleRegister(e) {
     e.stopPropagation();
-    eventService.registerForEvent(userState, props.event, isRegistered);
+    await eventService.registerForEvent(userState, props.event, isRegistered);
     const newState = await usersService.registerForEvent(
       userState,
       props.event,

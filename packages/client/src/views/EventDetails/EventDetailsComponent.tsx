@@ -52,9 +52,9 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2),
     },
     interestTag: {
-      width: "15%",
+      // width: "15%",
       textAlign: "center",
-      padding: "3px",
+      padding: "3px 6px",
       borderRadius: "5px",
       color: "white",
       display: "inline-block",
