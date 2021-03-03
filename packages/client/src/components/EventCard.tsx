@@ -6,7 +6,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import routes from "../constants/routes";
 import { selectedEvent } from "../store";
 import RegisterButton from "../views/EventDetails/RegisterButton";
-
+import { capitalize } from "../models/event";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -90,7 +90,7 @@ export default function EventCard(props) {
             component="h2"
             className={classes.title}
           >
-            {event.topic}
+            {capitalize(event.topic)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {`${event.description.substring(0, 80)}...`}

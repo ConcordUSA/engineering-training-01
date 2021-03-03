@@ -240,6 +240,10 @@ export default function EventDetailsFormView() {
 
   const validateImageLink = (event) => {
     const link = event.target.value;
+    if (!link) {
+      setImageState({ error: false, helperText: "" });
+      return true;
+    }
     const match = link.match(/\..{3,4}$/gm);
     if (!match) {
       setImageState({ error: true, helperText: imageHelperText });
