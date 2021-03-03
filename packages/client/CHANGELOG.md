@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.5](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.4...v0.3.0-alpha.5) (2021-03-03)
+
+
+### Bug Fixes
+
+* adds captialization to event categories ([165e79b](https://github.com/ConcordUSA/engineering-training-2021a/commit/165e79b77417744ee72fed0c6240adce3c6fe423))
+* capitalization and image validation ([75f167a](https://github.com/ConcordUSA/engineering-training-2021a/commit/75f167a068c53a305776ceb1d40576f3cb24ec97))
+
+
+
+
+
 # [0.3.0-alpha.4](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.3...v0.3.0-alpha.4) (2021-03-02)
 
 
