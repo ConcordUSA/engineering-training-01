@@ -10,6 +10,7 @@ import {
   CardMedia,
   Typography,
   Box,
+  colors,
 } from "@material-ui/core";
 import {
   formatCentsToCurrency,
@@ -32,23 +33,23 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
+
       background: theme.palette.background.default,
     },
 
-    cardWrapper: {
-      position: "relative",
-    },
     card: {
       maxWidth: AppTheme.cardWidthSmall,
+      height: "80%",
+      maxHeight: 1000,
+      marginBottom: "50px",
     },
     p: {
       display: "inline-block",
       margin: "8px 6px 0px 0px",
+      fontSize: "1.2rem",
     },
     eventData: {
-      marginTop: "20px",
+      marginTop: theme.spacing(2),
     },
     interestTag: {
       width: "15%",
@@ -69,13 +70,15 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      padding: theme.spacing(1),
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
     },
 
     btnDiv: {
       display: "flex",
       justifyContent: "flex-end",
       alignItems: "center",
+      marginTop: theme.spacing(2),
     },
     secondaryBtn: {
       marginRight: theme.spacing(2),
@@ -86,22 +89,19 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "flex-end",
     },
-    imgTop: {
-      width: "80%",
-    },
   })
 );
 
 function getBackground(category: Category) {
   switch (category) {
     case "marketing":
-      return "green";
+      return colors.green[700];
     case "finance":
-      return "red";
+      return colors.indigo[500];
     case "leadership":
-      return "orange";
+      return colors.deepOrange[500];
     case "technology":
-      return "blue";
+      return colors.blue[500];
   }
 }
 
@@ -134,7 +134,11 @@ export default function EventDetailsComponent(props) {
             <Typography variant="h4">
               {capitalize(props.event.topic)}
             </Typography>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              color="textSecondary"
+              className={classes.p}
+            >
               {displayEventDate(props.event.startTime)}
             </Typography>
           </div>
@@ -158,43 +162,72 @@ export default function EventDetailsComponent(props) {
           </Typography>
 
           <div className={classes.eventData}>
-            <Typography variant="h6" color="textSecondary">
+            <div>
               <Typography
-                variant="h6"
-                color="textPrimary"
+                variant="body1"
+                color="textSecondary"
                 className={classes.p}
               >
-                Location:
+                <Typography
+                  variant="body1"
+                  color="textPrimary"
+                  className={classes.p}
+                >
+                  Location:
+                </Typography>
+                {props.event.location}
               </Typography>
-              {props.event.location}
-            </Typography>
-            <Typography variant="h6" color="textSecondary">
+            </div>
+            <div>
               <Typography
-                variant="h6"
-                color="textPrimary"
+                variant="body1"
+                color="textSecondary"
                 className={classes.p}
               >
-                Time:
+                <Typography
+                  variant="body1"
+                  color="textPrimary"
+                  className={classes.p}
+                >
+                  Time:
+                </Typography>
+                {displayEventTime(props.event.startTime)}
               </Typography>
-              {displayEventTime(props.event.startTime)}
-            </Typography>
-            <Typography variant="h6" color="textSecondary">
+            </div>
+            <div>
               <Typography
-                variant="h6"
-                color="textPrimary"
+                variant="body1"
+                color="textSecondary"
                 className={classes.p}
               >
-                Cost:
+                <Typography
+                  variant="body1"
+                  color="textPrimary"
+                  className={classes.p}
+                >
+                  Cost:
+                </Typography>
+                {` ${formatCentsToCurrency(props.event.price)}`}
               </Typography>
-              {` ${formatCentsToCurrency(props.event.price)}`}
-            </Typography>
-            {userState?.isAdmin && (
-              <Typography>
-                <b> Total Revenue:</b>{" "}
-                {formatCentsToCurrency(props.event.totalRevenue)}
-              </Typography>
-            )}
-
+            </div>
+            <div>
+              {userState?.isAdmin && (
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  className={classes.p}
+                >
+                  <Typography
+                    variant="body1"
+                    color="textPrimary"
+                    className={classes.p}
+                  >
+                    Total Revenue:
+                  </Typography>
+                  {formatCentsToCurrency(props.event.totalRevenue)}
+                </Typography>
+              )}
+            </div>
             <div className={classes.btnDiv}>
               <CardActions>
                 <ViewAttendees event={props.event} />
