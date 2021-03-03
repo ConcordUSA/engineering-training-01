@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.6](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.5...v0.3.0-alpha.6) (2021-03-03)
+
+
+### Bug Fixes
+
+* String formatting ([26c1152](https://github.com/ConcordUSA/engineering-training-2021a/commit/26c1152b2626d94d5deaba8409daa6dc62439d26))
+
+
+
+
+
 # [0.3.0-alpha.5](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.4...v0.3.0-alpha.5) (2021-03-03)
 
 
