@@ -184,15 +184,11 @@ export default class EventsService {
         .collection("attendees")
         .doc(user.uid);
       await doc.set(user);
-
-      //ADDING TOT TOTAL REVENUE WHEN REGISTERED
-      console.log("total revenue before adding", eventToUse.totalRevenue);
+      //ADDING TOTAL REVENUE WHEN REGISTERED
       const totalRevenue = eventToUse.totalRevenue + Number(eventToUse.price);
       this.db.collection(this.collection).doc(eventToUse.id).update({
         totalRevenue: totalRevenue,
       });
-      console.log("Total Revenue after addition", totalRevenue);
-
       return;
     }
     this.db
@@ -201,20 +197,15 @@ export default class EventsService {
       .collection("attendees")
       .doc(user.uid)
       .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
-      })
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
 
     //SUBTRACTING FROM TOTAL REVENUE WHEN UNREGISTERED
-    console.log("total revenue before subtraction", eventToUse.totalRevenue);
     const totalRevenue = eventToUse.totalRevenue - Number(eventToUse.price);
     this.db.collection(this.collection).doc(eventToUse.id).update({
       totalRevenue: totalRevenue,
     });
-    console.log("Total Revenue after subtraction", totalRevenue);
   }
 
   public async getAttendees(event: IEvent) {

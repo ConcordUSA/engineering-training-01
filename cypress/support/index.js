@@ -38,7 +38,6 @@ Cypress.Commands.add("createUser", (email, password) => {
 });
 
 Cypress.Commands.add("verifyUserEmail", (email) => {
-  console.log(firebaseConfig.projectId);
   return new Cypress.Promise(async (resolve) => {
     const get = await axios.get(
       `http://localhost:9099/emulator/v1/projects/${firebaseConfig.projectId}/oobCodes`

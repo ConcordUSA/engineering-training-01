@@ -249,7 +249,6 @@ export default function EventDetailsFormView() {
       setImageState({ error: true, helperText: imageHelperText });
       return false;
     }
-    console.log(match);
     switch (match[0]) {
       case ".jpg":
         setImageState({ error: false, helperText: "" });
