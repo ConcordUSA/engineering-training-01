@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0-alpha.7](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.6...v0.3.0-alpha.7) (2021-03-04)
+
+
+### Features
+
+* **security:** Adds firebase security & moves logic to functions ([b386943](https://github.com/ConcordUSA/engineering-training-2021a/commit/b3869430f5b53bc6e405df1bd993edaba50ee5f8))
+
+
+
+
+
 # [0.3.0-alpha.6](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.5...v0.3.0-alpha.6) (2021-03-03)
 
 
