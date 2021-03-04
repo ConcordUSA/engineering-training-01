@@ -5,6 +5,7 @@ import { IEvent, EventFactory, IFilter } from "../src/models/event";
 import firebaseApp from "firebase/app";
 import * as firebase from "@firebase/rules-unit-testing";
 import faker from "faker";
+import { UserFactory } from "../src/models/user";
 
 describe("EventsService", () => {
   const options = { projectId: "et-2021a-dev" }; // this is the firebase project id that the local emulators are using / acting as
@@ -14,13 +15,19 @@ describe("EventsService", () => {
       port: 8080,
     },
   });
-  const adminApp = firebase.initializeAdminApp(options);
-  const testApp = firebase.initializeTestApp(options);
+  // const adminApp = firebase.initializeAdminApp(options);
+  const testApp = firebase.initializeTestApp({
+    projectId: "et-2021a-dev",
+    auth: { uid: "12345", user_id: "12345" },
+  });
   const db = testApp.firestore() as firebaseApp.firestore.Firestore;
   const service = new EventsService(db);
 
   beforeEach(async () => {
     await firebase.clearFirestoreData(options);
+    const user = UserFactory();
+    user.isAdmin = true;
+    await db.collection("users").doc("12345").set(user);
   });
 
   it("should create an event", async () => {
@@ -201,8 +208,12 @@ describe("EventsService", () => {
 
       expect(res).toBeDefined();
       expect(res.length).toEqual(2);
-      expect(res.find((e) => e.category === "technology").items.length).toBeTruthy();
-      expect(res.find((e) => e.category === "technology").items.length).toEqual(2);
+      expect(
+        res.find((e) => e.category === "technology").items.length
+      ).toBeTruthy();
+      expect(res.find((e) => e.category === "technology").items.length).toEqual(
+        2
+      );
       expect(
         res.find((e) => e.category === "marketing").items.length
       ).toBeTruthy();
@@ -222,7 +233,9 @@ describe("EventsService", () => {
       // then
       expect(res).toBeDefined();
       expect(res.length).toEqual(2);
-      expect(res.find((e) => e.category === "technology").items.length).toBeTruthy();
+      expect(
+        res.find((e) => e.category === "technology").items.length
+      ).toBeTruthy();
       expect(
         res.find((e) => e.category === "finance").items.length
       ).toBeTruthy();
@@ -238,7 +251,9 @@ describe("EventsService", () => {
 
       expect(res).toBeDefined();
       expect(res.length).toEqual(2);
-      expect(res.find((e) => e.category === "technology").items.length).toBeTruthy();
+      expect(
+        res.find((e) => e.category === "technology").items.length
+      ).toBeTruthy();
       expect(
         res.find((e) => e.category === "marketing").items.length
       ).toBeTruthy();
