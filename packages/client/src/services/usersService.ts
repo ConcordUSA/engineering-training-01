@@ -39,6 +39,16 @@ export default class UsersService {
     }
   };
 
+  public async watchUser(uid: string, callback: Function) {
+    return await this.db
+      .collection(this.collection)
+      .doc(uid)
+      .onSnapshot((snapShot) => {
+        const data = snapShot.data() as User;
+        callback(data);
+      });
+  }
+
   public async getUser(uid: string) {
     const doc = await this.db.collection(this.collection).doc(uid).get();
     const data = doc.data() as User;
@@ -58,26 +68,28 @@ export default class UsersService {
     }
   }
 
-  public async registerForEvent(user: User, event: IEvent, isRegistered:boolean) {
+  public async registerForEvent(
+    user: User,
+    event: IEvent,
+    isRegistered: boolean
+  ) {
     let newAttendingList;
     if (!isRegistered) {
-      newAttendingList = user.eventsAttending.concat(event.id)
+      newAttendingList = user.eventsAttending.concat(event.id);
     } else {
-      newAttendingList = this.removeItem(user.eventsAttending, event.id)
+      newAttendingList = this.removeItem(user.eventsAttending, event.id);
     }
-    this.updateUser(user.uid, {...user, eventsAttending: newAttendingList});
-    return {...user, eventsAttending: newAttendingList};
+    this.updateUser(user.uid, { ...user, eventsAttending: newAttendingList });
+    return { ...user, eventsAttending: newAttendingList };
   }
 
   public removeItem(arr, rm) {
-      const retArr = []
-      arr.forEach((id) => {
-        if (!(id === rm)) {
-          retArr.push(id)
-        }
-      })
-      return retArr;
-    }
-
+    const retArr = [];
+    arr.forEach((id) => {
+      if (!(id === rm)) {
+        retArr.push(id);
+      }
+    });
+    return retArr;
+  }
 }
-

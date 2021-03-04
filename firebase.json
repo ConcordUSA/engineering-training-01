@@ -13,12 +13,21 @@
       }
     ]
   },
+  "functions": {
+    "engines": {
+      "node": "14"
+    },
+    "source": "packages/server"
+  },
   "emulators": {
     "firestore": {
       "port": 8080
     },
     "hosting": {
       "port": 5000
+    },
+    "functions": {
+      "port": 5001
     },
     "ui": {
       "enabled": true

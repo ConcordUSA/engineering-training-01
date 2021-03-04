@@ -41,7 +41,7 @@ export default function App() {
       const isEmailVerified = user?.emailVerified ? true : false;
       setEmailVerifiedState(isEmailVerified);
 
-      if (isSignedIn) usersService.getUser(user.uid).then(setUserState);
+      if (isSignedIn) usersService.watchUser(user.uid, setUserState);
 
       if (isSignedIn && isEmailVerified && localStorage.getItem("shareURL")) {
         let shareURL = localStorage.getItem("shareURL");

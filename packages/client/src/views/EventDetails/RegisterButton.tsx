@@ -3,7 +3,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import { materialTheme } from "./../../styles/theme";
 import EventsService from "../../services/eventsService";
-import UsersService from "../../services/usersService";
 import { AppDependencies, AppDependenciesContext } from "../../appDependencies";
 import { useRecoilState } from "recoil";
 import { user } from "../../store";
@@ -30,8 +29,7 @@ export default function RegisterButton(props) {
   const classes = useStyles();
   const { db }: AppDependencies = useContext(AppDependenciesContext);
   const eventService = useMemo(() => new EventsService(db), [db]);
-  const usersService = useMemo(() => new UsersService(db), [db]);
-  const [userState, setUserState] = useRecoilState(user);
+  const [userState] = useRecoilState(user);
   const eventID = props.event.id;
   const [isRegistered, setisRegistered] = useState(
     userState.eventsAttending.includes(eventID)
@@ -40,12 +38,6 @@ export default function RegisterButton(props) {
   async function handleRegister(e) {
     e.stopPropagation();
     await eventService.registerForEvent(userState, props.event, isRegistered);
-    const newState = await usersService.registerForEvent(
-      userState,
-      props.event,
-      isRegistered
-    );
-    setUserState(newState);
     setisRegistered(!isRegistered);
   }
 

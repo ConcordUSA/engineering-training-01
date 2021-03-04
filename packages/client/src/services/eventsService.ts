@@ -8,7 +8,12 @@ export interface EventsPerCategory {
   category: Category;
   items: IEvent[];
 }
-const allCatagories: Category[] = ["technology", "marketing", "finance", "leadership"];
+const allCatagories: Category[] = [
+  "technology",
+  "marketing",
+  "finance",
+  "leadership",
+];
 
 const getUniqueArray = (arr) => {
   let uniqueArray = [];
@@ -176,22 +181,15 @@ export default class EventsService {
     event: IEvent,
     isRegistered: boolean
   ) {
-    const eventToUse = await this.getEvent(event.id);
-    if (!isRegistered) {
-      const doc = this.db
+    if (!isRegistered)
+      return await this.db
         .collection(this.collection)
         .doc(event.id)
         .collection("attendees")
-        .doc(user.uid);
-      await doc.set(user);
-      //ADDING TOTAL REVENUE WHEN REGISTERED
-      const totalRevenue = eventToUse.totalRevenue + Number(eventToUse.price);
-      this.db.collection(this.collection).doc(eventToUse.id).update({
-        totalRevenue: totalRevenue,
-      });
-      return;
-    }
-    this.db
+        .doc(user.uid)
+        .set(user);
+
+    return await this.db
       .collection(this.collection)
       .doc(event.id)
       .collection("attendees")
@@ -200,12 +198,6 @@ export default class EventsService {
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
-
-    //SUBTRACTING FROM TOTAL REVENUE WHEN UNREGISTERED
-    const totalRevenue = eventToUse.totalRevenue - Number(eventToUse.price);
-    this.db.collection(this.collection).doc(eventToUse.id).update({
-      totalRevenue: totalRevenue,
-    });
   }
 
   public async getAttendees(event: IEvent) {

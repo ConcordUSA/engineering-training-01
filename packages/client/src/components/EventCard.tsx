@@ -93,7 +93,7 @@ export default function EventCard(props) {
             {capitalize(event.topic)}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {`${event.description.substring(0, 80)}...`}
+            {`${event.description?.substring(0, 80)}...`}
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -32,7 +32,7 @@ Cypress.Commands.add("createUser", (email, password) => {
     const db = getFirestore();
     db.collection("users")
       .doc(userCredentials.user.uid)
-      .set({ interestedCategories: [] });
+      .set({ interestedCategories: [], eventsAttending: [] });
     resolve();
   });
 });
