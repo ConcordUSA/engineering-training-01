@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.7...v0.3.0) (2021-03-04)
+
+**Note:** Version bump only for package evently
+
+
+
+
+
 # [0.3.0-alpha.7](https://github.com/ConcordUSA/engineering-training-2021a/compare/v0.3.0-alpha.6...v0.3.0-alpha.7) (2021-03-04)
 
 
